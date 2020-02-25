@@ -47,5 +47,10 @@ public class Vehicle {
         System.out.println(vehicle1.gosNumber);
         System.out.println(vehicle1.model);
         System.out.println(vehicle1.producer);
+
+       System.out.println(vehicle2.getGosNumber());
+       System.out.println(vehicle3.getProducer());
+     vehicle3.setModel("Toyota");
+     System.out.println(vehicle3.model);
     }
 }
