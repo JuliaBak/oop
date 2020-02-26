@@ -37,7 +37,7 @@ public class Vehicle {
 
     public void setModel(String model) {
         this.model = model;
-    }
+     }
     public static void main(String[] args) {
 
         Vehicle vehicle1 = new Vehicle(432, "Toyota", "Corolla");
@@ -50,7 +50,7 @@ public class Vehicle {
 
        System.out.println(vehicle2.getGosNumber());
        System.out.println(vehicle3.getProducer());
-     vehicle3.setModel("Toyota");
-     System.out.println(vehicle3.model);
+        vehicle3.setModel("Toyota");
+        System.out.println(vehicle3.model);
     }
 }
