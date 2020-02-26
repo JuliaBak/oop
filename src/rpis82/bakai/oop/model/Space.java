@@ -13,7 +13,8 @@ public class Space {
     }
     public Space(Person person, Vehicle vehicle)
     {
-
+    this.vehicle = vehicle;
+    this.person = person;
     }
 
     public Person getPerson() {
@@ -33,15 +34,14 @@ public class Space {
     }
     public void isEmpty()
     {
-        if(this.vehicle.equals(null) || this.vehicle.registrationNumber.equals(null) )
+        if(this.vehicle == null || this.vehicle.registrationNumber == null)
         {
             System.out.println(false); //изменить на просто false
         }
 
     }
-    public static void main(String[] args) {
-
-
-
+    public static void main(String[] args)
+    {
+     Space space = new Space();
     }
 }
