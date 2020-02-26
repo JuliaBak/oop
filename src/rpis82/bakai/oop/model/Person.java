@@ -2,7 +2,7 @@ package rpis82.bakai.oop.model;
 
 public class Person {
     String Surname, Name;
-    public final Person person = new Person("", "");
+    public final Person UNKNOWN_PERSON = new Person("", "");
     public Person(String Surname, String Name)
     {
         this.Name = Name;
@@ -18,7 +18,6 @@ public class Person {
     public void setSurname(String surname) {
         Surname = surname;
     }
-
     public String getSurname() {
         return Surname;
     }

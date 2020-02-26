@@ -1,34 +1,35 @@
 package rpis82.bakai.oop.model;
 
 public class Vehicle {
-    int gosNumber;
-    String producer, model;
+    String   registrationNumber, manufacturer, model;
 
     public Vehicle()
     {
-
+        this.model = ""; //по умолчанпию - пустые строки
+        this.registrationNumber = "";
+        this.manufacturer = "";
     }
-    public Vehicle(int gosNumber, String producer, String model)
+    public Vehicle(String registrationNumber, String manufacturer, String model)
     {
-        this.gosNumber = gosNumber;
-        this.producer = producer;
+        this.registrationNumber = registrationNumber;
+        this.manufacturer = manufacturer;
         this.model = model;
     }
 
-    public int getGosNumber() {
-        return gosNumber;
+    public String  getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public void setGosNumber(int gosNumber) {
-        this.gosNumber = gosNumber;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
-    public String getProducer() {
-        return producer;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setProducer(String producer) {
-        this.producer = producer;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public String getModel() {
@@ -40,16 +41,16 @@ public class Vehicle {
      }
     public static void main(String[] args) {
 
-        Vehicle vehicle1 = new Vehicle(432, "Toyota", "Corolla");
-        Vehicle vehicle2 = new Vehicle(574, "BMW", "X6");
-        Vehicle vehicle3 = new Vehicle(762, "Ferrari", "California");
+        Vehicle vehicle1 = new Vehicle("432", "Toyota", "Corolla");
+        Vehicle vehicle2 = new Vehicle("574", "BMW", "X6");
+        Vehicle vehicle3 = new Vehicle("762", "Ferrari", "California");
 
-        System.out.println(vehicle1.gosNumber);
+        System.out.println(vehicle1.registrationNumber);
         System.out.println(vehicle1.model);
-        System.out.println(vehicle1.producer);
+        System.out.println(vehicle1.manufacturer);
 
-       System.out.println(vehicle2.getGosNumber());
-       System.out.println(vehicle3.getProducer());
+       System.out.println(vehicle2.getRegistrationNumber());
+       System.out.println(vehicle3.getManufacturer());
         vehicle3.setModel("Toyota");
         System.out.println(vehicle3.model);
     }
