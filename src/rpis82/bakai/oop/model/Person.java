@@ -1,7 +1,7 @@
 package rpis82.bakai.oop.model;
 
 public class Person {
-   private String Surname, Name;
+   public String Surname, Name;
     public final Person UNKNOWN_PERSON = new Person(" ", " ");
     public Person(String Surname, String Name)
     {

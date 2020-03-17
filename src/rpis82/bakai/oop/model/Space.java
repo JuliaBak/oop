@@ -1,8 +1,8 @@
 package rpis82.bakai.oop.model;
 
 public class Space {
-    protected Person person; //protected?
-    protected Vehicle vehicle;
+    public Person person; //protected?
+    public Vehicle vehicle;
     public Space ()
     {
         this.person.Surname = person.UNKNOWN_PERSON.Surname;
@@ -32,13 +32,14 @@ public class Space {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    public void isEmpty()
+    public boolean isEmpty()
     {
         if(this.vehicle == null || this.vehicle.registrationNumber == null)
         {
             System.out.println(false); //изменить на просто false
         }
 
+        return false;
     }
     public static void main(String[] args)
     {
