@@ -1,25 +1,37 @@
 package rpis82.bakai.oop.model;
 
 public class Person {
-    String Surname, Name;
+   private String Surname, Name;
     public final Person UNKNOWN_PERSON = new Person(" ", " ");
     public Person(String Surname, String Name)
     {
         this.Name = Name;
         this.Surname = Surname;
     }
-    public void setName(String name) {
+  /*  public void setName(String name) {
         Name = name;
     }
+    */
+
     public String getName() {
         return Name;
     }
 
-    public void setSurname(String surname) {
+  /*  public void setSurname(String surname) {
         Surname = surname;
     }
+    */
+
     public String getSurname() {
         return Surname;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "lastName='" + Surname + '\'' +
+                ", firstName='" + Name + '\'' +
+                '}';
     }
     public static void main(String[] args) {
 
