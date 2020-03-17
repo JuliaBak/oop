@@ -15,6 +15,11 @@ public class Vehicle {
         this.manufacturer = manufacturer;
         this.model = model;
     }
+   /* public Vehicle() {
+        this("", "", "");
+    }
+    */
+
 
     public String  getRegistrationNumber() {
         return registrationNumber;
@@ -39,6 +44,16 @@ public class Vehicle {
     public void setModel(String model) {
         this.model = model;
      }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "registrationNumber='" + registrationNumber + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                '}';
+    }
+
     public static void main(String[] args) {
 
         Vehicle vehicle1 = new Vehicle("432", "Toyota", "Corolla");
@@ -55,3 +70,5 @@ public class Vehicle {
         System.out.println(vehicle3.model);
     }
 }
+
+
