@@ -13,15 +13,15 @@ public class Test {
 
             Vehicle testVehicle1 = new Vehicle("657","Toyota","Camry");
             Vehicle testVehicle2 = new Vehicle("342","Bentley","Bentayga");
-            Vehicle testVehicle3 = new Vehicle("835","BMW","Second");
+            Vehicle testVehicle3 = new Vehicle("835","BMW","X6");
 
-            Vehicle emptyVechical = new Vehicle();
+            Vehicle emptyVehical = new Vehicle();
             Person emptyPerson = Person.UNKNOWN_PERSON;
 
             Space testSpace1 = new Space(person1,testVehicle1);
             Space testSpace2 = new Space(person2,testVehicle2);
             Space testSpace3 = new Space(person3,testVehicle3);
-            Space emptySpace = new Space(emptyPerson,emptyVechical);
+            Space emptySpace = new Space(emptyPerson,emptyVehical);
 
             OwnersFloor testFloor1 = new OwnersFloor(3);
             testFloor1.add(testSpace1);
