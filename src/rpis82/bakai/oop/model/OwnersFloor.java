@@ -5,57 +5,67 @@ public class OwnersFloor {
         private Space[] spaces;
         private int size;
 
-        public OwnersFloor() {
+        public OwnersFloor() { //конструктор инициирующий массив из 16 элеметов
             this.spaces = new Space[16];
             this.size = 0;
         }
 
-        public OwnersFloor(int arraySize) {
-            this.spaces = new Space[arraySize];
+        public OwnersFloor(int arrayCapacity) { //принимающий целое число - емкость массива
+            this.spaces = new Space[arrayCapacity];
             this.size = 0;
         }
 
-        public OwnersFloor(Space[] spaces) {
+        public OwnersFloor(Space[] spaces) { //принимающий массив парковочных мест, копирование элеметов в новый массив
             this.spaces = new Space[spaces.length];
-            int amount = 0;
+            int number = 0;
             for (Space space : spaces) {
                 if (space != null) {
-                    this.spaces[amount] = space;
-                    amount++;
+                    this.spaces[number] = space;
+                    number++;
                 }
             }
-            this.size = amount;
+            this.size = number;
         }
 
-        public boolean add(Space space) {
-            if (this.size < this.spaces.length && this.spaces[this.size] == null) {
+        public boolean addSpace(Space space) { //метод добавляющий парковочное место в конец массива
+            if (this.size < this.spaces.length && this.spaces[this.size] == null) { // если размер массива недостатточно большой - уыеличиваем
                 this.spaces[this.size] = space;
             } else {
-                int index = this.size;
-                increaseArraySize();
-                this.spaces[index] = space;
+                int newAmount = this.size;
+                increaseArraySize(); //размер массива увеличивается,если не хватает места под парковку
+                this.spaces[newAmount] = space;
             }
             this.size++;
-            return true;
+            return true; // влзвращает true после выполнения операции
         }
 
-        public boolean add(int index, Space space) {
-            if (this.spaces.length > index && index > 0) {
-                this.spaces[index] = space;
+    private void increaseArraySize() {
+        Space[] newArray = new Space[this.spaces.length * 2];
+        int number = 0;
+        for (Space space : spaces) {
+            if (space != null) {
+                newArray[number] = space;
+                number++;
+            }
+        }
+        this.spaces = newArray;
+        this.size = number;
+    }
+
+        public boolean addSpace(int number, Space space) { //добавляющий место в определенное пространство
+            if (this.spaces.length > number && number > 0) {// принимает номер  и ссылку на объект
+                this.spaces[number] = space;
                 this.size++;
-                return true;
+                return true; // возвращает true после выполнения операции
             }
             return false;
         }
 
-        public Space get(int index) {
-            return this.spaces[index];
-        }
 
-        public Space get(String registrationNumber) {
+        public Space getSpace(String registrationNumber) { // параметр -госю номер
             for (Space space : this.spaces) {
                 if (space.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                    return space;
+                    return space; // вовращает ссылку на экземпляр класса space по его регистр. номеру
                 }
             }
             return null;
@@ -67,23 +77,23 @@ public class OwnersFloor {
                     return true;
                 }
             }
-            return false;
+            return false; // вовращает true если экземпляр есть в массиве
         }
 
         public Space set(int index, Space space) {
-            Space lastSpace = this.spaces[index];
+            Space setSpace = this.spaces[index];
             this.spaces[index] = space;
-            return lastSpace;
+            return setSpace; // изменяет ссылку класса по его номеру в массиве
         }
 
-        public Space remove(int id) {
-            Space lastSpace = this.spaces[id];
-            this.spaces[id] = null;
+        public Space remove(int number) {
+            Space setSpace = this.spaces[number];
+            this.spaces[number] = null;
             moveArray();
-            return lastSpace;
+            return setSpace; // удалить парковочное место по его номеру
         }
 
-        public Space remove(String governmentNumber) {
+        public Space remove(String governmentNumber) { //удаляет место по его гос номеру
             for (int i = 0;i<this.size;i++) {
                 if (this.spaces[i].getVehicle().getRegistrationNumber().equals(governmentNumber)) {
                     Space lastSpace = this.spaces[i];
@@ -95,29 +105,42 @@ public class OwnersFloor {
             return null;
         }
 
+        public void moveArray() {  // метод сдвига массива
+            Space[] newArray = new Space[this.spaces.length];
+            int capacity = 0;
+            for (Space space : this.spaces) {
+                if (space != null) {
+                    newArray[capacity] = space;
+                    capacity++;
+                }
+            }
+            this.spaces = newArray;
+            this.size = capacity;
+        }
+
         public int getSize() {
             return this.size;
         }
 
         public Space[] getSpaces() {
-            Space[] result = new Space[this.size];
-            int k = 0;
+            Space[] resultArray = new Space[this.size];
+            int number = 0;
             for (Space space:this.spaces){
                 if (space != null){
-                    result[k] = space;
-                    k++;
+                    resultArray[number] = space;
+                    number++;
                 }
             }
-            return result;
+            return resultArray;
         }
 
         public Vehicle[] getVehicles() {
             Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-            int k = 0;
+            int number = 0;
             for (Space space : this.spaces) {
                 if ((space != null) && (!space.isEmpty())){
-                    vehicles[k] = space.getVehicle();
-                    k++;
+                    vehicles[number] = space.getVehicle();
+                    number++;
                 }
             }
             return vehicles;
@@ -131,32 +154,10 @@ public class OwnersFloor {
                 }
             }
             return amount;
-        }
+        } // число транспортных средств
 
-        public void moveArray() {
-            Space[] newArray = new Space[this.spaces.length];
-            int k = 0;
-            for (Space space : this.spaces) {
-                if (space != null) {
-                    newArray[k] = space;
-                    k++;
-                }
-            }
-            this.spaces = newArray;
-            this.size = k;
-        }
-
-        private void increaseArraySize() {
-            Space[] newArray = new Space[this.spaces.length * 2];
-            int amount = 0;
-            for (Space space : spaces) {
-                if (space != null) {
-                    newArray[amount] = space;
-                    amount++;
-                }
-            }
-            this.spaces = newArray;
-            this.size = amount;
+        public Space getSpace(int capacity) {
+            return this.spaces[capacity];// вовращает массив мест на папрковке  с аднным значением
         }
 
     }

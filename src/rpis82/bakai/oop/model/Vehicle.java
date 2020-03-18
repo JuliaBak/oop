@@ -15,11 +15,6 @@ public class Vehicle {
         this.manufacturer = manufacturer;
         this.model = model;
     }
-   /* public Vehicle() {
-        this("", "", "");
-    }
-    */
-
 
     public String  getRegistrationNumber() {
         return registrationNumber;
@@ -54,21 +49,7 @@ public class Vehicle {
                 '}';
     }
 
-    public static void main(String[] args) {
 
-        Vehicle vehicle1 = new Vehicle("432", "Toyota", "Corolla");
-        Vehicle vehicle2 = new Vehicle("574", "BMW", "X6");
-        Vehicle vehicle3 = new Vehicle("762", "Ferrari", "California");
-
-        System.out.println(vehicle1.registrationNumber);
-        System.out.println(vehicle1.model);
-        System.out.println(vehicle1.manufacturer);
-
-       System.out.println(vehicle2.getRegistrationNumber());
-       System.out.println(vehicle3.getManufacturer());
-        vehicle3.setModel("Toyota");
-        System.out.println(vehicle3.model);
-    }
 }
 
 

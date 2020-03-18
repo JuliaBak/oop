@@ -3,11 +3,11 @@ package rpis82.bakai.oop.model;
 public class Parking {
 
         private OwnersFloor[] floors;
-        private int size;
+        private int capacity;
 
         public Parking(int arraySize) {
             this.floors = new OwnersFloor[arraySize];
-        }
+        } // принимает число этажей
 
         public Parking(OwnersFloor[] array) {
             this.floors = new OwnersFloor[array.length];
@@ -18,70 +18,70 @@ public class Parking {
                     amount++;
                 }
             }
-            this.size = amount;
+            this.capacity = amount;
         }
 
         public boolean add(OwnersFloor floor) {
-            if (this.size < this.floors.length && this.floors[this.size] == null) {
-                this.floors[this.size] = floor;
+            if (this.capacity < this.floors.length && this.floors[this.capacity] == null) {
+                this.floors[this.capacity] = floor;
             } else {
-                int index = this.size;
+                int size = this.capacity;
                 increaseArraySize();
-                this.floors[index] = floor;
+                this.floors[size] = floor;
             }
-            this.size++;
+            this.capacity++;
             return true;
-        }
+        } // добавдяющий элемент
 
-        public boolean add(int index, OwnersFloor floor) {
-            if (this.floors.length > index && index > 0) {
-                this.floors[index] = floor;
-                this.size++;
+        public boolean add(int number, OwnersFloor floor) {
+            if (this.floors.length > number && number > 0) {
+                this.floors[number] = floor;
+                this.capacity++;
                 return true;
             }
             return false;
         }
 
-        public OwnersFloor get(int index) {
-            return this.floors[index];
+        public OwnersFloor get(int number) {//возвращающий ссылку на экземпляр класса OwnersFloor по его номеру в массиве
+            return this.floors[number];
         }
 
-        public OwnersFloor set(int index, OwnersFloor floor) {
-            OwnersFloor lastFloor = this.floors[index];
-            this.floors[index] = floor;
+        public OwnersFloor set(int number, OwnersFloor floor) {//изменяющий ссылку на экземпляр класса OwnersFloor по его номеру в массиве
+            OwnersFloor lastFloor = this.floors[number];
+            this.floors[number] = floor;
             return lastFloor;
         }
 
-        public OwnersFloor remove(int index) {
-            OwnersFloor lastFloor = this.floors[index];
-            this.floors[index] = null;
+        public OwnersFloor remove(int number) {//удаляющий этаж из массива по его номеру
+            OwnersFloor lastFloor = this.floors[number];
+            this.floors[number] = null;
             moveArray();
             return lastFloor;
         }
 
-        public int getSize() {
-            return size;
+        public int getCapacity() { //возвращающий число этажей
+            return capacity;
         }
 
-        public OwnersFloor[] getFloors() {
+        public OwnersFloor[] getFloors() {//возвращающий массив этажей
             return floors;
         }
 
         public Vehicle[] getVehicles() {
             Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-            int k = 0;
+            int number = 0;
             for (OwnersFloor floor : this.floors) {
                 for (Space space : floor.getSpaces()) {
                     if ((space != null) && (!space.isEmpty())) {
-                        vehicles[k] = space.getVehicle();
-                        k++;
+                        vehicles[number] = space.getVehicle();
+                        number++;
                     }
                 }
             }
             return vehicles;
         }
 
-        public OwnersFloor[] getSortedBySizeFloors() {
+        public OwnersFloor[] getSortedBySizeFloors() { //возвращающий массив этажей, отсортированный по возрастанию числа парковочных мест на этаже
             OwnersFloor[] array = this.floors;
             for (int i = 0; i < array.length - 1; i++) {
                 for (int j = 0; j < i; j++) {
@@ -153,7 +153,7 @@ public class Parking {
                 }
             }
             this.floors = newArray;
-            this.size = amount;
+            this.capacity = amount;
         }
 
         private void moveArray() {
@@ -166,7 +166,7 @@ public class Parking {
                 }
             }
             this.floors = newArray;
-            this.size = k;
+            this.capacity = k;
         }
 
     }

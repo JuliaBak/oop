@@ -9,37 +9,51 @@ public class Test {
         public static void lab1tests(){
             Person person1 = new Person("Grey","Dorian");
             Person person2 = new Person("McAwan","Rick");
-            Person person3 = new Person("Grace","Billy");
 
-            Vehicle testVehicle1 = new Vehicle("657","Toyota","Camry");
-            Vehicle testVehicle2 = new Vehicle("342","Bentley","Bentayga");
-            Vehicle testVehicle3 = new Vehicle("835","BMW","X6");
+            System.out.println(person1.getName());
+            System.out.println(person2.getSurname());
+
+            Vehicle vehicle1 = new Vehicle("657","Toyota","Camry");
+            Vehicle vehicle2 = new Vehicle("342","Bentley","Bentayga");
+
+            System.out.println(vehicle1.getRegistrationNumber());
+            System.out.println(vehicle1.getModel());
+            System.out.println(vehicle2.getManufacturer());
 
             Vehicle emptyVehical = new Vehicle();
             Person emptyPerson = Person.UNKNOWN_PERSON;
 
-            Space testSpace1 = new Space(person1,testVehicle1);
-            Space testSpace2 = new Space(person2,testVehicle2);
-            Space testSpace3 = new Space(person3,testVehicle3);
+            System.out.println(emptyVehical.getRegistrationNumber());
+
+            Space space1 = new Space(person1,vehicle1);
+            Space space2 = new Space(person2,vehicle2);
+
+            System.out.println(space1.getVehicle());
+            System.out.println(space2.getPerson());
+
             Space emptySpace = new Space(emptyPerson,emptyVehical);
 
-            OwnersFloor testFloor1 = new OwnersFloor(3);
-            testFloor1.add(testSpace1);
-            testFloor1.add(testSpace2);
-            testFloor1.add(testSpace3);
-            testFloor1.add(emptySpace);
-            testFloor1.add(emptySpace);
+            OwnersFloor floor1 = new OwnersFloor(2);
+            floor1.addSpace(space1);
+            floor1.addSpace(space2);
 
-            OwnersFloor testFloor2 = new OwnersFloor();
-            testFloor2.add(testSpace2);
-            testFloor2.add(testSpace2);
-            testFloor2.add(testSpace3);
-            testFloor2.add(emptySpace);
+            System.out.println(floor1.getVehicleAmount());
+            System.out.println(floor1.getSize());
 
-            Parking parking = new Parking(4);
-            parking.add(testFloor1);
-            parking.add(testFloor2);
+            floor1.addSpace(emptySpace);
+            floor1.addSpace(emptySpace);
 
+            OwnersFloor floor2 = new OwnersFloor();
+
+            System.out.println(floor2.addSpace(1, space1));
+            floor2.addSpace(space2);
+            floor2.addSpace(space2);
+
+            floor2.addSpace(emptySpace);
+
+            Parking parking = new Parking(3);
+            parking.add(floor1);
+            parking.add(floor2);
 
             OwnersFloor[] sortedOwners = parking.getSortedBySizeFloors();
             System.out.println(sortedOwners[1].getSize());

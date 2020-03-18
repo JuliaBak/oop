@@ -36,7 +36,7 @@ public class Space {
     {
         if(this.vehicle == null || this.vehicle.registrationNumber == null)
         {
-            System.out.println(false); //изменить на просто false
+            System.out.println(false);
         }
 
         return false;

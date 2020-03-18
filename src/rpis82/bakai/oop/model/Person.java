@@ -33,12 +33,5 @@ public class Person {
                 ", firstName='" + Name + '\'' +
                 '}';
     }
-    public static void main(String[] args) {
 
-        Person person1 = new Person("Bakai", "Julia");
-        Person person2 = new Person("Ivanov", "Sergey");
-        Person person3 = new Person("Kirov", "Vasia");
-        System.out.println(person1.Name);
-        System.out.println(person1.Surname);
-    }
 }
