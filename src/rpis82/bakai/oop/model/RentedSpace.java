@@ -1,9 +1,9 @@
 package rpis82.bakai.oop.model;
 
-public class Space {
+public class RentedSpace {
     public Person person; //protected?
     public Vehicle vehicle;
-    public Space ()
+    public RentedSpace()
     {
         this.person.Surname = person.UNKNOWN_PERSON.Surname;
         this.person.Name = person.UNKNOWN_PERSON.Name;
@@ -11,7 +11,7 @@ public class Space {
         this.vehicle.registrationNumber = "";
         this.vehicle.model = "";
     }
-    public Space(Person person, Vehicle vehicle)
+    public RentedSpace(Person person, Vehicle vehicle)
     {
     this.vehicle = vehicle;
     this.person = person;
@@ -43,6 +43,6 @@ public class Space {
     }
     public static void main(String[] args)
     {
-     Space space = new Space();
+     RentedSpace space = new RentedSpace();
     }
 }
