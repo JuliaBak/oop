@@ -1,5 +1,7 @@
 package rpis82.bakai.oop.model;
 
+import java.util.Arrays;
+
 public class Test {
 
         public static void main (String[] args) {
@@ -8,7 +10,7 @@ public class Test {
 
         public static void lab1tests(){
             Person person1 = new Person("Grey","Dorian");
-            Person person2 = new Person("McAwan","Rick");
+            Person person2 = new Person("Grace","Rick");
 
             System.out.println(person1.getName());
             System.out.println(person2.getSurname());
@@ -20,10 +22,10 @@ public class Test {
             System.out.println(vehicle1.getModel());
             System.out.println(vehicle2.getManufacturer());
 
-            Vehicle emptyVehical = new Vehicle();
+            Vehicle emptyVehicle = new Vehicle();
             Person emptyPerson = Person.UNKNOWN_PERSON;
 
-            System.out.println(emptyVehical.getRegistrationNumber());
+            System.out.println(emptyVehicle.getRegistrationNumber());
 
             Space space1 = new Space(person1,vehicle1);
             Space space2 = new Space(person2,vehicle2);
@@ -31,12 +33,13 @@ public class Test {
             System.out.println(space1.getVehicle());
             System.out.println (space2.getPerson());
 
-            Space emptySpace = new Space(emptyPerson,emptyVehical);
+            Space emptySpace = new Space(emptyPerson,emptyVehicle);
 
             OwnersFloor floor1 = new OwnersFloor(2);
             floor1.addSpace(space1);
             floor1.addSpace(space2);
 
+           System.out.println(floor1.remove(1));
             System.out.println(floor1.getVehicleAmount());
             System.out.println(floor1.getSize());
 
@@ -57,5 +60,10 @@ public class Test {
 
             OwnersFloor[] sortedOwners = parking.getSortedBySizeFloors();
             System.out.println(sortedOwners[1].getSize());
+
+        }
+
+        public static void lab2tests(){
+
         }
     }

@@ -8,19 +8,10 @@ public class Person {
         this.Name = Name;
         this.Surname = Surname;
     }
-  /*  public void setName(String name) {
-        Name = name;
-    }
-    */
 
     public String getName() {
         return Name;
     }
-
-  /*  public void setSurname(String surname) {
-        Surname = surname;
-    }
-    */
 
     public String getSurname() {
         return Surname;

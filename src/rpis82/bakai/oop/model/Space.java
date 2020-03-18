@@ -1,15 +1,15 @@
 package rpis82.bakai.oop.model;
 
 public class Space {
-    public Person person; //protected?
+    public Person person;
     public Vehicle vehicle;
     public Space()
     {
-        this.person.Surname = person.UNKNOWN_PERSON.Surname;
-        this.person.Name = person.UNKNOWN_PERSON.Name;
-        this.vehicle.manufacturer = "";
-        this.vehicle.registrationNumber = "";
-        this.vehicle.model = "";
+        this.person.Surname = Person.UNKNOWN_PERSON.Surname;
+        this.person.Name = Person.UNKNOWN_PERSON.Name;
+        this.vehicle.manufacturer = Vehicle.EMPTY_VEHICLE.manufacturer;
+        this.vehicle.registrationNumber = Vehicle.EMPTY_VEHICLE.registrationNumber;
+        this.vehicle.model = Vehicle.EMPTY_VEHICLE.model;
     }
     public Space(Person person, Vehicle vehicle)
     {

@@ -2,12 +2,13 @@ package rpis82.bakai.oop.model;
 
 public class Vehicle {
     String   registrationNumber, manufacturer, model;
+   public static Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", "");
 
     public Vehicle()
     {
-        this.model = ""; //по умолчанпию - пустые строки
-        this.registrationNumber = "";
-        this.manufacturer = "";
+        this.model = Vehicle.EMPTY_VEHICLE.model;
+        this.registrationNumber = EMPTY_VEHICLE.registrationNumber;
+        this.manufacturer = EMPTY_VEHICLE.manufacturer;
     }
     public Vehicle(String registrationNumber, String manufacturer, String model)
     {
