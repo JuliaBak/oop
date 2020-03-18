@@ -1,4 +1,4 @@
 package rpis82.bakai.oop.model;
 
-public class Groot {
+public class RentedGroot {
 }
