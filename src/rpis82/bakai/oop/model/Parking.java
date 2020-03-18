@@ -71,7 +71,7 @@ public class Parking {
             Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
             int number = 0;
             for (OwnersFloor floor : this.floors) {
-                for (RentedSpace space : floor.getSpaces()) {
+                for (Space space : floor.getSpaces()) {
                     if ((space != null) && (!space.isEmpty())) {
                         vehicles[number] = space.getVehicle();
                         number++;
@@ -95,9 +95,9 @@ public class Parking {
             return array;
         }
 
-        public RentedSpace getSpace(String registrationNumber) {
+        public Space getSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                for (RentedSpace space : ownersFloor.getSpaces()) {
+                for (Space space : ownersFloor.getSpaces()) {
                     if (space.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                         return space;
                     }
@@ -106,12 +106,12 @@ public class Parking {
             return null;
         }
 
-        public RentedSpace removeSpace(String registrationNumber) {
+        public Space removeSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                RentedSpace[] array = ownersFloor.getSpaces();
+                Space[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        RentedSpace deletedSpace = array[i];
+                        Space deletedSpace = array[i];
                         ownersFloor.set(i, null);
                         ownersFloor.moveArray();
                         return deletedSpace;
@@ -121,12 +121,12 @@ public class Parking {
             return null;
         }
 
-        public RentedSpace setSpace(String registrationNumber, RentedSpace space) {
+        public Space setSpace(String registrationNumber, Space space) {
             for (OwnersFloor ownersFloor : this.floors) {
-                RentedSpace[] array = ownersFloor.getSpaces();
+                Space[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        RentedSpace lastSpace = array[i];
+                        Space lastSpace = array[i];
                         ownersFloor.set(i, space);
                         return lastSpace;
                     }

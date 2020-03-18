@@ -25,13 +25,13 @@ public class Test {
 
             System.out.println(emptyVehical.getRegistrationNumber());
 
-            RentedSpace space1 = new RentedSpace(person1,vehicle1);
-            RentedSpace space2 = new RentedSpace(person2,vehicle2);
+            Space space1 = new Space(person1,vehicle1);
+            Space space2 = new Space(person2,vehicle2);
 
             System.out.println(space1.getVehicle());
-            System.out.println(space2.getPerson());
+            System.out.println (space2.getPerson());
 
-            RentedSpace emptySpace = new RentedSpace(emptyPerson,emptyVehical);
+            Space emptySpace = new Space(emptyPerson,emptyVehical);
 
             OwnersFloor floor1 = new OwnersFloor(2);
             floor1.addSpace(space1);
