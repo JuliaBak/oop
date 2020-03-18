@@ -6,7 +6,7 @@ public class OwnersFloor {
         private int size;
 
         public OwnersFloor() {
-            this.spaces = new Space[16];
+            this.spaces = new Space16];
             this.size = 0;
         }
 
@@ -15,7 +15,7 @@ public class OwnersFloor {
             this.size = 0;
         }
 
-        public OwnersFloor(Space[] spaces) {
+        public OwnersFloor(RentedSpace[] spaces) {
             this.spaces = new Space[spaces.length];
             int number = 0;
             for (Space space : spaces) {
@@ -80,7 +80,7 @@ public class OwnersFloor {
             return false;
         }
 
-        public Space set(int index, Space space) {
+        public Space set(int index, RentedSpace space) {
             Space setSpace = this.spaces[index];
             this.spaces[index] = space;
             return setSpace; // изменяет ссылку класса по его номеру в массиве
@@ -122,7 +122,7 @@ public class OwnersFloor {
             return this.size;
         }
 
-        public Space[] getSpaces() {
+        public Sapce[] getSpaces() {
             Space[] resultArray = new Space[this.size];
             int number = 0;
             for (Space space:this.spaces){

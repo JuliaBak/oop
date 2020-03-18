@@ -71,9 +71,9 @@ public class Parking {
             Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
             int number = 0;
             for (OwnersFloor floor : this.floors) {
-                for (Space space : floor.getSpaces()) {
-                    if ((space != null) && (!space.isEmpty())) {
-                        vehicles[number] = space.getVehicle();
+                for (RentedSpace rentedSpace : floor.getSpaces()) {
+                    if ((rentedSpace != null) && (!rentedSpace.isEmpty())) {
+                        vehicles[number] = rentedSpace.getVehicle();
                         number++;
                     }
                 }
@@ -95,40 +95,40 @@ public class Parking {
             return array;
         }
 
-        public Space getSpace(String registrationNumber) {
+        public RentedSpace getSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                for (Space space : ownersFloor.getSpaces()) {
-                    if (space.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        return space;
+                for (RentedSpace rentedSpace : ownersFloor.getSpaces()) {
+                    if (rentedSpace.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
+                        return rentedSpace;
                     }
                 }
             }
             return null;
         }
 
-        public Space removeSpace(String registrationNumber) {
+        public RentedSpace removeSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                Space[] array = ownersFloor.getSpaces();
+                RentedSpace[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        Space deletedSpace = array[i];
+                        RentedSpace deletedRentedSpace = array[i];
                         ownersFloor.set(i, null);
                         ownersFloor.moveArray();
-                        return deletedSpace;
+                        return deletedRentedSpace;
                     }
                 }
             }
             return null;
         }
 
-        public Space setSpace(String registrationNumber, Space space) {
+        public RentedSpace setSpace(String registrationNumber, RentedSpace rentedSpace) {
             for (OwnersFloor ownersFloor : this.floors) {
-                Space[] array = ownersFloor.getSpaces();
+                RentedSpace[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        Space lastSpace = array[i];
-                        ownersFloor.set(i, space);
-                        return lastSpace;
+                        RentedSpace lastRentedSpace = array[i];
+                        ownersFloor.set(i, rentedSpace);
+                        return lastRentedSpace;
                     }
                 }
             }
