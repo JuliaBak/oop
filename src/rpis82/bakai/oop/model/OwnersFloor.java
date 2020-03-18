@@ -1,12 +1,14 @@
 package rpis82.bakai.oop.model;
+import rpis82.bakai.oop.model.interfaces.Floor;
+import rpis82.bakai.oop.model.interfaces.Space;
 
-public class OwnersFloor {
+public class OwnersFloor implements Floor {
 
         private Space[] spaces;
         private int size;
 
         public OwnersFloor() {
-            this.spaces = new Space16];
+            this.spaces = new Space[16];
             this.size = 0;
         }
 
@@ -86,7 +88,37 @@ public class OwnersFloor {
             return setSpace; // изменяет ссылку класса по его номеру в массиве
         }
 
-        public Space remove(int number) {
+    @Override
+    public boolean add(Space space) {
+        return false;
+    }
+
+    @Override
+    public boolean add(int index, Space space) {
+        return false;
+    }
+
+    @Override
+    public Space get(int index) {
+        return null;
+    }
+
+    @Override
+    public Space get(String registrationNumber) {
+        return null;
+    }
+
+    @Override
+    public boolean hasSpace(String registrationNumber) {
+        return false;
+    }
+
+    @Override
+    public Space set(int index, Space space) {
+        return null;
+    }
+
+    public Space remove(int number) {
             Space setSpace = this.spaces[number];
             this.spaces[number] = null;
             moveArray();
