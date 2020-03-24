@@ -11,7 +11,11 @@ public class Test {
         lab2tests();
     }
 
+    public static void lab3test()
+    {
 
+    }
+    /*
     public static void lab2tests() {
         Person testPerson1 = new Person("Frick", "Jason");
         Person testPerson2 = new Person("Two", "One");
@@ -35,6 +39,8 @@ public class Test {
         for (Vehicle space : vehiclesArray) {
             System.out.println(space.toString());
         }
+
+     */
 
         /*public static void lab1tests(){
             Person person1 = new Person("Grey","Dorian");
