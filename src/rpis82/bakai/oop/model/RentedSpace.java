@@ -1,20 +1,19 @@
 package rpis82.bakai.oop.model;
 
-public class RentedSpace {
-    public Person person;
-    public Vehicle vehicle;
-    public RentedSpace()
-    {
-        this.person.Surname = Person.UNKNOWN_PERSON.Surname;
-        this.person.Name = Person.UNKNOWN_PERSON.Name;
-        this.vehicle.manufacturer = Vehicle.EMPTY_VEHICLE.manufacturer;
-        this.vehicle.registrationNumber = Vehicle.EMPTY_VEHICLE.registrationNumber;
-        this.vehicle.model = Vehicle.EMPTY_VEHICLE.model;
+import rpis82.bakai.oop.model.interfaces.Space;
+
+public class RentedSpace implements Space {
+
+    private Person person;
+    private Vehicle vehicle;
+
+    public RentedSpace(Person person, Vehicle vehicle) {
+        this.person = person;
+        this.vehicle = vehicle;
     }
-    public RentedSpace(Person person, Vehicle vehicle)
-    {
-    this.vehicle = vehicle;
-    this.person = person;
+
+    public RentedSpace() {
+        this(Person.UNKNOWN_PERSON, new Vehicle());
     }
 
     public Person getPerson() {
@@ -32,17 +31,16 @@ public class RentedSpace {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    public boolean isEmpty()
-    {
-        if(this.vehicle == null || this.vehicle.registrationNumber == null)
-        {
-            System.out.println(false);
-        }
 
-        return false;
+    public boolean isEmpty() {
+        return this.vehicle == null || this.vehicle.getRegistrationNumber().equals("");
     }
-    public static void main(String[] args)
-    {
-     RentedSpace rentedSpace = new RentedSpace();
+
+    @Override
+    public String toString() {
+        return "Space{" +
+                "person=" + person +
+                ", vehicle=" + vehicle +
+                '}';
     }
 }
