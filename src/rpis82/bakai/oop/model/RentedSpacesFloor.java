@@ -8,7 +8,7 @@ public class RentedSpacesFloor implements Floor{
 
     public RentedSpacesFloor() {
         this.head = new Node(null, null, null);
-        this.head.next = this.head.previous = this.head;
+        this.head.following = this.head.previous = this.head;
     }
 
     public RentedSpacesFloor(Space[] spaces) {
@@ -39,7 +39,7 @@ public class RentedSpacesFloor implements Floor{
 
     @Override
     public Space get(String registrationNumber) {
-        for (Node node = this.head.next; node != this.head; node = node.next) {
+        for (Node node = this.head.following; node != this.head; node = node.following) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return node.value;
             }
@@ -49,7 +49,7 @@ public class RentedSpacesFloor implements Floor{
 
     @Override
     public boolean hasSpace(String registrationNumber) {
-        for (Node node = this.head.next; node != this.head; node = node.next) {
+        for (Node node = this.head.following; node != this.head; node = node.following) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return true;
             }
@@ -76,8 +76,8 @@ public class RentedSpacesFloor implements Floor{
         Node delete = getNodeByIndex(index);
         if (delete != null) {
             element = delete.value;
-            delete.next.previous = delete.previous;
-            delete.previous.next = delete.next;
+            delete.following.previous = delete.previous;
+            delete.previous.following = delete.following;
             this.size--;
         }
         return element;
@@ -86,7 +86,7 @@ public class RentedSpacesFloor implements Floor{
     @Override
     public Space remove(String registrationNumber) {
         int index = 0;
-        for (Node node = this.head.next; node != this.head; node = node.next) {
+        for (Node node = this.head.following; node != this.head; node = node.following) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return remove(index);
             }
@@ -104,7 +104,7 @@ public class RentedSpacesFloor implements Floor{
     public Space[] getSpaces() {
         Space[] array = new Space[this.size];
         int index = 0;
-        for (Node node = this.head.next; node != this.head; node = node.next) {
+        for (Node node = this.head.following; node != this.head; node = node.following) {
             array[index++] = node.value;
         }
         return array;
@@ -133,8 +133,8 @@ public class RentedSpacesFloor implements Floor{
 
     public void addFirst(Space value) {
         if (value != null) {
-            Node first = new Node(this.head.next, this.head, value);
-            this.head.next = this.head.next.previous = first;
+            Node first = new Node(this.head.following, this.head, value);
+            this.head.following = this.head.following.previous = first;
             this.size++;
         }
     }
@@ -142,7 +142,7 @@ public class RentedSpacesFloor implements Floor{
     public void addLast(Space value) {
         if (value != null) {
             Node last = new Node(this.head, this.head.previous, value);
-            this.head.previous = this.head.previous.next = last;
+            this.head.previous = this.head.previous.following = last;
             this.size++;
         }
     }
@@ -166,7 +166,7 @@ public class RentedSpacesFloor implements Floor{
                 Node node = getNodeByIndex(index);
                 if (node != null) {
                     Node newNode = new Node(node, node.previous, value);
-                    node.previous = node.previous.next = newNode;
+                    node.previous = node.previous.following = newNode;
                     this.size++;
                 }
             }
@@ -175,7 +175,7 @@ public class RentedSpacesFloor implements Floor{
 
     private Node getNodeByIndex(int index) {
         int count = 0;
-        for (Node node = this.head.next; node != this.head; node = node.next) {
+        for (Node node = this.head.following; node != this.head; node = node.following) {
             if (count == index) {
                 return node;
             }
