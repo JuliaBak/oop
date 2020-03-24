@@ -1,5 +1,6 @@
 package rpis82.bakai.oop.model;
-
+ import rpis82.bakai.oop.model.interfaces.Space;
+ import rpis82.bakai.oop.model.interfaces.Floor;
 public class Parking {
 
         private OwnersFloor[] floors;
@@ -71,9 +72,9 @@ public class Parking {
             Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
             int number = 0;
             for (OwnersFloor floor : this.floors) {
-                for (RentedSpace rentedSpace : floor.getSpaces()) {
-                    if ((rentedSpace != null) && (!rentedSpace.isEmpty())) {
-                        vehicles[number] = rentedSpace.getVehicle();
+                for (Space space : floor.getSpaces()) {
+                    if ((space != null) && (!space.isEmpty())) {
+                        vehicles[number] = space.getVehicle();
                         number++;
                     }
                 }
@@ -97,9 +98,9 @@ public class Parking {
 
         public RentedSpace getSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                for (RentedSpace rentedSpace : ownersFloor.getSpaces()) {
-                    if (rentedSpace.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        return rentedSpace;
+                for (Space space : ownersFloor.getSpaces()) {
+                    if (space.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
+                        return space;
                     }
                 }
             }
@@ -108,27 +109,27 @@ public class Parking {
 
         public RentedSpace removeSpace(String registrationNumber) {
             for (OwnersFloor ownersFloor : floors) {
-                RentedSpace[] array = ownersFloor.getSpaces();
+                Space[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        RentedSpace deletedRentedSpace = array[i];
+                        Space deletedSpace = array[i];
                         ownersFloor.set(i, null);
                         ownersFloor.moveArray();
-                        return deletedRentedSpace;
+                        return deletedSpace;
                     }
                 }
             }
             return null;
         }
 
-        public RentedSpace setSpace(String registrationNumber, RentedSpace rentedSpace) {
+        public RentedSpace setSpace(String registrationNumber, Space rentedSpace) {
             for (OwnersFloor ownersFloor : this.floors) {
-                RentedSpace[] array = ownersFloor.getSpaces();
+                Space[] array = ownersFloor.getSpaces();
                 for (int i = 0; i < array.length; i++) {
                     if (array[i].getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                        RentedSpace lastRentedSpace = array[i];
+                        Space lastSpace = array[i];
                         ownersFloor.set(i, rentedSpace);
-                        return lastRentedSpace;
+                        return lastSpace;
                     }
                 }
             }

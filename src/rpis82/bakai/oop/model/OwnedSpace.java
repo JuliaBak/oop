@@ -1,5 +1,5 @@
 package rpis82.bakai.oop.model;
-import rpis82.bakai.oop.model.Space;
+import rpis82.bakai.oop.model.interfaces.Space;
 
 public class OwnedSpace implements Space {
     private Person person;
