@@ -2,7 +2,12 @@ package rpis82.bakai.oop.model;
 
 import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
-public class RentedSpacesFloor implements Floor{
+import  rpis82.bakai.oop.model.VehiclesTypes;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class RentedSpacesFloor implements Floor {
     private Node head;
     private int size;
 
@@ -96,7 +101,7 @@ public class RentedSpacesFloor implements Floor{
     }
 
     @Override
-    public int getSize() {
+    public int getCapacity() {
         return this.size;
     }
 
@@ -124,6 +129,30 @@ public class RentedSpacesFloor implements Floor{
     @Override
     public int getVehicleAmount() {
         return getSpaces().length;
+    }
+
+    @Override
+    public Space[] getSpaces(VehiclesTypes vehicleTypes) {
+        Space[] array = new Space[this.size];
+        int k = 0;
+        for (Node node = this.head.following; node != this.head; node = node.following) {
+            if (node.value.getVehicle().getType().equals(vehicleTypes)) {
+                array[k++] = node.value;
+            }
+        }
+        return array;
+    }
+
+    @Override
+    public Space[] getEmptySpaces() {
+        Space[] array = new Space[this.size];
+        int k = 0;
+        for (Node node = this.head.following; node != this.head; node = node.following) {
+            if (node.value.isEmpty()) {
+                array[k++] = node.value;
+            }
+        }
+        return array;
     }
 
     @Override
@@ -187,6 +216,31 @@ public class RentedSpacesFloor implements Floor{
 
     private boolean checkIndex(int index) {
         return index >= 0 && index < this.size;
+    }
+
+    public Iterator<Space> iterator() {
+        return new IteratorLinked();
+    }
+
+    private class IteratorLinked implements Iterator<Space> {
+
+        private Node cursor = head.following;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != head;
+        }
+
+        @Override
+        public Space next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Error");
+            } else {
+                Space value = cursor.value;
+                cursor = cursor.following;
+                return value;
+            }
+        }
     }
 }
 

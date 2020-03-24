@@ -1,37 +1,17 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 
-public class OwnedSpace implements Space {
-    private Person person;
-    private Vehicle vehicle;
+public class OwnedSpace extends AbstractSpace {
 
     public OwnedSpace(Person person, Vehicle vehicle) {
-        this.person = person;
-        this.vehicle = vehicle;
+        super(person,vehicle);
     }
 
-    @Override
-    public Person getPerson() {
-        return person;
+    public OwnedSpace(Person person){
+        super(person);
     }
 
-    @Override
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    @Override
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    @Override
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.vehicle == null || this.vehicle.getRegistrationNumber().equals("");
+    public OwnedSpace(){
+        super();
     }
 }

@@ -7,7 +7,7 @@ package rpis82.bakai.oop.model;
 public class Parking{
 
     private Floor[] floors;
-    private int size;
+    private int capacity;
 
     public Parking(int arraySize) {
         this.floors = new Floor[arraySize];
@@ -22,18 +22,18 @@ public class Parking{
                 amount++;
             }
         }
-        this.size = amount;
+        this.capacity = amount;
     }
 
     public boolean add(Floor floor) {
-        if (this.size < this.floors.length && this.floors[this.size] == null) {
-            this.floors[this.size] = floor;
+        if (this.capacity < this.floors.length && this.floors[this.capacity] == null) {
+            this.floors[this.capacity] = floor;
         } else {
-            int index = this.size;
+            int index = this.capacity;
             increaseArraySize();
             this.floors[index] = floor;
         }
-        this.size++;
+        this.capacity++;
         return true;
     }
 
@@ -41,7 +41,7 @@ public class Parking{
         if (this.floors.length > index && index > 0) {
             shiftArray(index);
             this.floors[index] = floor;
-            this.size++;
+            this.capacity++;
             return true;
         }
         return false;
@@ -64,8 +64,8 @@ public class Parking{
         return lastFloor;
     }
 
-    public int getSize() {
-        return size;
+    public int getCapacity() {
+        return capacity;
     }
 
     public Floor[] getFloors() {
@@ -90,7 +90,7 @@ public class Parking{
         Floor[] array = this.floors;
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < i; j++) {
-                if (array[j].getSize() > array[j + 1].getSize()) {
+                if (array[j].getCapacity() > array[j + 1].getCapacity()) {
                     Floor ownersFloor = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = ownersFloor;
@@ -140,6 +140,22 @@ public class Parking{
         return null;
     }
 
+    public int getEmptySpacesQuantity(){
+        int amount = 0;
+        for (Floor floor:this.floors){
+            amount += floor.getEmptySpaces().length;
+        }
+        return amount;
+    }
+
+    public int getVehicleQuantity(VehiclesTypes type){
+        int amount = 0;
+        for (Floor floor:this.floors){
+            amount += floor.getSpaces(type).length;
+        }
+        return amount;
+    }
+
     public int getVehicleAmount() {
         int amount = 0;
         for (Floor ownersFloor : this.floors) {
@@ -158,7 +174,7 @@ public class Parking{
             }
         }
         this.floors = newArray;
-        this.size = amount;
+        this.capacity = amount;
     }
 
     public void moveArray() {
@@ -171,15 +187,15 @@ public class Parking{
             }
         }
         this.floors = newArray;
-        this.size = k;
+        this.capacity = k;
     }
 
 
     private void shiftArray(int start){
-        if (this.size + 1 >= this.floors.length){
+        if (this.capacity + 1 >= this.floors.length){
             increaseArraySize();
         }
-        for (int i = this.size;i>start;i--){
+        for (int i = this.capacity; i>start; i--){
             Floor floor = this.floors[i];
             this.floors[i] = this.floors[i-1];
             this.floors[i-1] = floor;
@@ -190,7 +206,7 @@ public class Parking{
     public String toString() {
         return "Parking{" +
                 "floors=" + Arrays.toString(floors) +
-                ", size=" + size +
+                ", size=" + capacity +
                 '}';
     }
 }

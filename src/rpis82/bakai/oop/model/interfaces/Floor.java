@@ -1,5 +1,7 @@
 package rpis82.bakai.oop.model.interfaces;
 import  rpis82.bakai.oop.model.Vehicle;
+import rpis82.bakai.oop.model.VehiclesTypes;
+
 public interface Floor {
 
     boolean add(Space space);
@@ -18,7 +20,7 @@ public interface Floor {
 
     Space remove(String registrationNumber);
 
-    int getSize();
+    int getCapacity();
 
     Space[] getSpaces();
 
@@ -27,4 +29,8 @@ public interface Floor {
     int getVehicleAmount();
 
     void moveArray();
+
+    Space[] getSpaces(VehiclesTypes vehicleTypes);
+
+    Space[] getEmptySpaces();
 }

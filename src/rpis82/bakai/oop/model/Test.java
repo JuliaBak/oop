@@ -8,12 +8,18 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        lab3tests();
+        lab3test();
     }
 
     public static void lab3test()
     {
+        Person testPerson1 = new Person("Duck", "Ducky");
+        Person testPerson2 = new Person("Ven", "Tori");
 
+        OwnersFloor floorOwner = new OwnersFloor();
+        Parking parkingSpae = new Parking(4);
+        parkingSpae.add(floorOwner);
+        parkingSpae.getVehicleAmount();
     }
     /*
     public static void lab2tests() {
@@ -101,4 +107,5 @@ public class Test {
 
 
     }
-}
+
+

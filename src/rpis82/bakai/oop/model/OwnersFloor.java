@@ -7,15 +7,16 @@ import java.util.Arrays;
 public class OwnersFloor implements Floor {
 
     private Space[] spaces;
-    private int size;
+    private int capacity;
+
     public OwnersFloor() {
         this.spaces = new Space[16];
-        this.size = 0;
+        this.capacity = 0;
     }
 
     public OwnersFloor(int arraySize) {
         this.spaces = new Space[arraySize];
-        this.size = 0;
+        this.capacity = 0;
     }
 
     public OwnersFloor(Space[] spaces) {
@@ -27,18 +28,18 @@ public class OwnersFloor implements Floor {
                 amount++;
             }
         }
-        this.size = amount;
+        this.capacity = amount;
     }
 
     public boolean add(Space space) {
-        if (this.size < this.spaces.length && this.spaces[this.size] == null) {
-            this.spaces[this.size] = space;
+        if (this.capacity < this.spaces.length && this.spaces[this.capacity] == null) {
+            this.spaces[this.capacity] = space;
         } else {
-            int index = this.size;
+            int index = this.capacity;
             increaseArraySize();
             this.spaces[index] = space;
         }
-        this.size++;
+        this.capacity++;
         return true;
     }
 
@@ -46,7 +47,7 @@ public class OwnersFloor implements Floor {
         if (this.spaces.length > index && index > 0) {
             shiftArray(index);
             this.spaces[index] = space;
-            this.size++;
+            this.capacity++;
             return true;
         }
         return false;
@@ -93,7 +94,7 @@ public class OwnersFloor implements Floor {
 
     @Override
     public Space remove(String governmentNumber) {
-        for (int i = 0;i<this.size;i++) {
+        for (int i = 0; i<this.capacity; i++) {
             if (this.spaces[i].getVehicle().getRegistrationNumber().equals(governmentNumber)) {
                 Space lastSpace = this.spaces[i];
                 this.spaces[i] = null;
@@ -105,13 +106,13 @@ public class OwnersFloor implements Floor {
     }
 
     @Override
-    public int getSize() {
-        return this.size;
+    public int getCapacity() {
+        return this.capacity;
     }
 
     @Override
     public Space[] getSpaces() {
-        Space[] result = new RentedSpace[this.size];
+        Space[] result = new RentedSpace[this.capacity];
         int k = 0;
         for (Space space:this.spaces){
             if (space != null){
@@ -145,6 +146,30 @@ public class OwnersFloor implements Floor {
         return amount;
     }
 
+    @Override
+    public Space[] getSpaces(VehiclesTypes vehicleTypes) {
+        Space[] array = new Space[this.capacity];
+        int k = 0;
+        for (Space space: this.spaces){
+            if (space.getVehicle().getType().equals(vehicleTypes)){
+                array[k++] = space;
+            }
+        }
+        return array;
+    }
+
+    @Override
+    public Space[] getEmptySpaces() {
+        Space[] array = new Space[this.capacity];
+        int k = 0;
+        for (Space space: this.spaces){
+            if (space.isEmpty()){
+                array[k++] = space;
+            }
+        }
+        return array;
+    }
+
     public void moveArray() {
         Space[] newArray = new Space[this.spaces.length];
         int k = 0;
@@ -155,7 +180,7 @@ public class OwnersFloor implements Floor {
             }
         }
         this.spaces = newArray;
-        this.size = k;
+        this.capacity = k;
     }
 
     private void increaseArraySize() {
@@ -168,14 +193,14 @@ public class OwnersFloor implements Floor {
             }
         }
         this.spaces = newArray;
-        this.size = amount;
+        this.capacity = amount;
     }
 
     private void shiftArray(int start){
-        if (this.size + 1 >= this.spaces.length){
+        if (this.capacity + 1 >= this.spaces.length){
             increaseArraySize();
         }
-        for (int i = this.size;i>start;i--){
+        for (int i = this.capacity; i>start; i--){
             Space space = this.spaces[i];
             this.spaces[i] = this.spaces[i-1];
             this.spaces[i-1] = space;
@@ -186,7 +211,7 @@ public class OwnersFloor implements Floor {
     public String toString() {
         return "OwnersFloor{" +
                 "spaces=" + Arrays.toString(spaces) +
-                ", size=" + size +
+                ", size=" + capacity +
                 "}\n ";
     }
 }
