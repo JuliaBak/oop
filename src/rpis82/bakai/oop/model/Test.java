@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        lab2tests();
+        lab3tests();
     }
 
     public static void lab3test()
