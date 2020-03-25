@@ -7,6 +7,7 @@ public final class Vehicle { //made Vehicle final? added type
     private final String registrationNumber, manufacturer, model;
     private final VehiclesTypes type;
 
+
     public Vehicle() {
         this("", "", "", VehiclesTypes.NONE);
     }

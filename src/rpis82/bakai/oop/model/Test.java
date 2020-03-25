@@ -1,5 +1,6 @@
 package rpis82.bakai.oop.model;
 
+import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 import  rpis82.bakai.oop.model.*;
 
@@ -8,35 +9,63 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
+        lab2tests();
         lab3test();
     }
 
-    public static void lab3test()
-    {
-        Person testPerson1 = new Person("Duck", "Ducky");
-        Person testPerson2 = new Person("Ven", "Tori");
+    public static void lab3test() {
+        Person person1 = new Person("Duck", "Ducky");
+        Person person2 = new Person("Ven", "Tori");
+
+        Vehicle vehicle1 = new Vehicle("876", "Toyota", "Camry",VehiclesTypes.NONE);
+        Vehicle vehicle2 = new Vehicle("264", "BMW", "X6",VehiclesTypes.NONE);
 
         OwnersFloor floorOwner = new OwnersFloor();
-        Parking parkingSpae = new Parking(4);
-        parkingSpae.add(floorOwner);
-        parkingSpae.getVehicleAmount();
+
+        Space space1 =  new RentedSpace(person1, vehicle1);
+        Space space2 =  new RentedSpace(person2, vehicle2);
+
+        Floor floor1 = new OwnersFloor(6);
+        floor1.add(space1);
+        Floor floor2 = new OwnersFloor(3);
+        floor2.add(space2);
+
+        System.out.println(Arrays.toString(floor1.getSpaces()));
+
+        Parking parkingSpace = new Parking(4);
+        parkingSpace.add(floor1);
+        parkingSpace.add(floor2);
+
+        System.out.println(Arrays.toString(parkingSpace.getFloors()));
+        parkingSpace.add(1, floor2);
+        System.out.println(parkingSpace.get(1));
+
     }
-    /*
+
     public static void lab2tests() {
-        Person testPerson1 = new Person("Frick", "Jason");
-        Person testPerson2 = new Person("Two", "One");
+        Person person1 = new Person("Frick", "Jason");
+        Person person2 = new Person("Two", "One");
 
-        Vehicle testVehicle1 = new Vehicle("876", "Lada", "XRay");
-        Vehicle testVehicle2 = new Vehicle("264", "BMW", "X6");
+        Vehicle vehicle1 = new Vehicle("876", "Lada", "XRay",VehiclesTypes.NONE);
+        Vehicle vehicle2 = new Vehicle("264", "BMW", "X6",VehiclesTypes.NONE);
 
-        Space spaceOne = new RentedSpace(testPerson1, testVehicle1);
-        Space spaceTwo = new RentedSpace(testPerson2, testVehicle2);
+        Space spaceOne = new RentedSpace(person1, vehicle1);
+        Space spaceTwo = new RentedSpace(person2, vehicle2);
         Space emptySpace = new RentedSpace();
 
-        Space[] spaces = new Space[3];
+        Space[] spaces = new Space[3]; //инициализация мест в массиве
         spaces[0] = spaceOne;
         spaces[1] = spaceTwo;
         spaces[2] = emptySpace;
+
+        OwnedSpace ownedSpace1 = new OwnedSpace(person1, vehicle1);
+        System.out.println(ownedSpace1.getPerson());
+        System.out.println(ownedSpace1.isEmpty());
+        System.out.println(ownedSpace1.getVehicle());
+
+        OwnersFloor floorOwner1 = new OwnersFloor();
+        floorOwner1.add(spaceOne);
+        System.out.println(floorOwner1.getCapacity());
 
         RentedSpacesFloor rentedSpacesFloor = new RentedSpacesFloor(spaces);
         System.out.println(Arrays.toString(rentedSpacesFloor.getSpaces()));
@@ -46,7 +75,7 @@ public class Test {
             System.out.println(space.toString());
         }
 
-     */
+    }
 
         /*public static void lab1tests(){
             Person person1 = new Person("Grey","Dorian");
@@ -107,5 +136,6 @@ public class Test {
 
 
     }
+
 
 

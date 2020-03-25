@@ -2,21 +2,22 @@ package rpis82.bakai.oop.model;
 
 import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
-import  rpis82.bakai.oop.model.VehiclesTypes;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RentedSpacesFloor implements Floor {
-    private Node head;
-    private int size;
+    private Node head; //ссылка на голову списка
+    private int size; //число элеметов в списке
 
-    public RentedSpacesFloor() {
+    public RentedSpacesFloor() { //без параметров – инициализирует head с пустыми ссылками (null) next, previous и value
+
         this.head = new Node(null, null, null);
-        this.head.following = this.head.previous = this.head;
+        this.head.next = this.head.previous = this.head;
     }
 
-    public RentedSpacesFloor(Space[] spaces) {
+    public RentedSpacesFloor(Space[] spaces) { //массив счетов по интерфейсной ссылке (Space[]). В конструкторе происходит создание
+      //  списка и заполнение его элементов ссылками из массива
         this();
         addAll(spaces);
     }
@@ -44,7 +45,7 @@ public class RentedSpacesFloor implements Floor {
 
     @Override
     public Space get(String registrationNumber) {
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return node.value;
             }
@@ -54,7 +55,7 @@ public class RentedSpacesFloor implements Floor {
 
     @Override
     public boolean hasSpace(String registrationNumber) {
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return true;
             }
@@ -81,8 +82,8 @@ public class RentedSpacesFloor implements Floor {
         Node delete = getNodeByIndex(index);
         if (delete != null) {
             element = delete.value;
-            delete.following.previous = delete.previous;
-            delete.previous.following = delete.following;
+            delete.next.previous = delete.previous;
+            delete.previous.next = delete.next;
             this.size--;
         }
         return element;
@@ -91,7 +92,7 @@ public class RentedSpacesFloor implements Floor {
     @Override
     public Space remove(String registrationNumber) {
         int index = 0;
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
                 return remove(index);
             }
@@ -109,7 +110,7 @@ public class RentedSpacesFloor implements Floor {
     public Space[] getSpaces() {
         Space[] array = new Space[this.size];
         int index = 0;
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             array[index++] = node.value;
         }
         return array;
@@ -135,7 +136,7 @@ public class RentedSpacesFloor implements Floor {
     public Space[] getSpaces(VehiclesTypes vehicleTypes) {
         Space[] array = new Space[this.size];
         int k = 0;
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
                 array[k++] = node.value;
             }
@@ -147,7 +148,7 @@ public class RentedSpacesFloor implements Floor {
     public Space[] getEmptySpaces() {
         Space[] array = new Space[this.size];
         int k = 0;
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
                 array[k++] = node.value;
             }
@@ -162,8 +163,8 @@ public class RentedSpacesFloor implements Floor {
 
     public void addFirst(Space value) {
         if (value != null) {
-            Node first = new Node(this.head.following, this.head, value);
-            this.head.following = this.head.following.previous = first;
+            Node first = new Node(this.head.next, this.head, value);
+            this.head.next = this.head.next.previous = first;
             this.size++;
         }
     }
@@ -171,7 +172,7 @@ public class RentedSpacesFloor implements Floor {
     public void addLast(Space value) {
         if (value != null) {
             Node last = new Node(this.head, this.head.previous, value);
-            this.head.previous = this.head.previous.following = last;
+            this.head.previous = this.head.previous.next = last;
             this.size++;
         }
     }
@@ -195,7 +196,7 @@ public class RentedSpacesFloor implements Floor {
                 Node node = getNodeByIndex(index);
                 if (node != null) {
                     Node newNode = new Node(node, node.previous, value);
-                    node.previous = node.previous.following = newNode;
+                    node.previous = node.previous.next = newNode;
                     this.size++;
                 }
             }
@@ -204,7 +205,7 @@ public class RentedSpacesFloor implements Floor {
 
     private Node getNodeByIndex(int index) {
         int count = 0;
-        for (Node node = this.head.following; node != this.head; node = node.following) {
+        for (Node node = this.head.next; node != this.head; node = node.next) {
             if (count == index) {
                 return node;
             }
@@ -224,7 +225,7 @@ public class RentedSpacesFloor implements Floor {
 
     private class IteratorLinked implements Iterator<Space> {
 
-        private Node cursor = head.following;
+        private Node cursor = head.next;
 
         @Override
         public boolean hasNext() {
@@ -237,7 +238,7 @@ public class RentedSpacesFloor implements Floor {
                 throw new NoSuchElementException("Error");
             } else {
                 Space value = cursor.value;
-                cursor = cursor.following;
+                cursor = cursor.next;
                 return value;
             }
         }

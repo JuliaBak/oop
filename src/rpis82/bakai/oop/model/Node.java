@@ -1,13 +1,13 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 public class Node {
-        Node following;
+        Node next;
         Node previous;
         Space value;
 
-        public Node(Node following, Node previous, Space space) {
-            this.following = following;
+        public Node(Node next, Node previous, Space value) {
+            this.next = next;
             this.previous = previous;
-            this.value = space;
+            this.value = value;
         }
 }

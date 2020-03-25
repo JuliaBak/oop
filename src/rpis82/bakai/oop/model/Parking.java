@@ -140,7 +140,7 @@ public class Parking{
         return null;
     }
 
-    public int getEmptySpacesQuantity(){
+    public int getEmptyVehiclesNumber(){
         int amount = 0;
         for (Floor floor:this.floors){
             amount += floor.getEmptySpaces().length;
@@ -148,7 +148,7 @@ public class Parking{
         return amount;
     }
 
-    public int getVehicleQuantity(VehiclesTypes type){
+    public int getVehicleNumber(VehiclesTypes type){
         int amount = 0;
         for (Floor floor:this.floors){
             amount += floor.getSpaces(type).length;
