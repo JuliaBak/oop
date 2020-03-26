@@ -63,7 +63,7 @@ public class RentedSpacesFloor implements Floor {
         return false;
     }
 
-    @Override
+    @Override //− изменяющий узел с заданным номером
     public Space set(int index, Space value) {
         Space space = null;
         if (value != null) {
@@ -77,7 +77,8 @@ public class RentedSpacesFloor implements Floor {
     }
 
     @Override
-    public Space remove(int index) {
+    public Space remove(int index) { //удаляющий узел по его номеру в списке
+
         Space element = null;
         Node delete = getNodeByIndex(index);
         if (delete != null) {
@@ -132,7 +133,7 @@ public class RentedSpacesFloor implements Floor {
         return getSpaces().length;
     }
 
-    @Override
+    @Override //возвращающий массив парковочных мест с ТС заданного типа
     public Space[] getSpaces(VehiclesTypes vehicleTypes) {
         Space[] array = new Space[this.size];
         int k = 0;
@@ -144,16 +145,16 @@ public class RentedSpacesFloor implements Floor {
         return array;
     }
 
-    @Override
+    @Override // возвращающий массив не занятых парковочных мест
     public Space[] getEmptySpaces() {
-        Space[] array = new Space[this.size];
+        Space[] arrayOfSpaces = new Space[this.size];
         int k = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
-                array[k++] = node.value;
+                arrayOfSpaces[k++] = node.value;
             }
         }
-        return array;
+        return arrayOfSpaces;
     }
 
     @Override
@@ -161,7 +162,7 @@ public class RentedSpacesFloor implements Floor {
 
     }
 
-    public void addFirst(Space value) {
+    public void addFirst(Space value) {////метод добавялющий узел в начало списка
         if (value != null) {
             Node first = new Node(this.head.next, this.head, value);
             this.head.next = this.head.next.previous = first;
@@ -169,7 +170,7 @@ public class RentedSpacesFloor implements Floor {
         }
     }
 
-    public void addLast(Space value) {
+    public void addLast(Space value) {//метод добавялющий узел в конце списка
         if (value != null) {
             Node last = new Node(this.head, this.head.previous, value);
             this.head.previous = this.head.previous.next = last;
@@ -186,7 +187,7 @@ public class RentedSpacesFloor implements Floor {
         return true;
     }
 
-    public void addByIndex(int index, Space value) {
+    public void addByIndex(int index, Space value) { //добавляющий узел в заданную позицию в списке
         if (value != null) {
             if (index == 0) {
                 addFirst(value);
@@ -203,7 +204,8 @@ public class RentedSpacesFloor implements Floor {
         }
     }
 
-    private Node getNodeByIndex(int index) {
+    private Node getNodeByIndex(int index) { //возвращающий ссылку на узел по его номеру в списке
+
         int count = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (count == index) {
@@ -215,33 +217,6 @@ public class RentedSpacesFloor implements Floor {
     }
 
 
-    private boolean checkIndex(int index) {
-        return index >= 0 && index < this.size;
-    }
-
-    public Iterator<Space> iterator() {
-        return new IteratorLinked();
-    }
-
-    private class IteratorLinked implements Iterator<Space> {
-
-        private Node cursor = head.next;
-
-        @Override
-        public boolean hasNext() {
-            return cursor != head;
-        }
-
-        @Override
-        public Space next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException("Error");
-            } else {
-                Space value = cursor.value;
-                cursor = cursor.next;
-                return value;
-            }
-        }
-    }
 }
+
 

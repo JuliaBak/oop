@@ -71,7 +71,22 @@ public class Parking{
     public Floor[] getFloors() {
         return floors;
     }
-
+//возвращающий общее число не занятых парковочных мест
+    public int getEmptySpacesAmount(){
+        int amount = 0;
+        for (Floor floor:this.floors){
+            amount += floor.getEmptySpaces().length;
+        }
+        return amount;
+    }
+//возвращающий общее число ТС заданного типа
+    public int getVehiclesAmountByType(VehiclesTypes type){
+        int amount = 0;
+        for (Floor floor:this.floors){
+            amount += floor.getSpaces(type).length;
+        }
+        return amount;
+    }
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
         int k = 0;
@@ -86,7 +101,7 @@ public class Parking{
         return vehicles;
     }
 
-    public Floor[] getSortedBySizeFloors() {
+    public Floor[] getSortedByFloorsSize() {
         Floor[] array = this.floors;
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < i; j++) {

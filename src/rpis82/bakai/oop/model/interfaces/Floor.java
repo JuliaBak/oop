@@ -4,33 +4,35 @@ import rpis82.bakai.oop.model.VehiclesTypes;
 
 public interface Floor {
 
-    boolean add(Space space);
+    boolean add(Space space); //метод добавляющий парковочное место
 
-    boolean add(int index,Space space);
+    boolean add(int index,Space space); //добавляющий парковочное место в заданное место
 
-    Space get(int index);
+    Space get(int index);//возвращающий ссылку на экземпляр класса Space по его номеру в массиве
 
     Space get(String registrationNumber);
+//возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
+//средство с определенным гос. номером
+    boolean hasSpace(String registrationNumber);//определяющий, есть ли на этаже парковочное место, связанное с транспортным средством
+   // с определенным гос. номером
 
-    boolean hasSpace(String registrationNumber);
+    Space set(int index,Space space); //изменяющий ссылку на экземпляр класса Space по его номеру в массиве
 
-    Space set(int index,Space space);
+    Space remove(int index);//удаляющий парковочное место из массива по его номеру
 
-    Space remove(int index);
+    Space remove(String registrationNumber);//удаляющий парковочное место из массива по гос. номеру автомобиля
 
-    Space remove(String registrationNumber);
+    int getCapacity();//возвращающий общее число парковочных мест на этаже
 
-    int getCapacity();
+    Space[] getSpaces();//возвращающий массив парковочных мест на этаже
 
-    Space[] getSpaces();
+    Vehicle[] getVehicles();// возвращающий массив транспортных средств на этаже
 
-    Vehicle[] getVehicles();
-
-    int getVehicleAmount();
+    int getVehicleAmount(); //возвращающий кол-во транспортных средств на этаже
 
     void moveArray();
 
-    Space[] getSpaces(VehiclesTypes vehicleTypes);
+    Space[] getSpaces(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
 
-    Space[] getEmptySpaces();
+    Space[] getEmptySpaces(); //возвращающий массив не занятых парковочных мест
 }

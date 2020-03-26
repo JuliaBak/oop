@@ -5,17 +5,19 @@ public abstract class AbstractSpace implements Space { //реализует ин
     private Person person;
     private Vehicle vehicle;
 
-    //Защищенный (protected) конструктор
 
+
+    protected AbstractSpace(){
+        this(Person.UNKNOWN_PERSON,Vehicle.EMPTY_VEHICLE);
+    }
+    //Защищенный (protected) конструктор
     protected AbstractSpace(Person person,Vehicle vehicle){
         this.person = person;
         this.vehicle = vehicle;
     }
 
-    protected AbstractSpace(){
-        this(Person.UNKNOWN_PERSON,Vehicle.EMPTY_VEHICLE);
-    }
-
+//принимающий один параметр – ссылку на Person. ТС инициализируется как
+//Vehicle.EMPTY_VEHICLE
     protected AbstractSpace(Person person){
         this(person,Vehicle.EMPTY_VEHICLE);
     }
