@@ -12,7 +12,7 @@ public final class Vehicle { //made Vehicle final? added type
         this.manufacturer = EMPTY_VEHICLE.manufacturer;
         this.model = EMPTY_VEHICLE.model;
         this.registrationNumber = EMPTY_VEHICLE.registrationNumber;
-        this.type = EMPTY_VEHICLE.type;
+        this.type = EMPTY_VEHICLE.type;//added in Lab3
     }
 
     public Vehicle(String registrationNumber, String manufacturer, String model, VehiclesTypes vehicleType) {
