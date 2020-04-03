@@ -3,8 +3,6 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class RentedSpacesFloor implements Floor {
     private Node head; //ссылка на голову списка
