@@ -1,27 +1,28 @@
 package rpis82.bakai.oop.model;
 
 public final class Person {
-   public final String Surname, Name;
-    public static Person UNKNOWN_PERSON = new Person(" ", " ");
-    public Person(String Surname, String Name)
+   public final String surname, name;
+    public static Person EMPTY_PERSON = new Person(" ", " ");
+
+    public Person(String surname, String name)
     {
-        this.Name = Name;
-        this.Surname = Surname;
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getSurname() {
-        return Surname;
+        return surname;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "lastName='" + Surname + '\'' +
-                ", firstName='" + Name + '\'' +
+                "Surname='" + surname + '\'' +
+                ", Name='" + name + '\'' +
                 '}';
     }
 

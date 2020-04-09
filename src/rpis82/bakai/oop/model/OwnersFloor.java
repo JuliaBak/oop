@@ -3,49 +3,55 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class OwnersFloor implements Floor {
 
     private Space[] spaces;
-    private int capacity;
+    private int capacity = 0;
+    private final int spacesNumber = 16;
 
-    public OwnersFloor() {
-        this.spaces = new Space[16];
-        this.capacity = 0;
-    }
+    public OwnersFloor() { this.spaces = new Space[spacesNumber]; }
 
-    public OwnersFloor(int arraySize) {
-        this.spaces = new Space[arraySize];
-        this.capacity = 0;
+    public OwnersFloor(int capacity) {
+        this.spaces = new Space[capacity];
     }
 
     public OwnersFloor(Space[] spaces) {
-        this.spaces = new Space[spaces.length];
-        int amount = 0;
-        for (Space space : spaces) {
-            if (space != null) {
-                this.spaces[amount] = space;
-                amount++;
-            }
-        }
-        this.capacity = amount;
+        copyFrom(spaces);
+        this.capacity = spaces.length;
     }
 
-    public boolean add(Space space) {
-        if (this.capacity < this.spaces.length && this.spaces[this.capacity] == null) {
-            this.spaces[this.capacity] = space;
-        } else {
-            int index = this.capacity;
-            increaseArraySize();
-            this.spaces[index] = space;
+    public  Space[]  copyFrom(Space[] spaces)
+    {
+        Space[] newSpaces = new Space[spaces.length];
+       System.arraycopy(spaces, 0 , newSpaces, 0, spaces.length);
+       return newSpaces;
+    }
+
+    public boolean addSpace(Space space) {
+        if (!isEnoughCapacity()) {
+            grow();
         }
-        this.capacity++;
+        this.spaces[this.capacity++] = space;
         return true;
     }
 
-    public boolean add(int index, Space space) {
+    private boolean isEnoughCapacity() //ensureCapacity()
+    {
+        return this.capacity < this.spaces.length && this.spaces[this.capacity] == null;
+    }
+
+    private void grow() {
+        Space[] newSpaces = new Space[this.spaces.length * 2];
+        System.arraycopy(spaces, 0, newSpaces, 0, spaces.length);
+        this.spaces = newSpaces;
+        this.capacity = newSpaces.length;
+    }
+
+    public boolean addSpaceByIndex(int index, Space space) {
         if (this.spaces.length > index && index > 0) {
-            shiftArray(index);
+            shiftArrayByIndex(index);
             this.spaces[index] = space;
             this.capacity++;
             return true;
@@ -53,165 +59,179 @@ public class OwnersFloor implements Floor {
         return false;
     }
 
-    @Override
-    public Space get(int index) {
-        return this.spaces[index];
-    }
-
-    @Override
-    public Space get(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if (space.getVehicle().getRegistrationNumber().equals(registrationNumber)) {
-                return space;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public boolean hasSpace(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if ((space != null) && (space.getVehicle().getRegistrationNumber().equals(registrationNumber))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Space set(int index, Space space) {
-        Space lastSpace = this.spaces[index];
-        this.spaces[index] = space;
-        return lastSpace;
-    }
-
-    @Override
-    public Space remove(int id) {
-        Space lastSpace = this.spaces[id];
-        this.spaces[id] = null;
-        moveArray();
-        return lastSpace;
-    }
-
-    @Override
-    public Space remove(String governmentNumber) {
-        for (int i = 0; i<this.capacity; i++) {
-            if (this.spaces[i].getVehicle().getRegistrationNumber().equals(governmentNumber)) {
-                Space lastSpace = this.spaces[i];
-                this.spaces[i] = null;
-                moveArray();
-                return lastSpace;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public int getCapacity() {
-        return this.capacity;
-    }
-
-    @Override
-    public Space[] getSpaces() {
-        Space[] result = new RentedSpace[this.capacity];
-        int k = 0;
-        for (Space space:this.spaces){
-            if (space != null){
-                result[k] = space;
-                k++;
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public Vehicle[] getVehicles() {
-        Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-        int k = 0;
-        for (Space space : this.spaces) {
-            if ((space != null) && (!space.isEmpty())){
-                vehicles[k] = space.getVehicle();
-                k++;
-            }
-        }
-        return vehicles;
-    }
-
-    public int getVehicleAmount(){
-        int amount = 0;
-        for (Space space: this.spaces){
-            if ((space != null) && (!space.isEmpty())){
-                amount++;
-            }
-        }
-        return amount;
-    }
-
-    @Override
-    public Space[] getSpaces(VehiclesTypes vehicleTypes) {
-        Space[] array = new Space[this.capacity];
-        int k = 0;
-        for (Space space: this.spaces){
-            if (space.getVehicle().getType().equals(vehicleTypes)){
-                array[k++] = space;
-            }
-        }
-        return array;
-    }
-
-    @Override
-    public Space[] getEmptySpaces() {
-        Space[] array = new Space[this.capacity];
-        int k = 0;
-        for (Space space: this.spaces){
-            if (space.isEmpty()){
-                array[k++] = space;
-            }
-        }
-        return array;
-    }
-
-    public void moveArray() {
-        Space[] newArray = new Space[this.spaces.length];
-        int k = 0;
-        for (Space space : this.spaces) {
-            if (space != null) {
-                newArray[k] = space;
-                k++;
-            }
-        }
-        this.spaces = newArray;
-        this.capacity = k;
-    }
-
-    private void increaseArraySize() {
-        Space[] newArray = new Space[this.spaces.length * 2];
-        int amount = 0;
-        for (Space space : spaces) {
-            if (space != null) {
-                newArray[amount] = space;
-                amount++;
-            }
-        }
-        this.spaces = newArray;
-        this.capacity = amount;
-    }
-
-    private void shiftArray(int start){
+    private void shiftArrayByIndex(int index){
         if (this.capacity + 1 >= this.spaces.length){
-            increaseArraySize();
+            grow();
         }
-        for (int i = this.capacity; i>start; i--){
+        for (int i = this.capacity; i > index; i--){
             Space space = this.spaces[i];
             this.spaces[i] = this.spaces[i-1];
             this.spaces[i-1] = space;
         }
     }
 
+    @Override //возвращающий ссылку на экземпляр класса Space по его номеру в массиве
+    public Space getSpaceByIndex(int index) {
+        return this.spaces[index];
+    }
+
+    @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
+    public Space getSpaceByRegNumber(String registrationNumber) {
+        for (Space space : this.spaces) {
+            if (equalsToRegNumber(space, registrationNumber)) {
+                return space;
+            }
+        }
+        return null;
+    }
+
+
+   public boolean equalsToRegNumber(Space space, String registrationNumber)
+   {
+       return space.getVehicle().getRegistrationNumber().equals(registrationNumber);
+   }
+
+    @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
+    public boolean hasSpaceByRegNumber(String registrationNumber) {
+        for (Space space : this.spaces) {
+            if ((space != null) && equalsToRegNumber(space, registrationNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //изменяющий ссылку на экземпляр класса Space по его номеру в массиве
+    /*
+    Принимает в качестве параметров номер и ссылку на экземпляр класса Space. Возвращает ссылку, которую заменили
+     */
+    public Space setSpaceByIndex(int index, Space space) {
+        Space setSpace = this.spaces[index];
+        this.spaces[index] = space;
+        return setSpace;
+    }
+
+    @Override
+    /*
+    удаляющий парковочное место из массива по его номеру
+     Возвращает удаленную из массива ссылку на экземпляр класса Space
+     */
+    public Space removeByIndex(int index) {
+        Space removedSpace = this.spaces[index];
+        this.spaces[index] = null;
+        shift();
+        return removedSpace;
+    }
+
+    @Override //удаляющий парковочное место из массива по гос. номеру автомобиля
+    public Space removeByRegNumber(String registrationNumber) {
+        Space removedSpace;
+        for (int index = 0; index < this.capacity; index++) {
+            if (equalsToRegNumber(spaces[index], registrationNumber)) {
+                removedSpace = this.spaces[index];
+                this.spaces[index] = null;
+                shift();
+                return removedSpace;
+            }
+        }
+        return null;
+    }
+
+
+        public void shift() {
+            for (int i = 0; i < spaces.length; i++)  {
+                if (spaces[i] != null) {
+                    this.spaces[i++] = spaces[i];
+                }
+            }
+            this.capacity = this.spaces.length;
+        }
+
+    @Override
+    public int getCapacity() {
+        return this.capacity;
+    } //возвращающий общее число парковочных мест на этаже
+
+    @Override //возвращающий массив парковочных мест на этаже
+    public Space[] getSpaces() {
+        Space[] resultSpaces = new Space[this.capacity];
+
+        System.arraycopy(spaces, 0, resultSpaces, 0, spaces.length);
+        return resultSpaces;
+    }
+
+    /*
+    Space[] resultSpaces = new Space[this.capacity];
+     for (int index = 0; index < spaces.length; index++) {
+            if (isEmptySpaces(spaces[index])) {
+                resultSpaces[index] = spaces[index];
+            }
+        }
+        return resultSpaces;
+     */
+    private   boolean isEmptySpaces(Space space)
+    {
+        return  (space != null) ;
+    }
+
+    @Override //возвращающий массив транспортных средств на этаже
+    public Vehicle[] getVehicles() {
+        Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
+        int number = 0;
+        for (Space space : this.spaces) {
+            if ((space != null) && (!space.isEmpty())){
+                vehicles[number] = space.getVehicle();
+                number++;
+            }
+        }
+        return vehicles;
+    }
+
+    public int getVehiclesNumber(){
+        int number = 0;
+        for (Space space: this.spaces){
+            if (isEmptySpaces(space)){
+                number++;
+            }
+        }
+        return number;
+    }
+
+      //Lab 3
+    @Override //возвращающий массив парковочных мест с ТС заданного типа
+    public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) {
+        Space[] spaces = new Space[this.capacity];
+        int number = 0;
+        for (Space space: this.spaces){
+            if (equalsToType(space, vehicleType)){
+                spaces[number++] = space;
+            }
+        }
+        return spaces;
+    }
+
+    private boolean equalsToType(Space space, VehiclesTypes vehicleType)
+    {
+        return space.getVehicle().getType().equals(vehicleType);
+    }
+
+    @Override //возвращающий массив не занятых парковочных мест
+    public Space[] getEmptySpaces() {
+        Space[] spaces = new Space[this.capacity];
+        int number = 0;
+        for (Space space: this.spaces){
+            if (space.isEmpty()){
+                spaces[number++] = space;
+            }
+        }
+        return spaces;
+    }
+
     @Override
     public String toString() {
         return "OwnersFloor{" +
                 "spaces=" + Arrays.toString(spaces) +
-                ", size=" + capacity +
+                ", capacity=" + capacity +
                 "}\n ";
     }
 }

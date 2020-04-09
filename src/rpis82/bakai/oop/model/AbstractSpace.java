@@ -1,14 +1,13 @@
 package rpis82.bakai.oop.model;
 import  rpis82.bakai.oop.model.interfaces.Space;
-import  rpis82.bakai.oop.model.VehiclesTypes;
+
 public abstract class AbstractSpace implements Space { //реализует интерфейс Space
     private Person person;
     private Vehicle vehicle;
 
 
-
     protected AbstractSpace(){
-        this(Person.UNKNOWN_PERSON,Vehicle.EMPTY_VEHICLE);
+        this(Person.EMPTY_PERSON,Vehicle.EMPTY_VEHICLE);
     }
     //Защищенный (protected) конструктор
     protected AbstractSpace(Person person,Vehicle vehicle){
@@ -44,6 +43,7 @@ public abstract class AbstractSpace implements Space { //реализует ин
     }
 
     @Override
+
     //проверять, является ли ссылка на объект типа Vehicle равной ссылке
     //Vehicle.EMPTY_VEHICLE или тип ТС равен VehiclesTypes.NONE.
     public boolean isEmpty() {

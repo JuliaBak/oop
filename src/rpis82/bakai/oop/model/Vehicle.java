@@ -2,7 +2,7 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
 public final class Vehicle { //made Vehicle final? added type
 
-    public static Vehicle EMPTY_VEHICLE = new Vehicle();
+    public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
 
     private final String registrationNumber, manufacturer, model;
     private final VehiclesTypes type;
@@ -19,7 +19,7 @@ public final class Vehicle { //made Vehicle final? added type
         this.registrationNumber = registrationNumber;
         this.manufacturer = manufacturer;
         this.model = model;
-        this.type = vehicleType;
+        this.type = vehicleType; //added in LAB3
     }
 
 

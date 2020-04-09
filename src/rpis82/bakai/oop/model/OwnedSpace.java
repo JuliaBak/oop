@@ -1,7 +1,7 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 
-public class OwnedSpace extends AbstractSpace {
+public class OwnedSpace extends AbstractSpace implements Space{
 //вызываются конструктора суперкласса
     public OwnedSpace(Person person, Vehicle vehicle) {
         super(person,vehicle);
@@ -51,7 +51,7 @@ public class OwnedSpace implements Space { // реализует интерфе�
 
     @Override//определяющий является ли это место пустым
     public boolean isEmpty() {
-        return this.vehicle == null || this.vehicle.getRegistrationNumber().equals("");
+        return this.vehicle == null || this.vehicle.getRegistrationNumber().isEmpty();
     }
 }
 
