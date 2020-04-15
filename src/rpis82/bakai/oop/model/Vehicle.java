@@ -1,6 +1,6 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
-public final class Vehicle { //made Vehicle final? added type
+public final class Vehicle {
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
 

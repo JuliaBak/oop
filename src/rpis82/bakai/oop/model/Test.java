@@ -77,11 +77,13 @@ public class Test {
 
         System.out.println(floorOwner1.getSpaceByIndex(0));
         System.out.println(Arrays.toString(floorOwner1.getSpaces()));
+        System.out.println(Arrays.toString(floorOwner1.getVehicles()));
 
-        System.out.println("STOP");
+
 
         RentedSpacesFloor rentedSpacesFloor = new RentedSpacesFloor(spaces);
         System.out.println(Arrays.toString(rentedSpacesFloor.getSpaces()));
+        System.out.println(Arrays.toString(rentedSpacesFloor.getVehicles()));
 
         Vehicle[] vehiclesArray = rentedSpacesFloor.getVehicles();
 

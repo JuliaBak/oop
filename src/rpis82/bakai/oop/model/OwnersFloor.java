@@ -154,21 +154,16 @@ public class OwnersFloor implements Floor {
 
     @Override //возвращающий массив парковочных мест на этаже
     public Space[] getSpaces() {
-        Space[] resultSpaces = new Space[this.capacity];
-
-        System.arraycopy(spaces, 0, resultSpaces, 0, spaces.length);
-        return resultSpaces;
+       return copyFrom(spaces);
     }
 
-    /*
-    Space[] resultSpaces = new Space[this.capacity];
-     for (int index = 0; index < spaces.length; index++) {
-            if (isEmptySpaces(spaces[index])) {
-                resultSpaces[index] = spaces[index];
-            }
-        }
+     /*   Space[] resultSpaces = new Space[spaces.length];
+        System.arraycopy(spaces, 0, resultSpaces, 0, spaces.length);
         return resultSpaces;
-     */
+        */
+
+
+
     private   boolean isEmptySpaces(Space space)
     {
         return  (space != null) ;
@@ -179,7 +174,7 @@ public class OwnersFloor implements Floor {
         Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
         int number = 0;
         for (Space space : this.spaces) {
-            if ((space != null) && (!space.isEmpty())){
+            if ((space != null) && (space.isEmpty())){
                 vehicles[number] = space.getVehicle();
                 number++;
             }
