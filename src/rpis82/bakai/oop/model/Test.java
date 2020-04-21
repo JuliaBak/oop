@@ -8,10 +8,16 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        lab2tests();
+      //  lab2tests();
        // lab3test();
+        lab4tests();
+
     }
 
+    public static void lab4tests()
+    {
+
+    }
     public static void lab3test() {
         Person person1 = new Person("Duck", "Ducky");
         Person person2 = new Person("Ven", "Tori");

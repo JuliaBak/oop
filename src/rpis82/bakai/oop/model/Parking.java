@@ -6,8 +6,6 @@ package rpis82.bakai.oop.model;
  import java.util.Arrays;
  import java.util.Objects;
 
- import static java.util.Arrays.sort;
-
 public class Parking{
 
     private Floor[] floors;
@@ -17,7 +15,6 @@ public class Parking{
     //соответствующим числом элементов
     public Parking(int floorsNumber) {
         this.floors = new Floor[floorsNumber];
-      //  this.capacity = floorsNumber;
     }
 
     //В этом конструкторе происходит копирование элементов в новый массив, и ссылка на него записывается в атрибут
@@ -26,20 +23,6 @@ public class Parking{
         System.arraycopy(floors, 0, this.floors, 0 , floors.length);
         this.capacity = this.floors.length;
     }
-
-    //или  Arrays.stream(floors).filter(Objects::nonNull).toArray();
-
-    /* или
-    this.floors = new Floor[floors.length];
-        int amount = 0;
-        for (Floor floor : floors) {
-            if (floor != null) {
-                this.floors[amount] = floor;
-                amount++;
-            }
-        }
-        this.capacity = amount;
-     */
 
     //добавляющий этаж в конец массива
     public boolean addLastFloor(Floor floor) {
@@ -54,7 +37,6 @@ public class Parking{
         return true;
     }
 
-    //тестануть
     private boolean isEnough()
     {
        return  (this.capacity < this.floors.length && this.floors[this.capacity] == null);
@@ -89,7 +71,7 @@ public class Parking{
         for (Floor floor : floors) {
             if (floor != null) {
                 doubleFloors[amount++] = floor;
-                //amount++;
+
             }
         }
         this.floors = doubleFloors;
@@ -120,17 +102,6 @@ public class Parking{
     private void moveArray() { //тестануть
         Arrays.stream(floors).filter(Objects::nonNull).toArray();
     }
-    /* или
-    Floor[] movedFloors = new Floor[this.floors.length];
-            int index = 0;
-            for (Floor floor : this.floors) {
-                if (floor != null) {
-                    movedFloors[index++] = floor;
-                }
-            }
-            this.floors = movedFloors;
-            this.capacity = index;
-     */
 
     //возвращающий число этажей
     public int getCapacity() {
@@ -167,7 +138,6 @@ public class Parking{
             for (Space space : floor.getSpaces()) {
                 if (isEmptySpace(space)) {
                     vehicles[index++] = space.getVehicle();
-                    //index++;
                 }
             }
         }

@@ -15,8 +15,7 @@ public abstract class AbstractSpace implements Space { //реализует ин
         this.vehicle = vehicle;
     }
 
-//принимающий один параметр – ссылку на Person. ТС инициализируется как
-//Vehicle.EMPTY_VEHICLE
+//принимающий один параметр – ссылку на Person. ТС инициализируется как Vehicle.EMPTY_VEHICLE
     protected AbstractSpace(Person person){
         this(person,Vehicle.EMPTY_VEHICLE);
     }

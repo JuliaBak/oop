@@ -200,10 +200,10 @@ public class RentedSpacesFloor implements Floor {
     @Override //возвращающий массив парковочных мест с ТС заданного типа
     public Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes) {
         Space[] array = new Space[this.capacity];
-        int k = 0;
+        int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                array[k++] = node.value;
+                array[number++] = node.value;
             }
         }
         return array;
@@ -212,10 +212,10 @@ public class RentedSpacesFloor implements Floor {
     @Override // возвращающий массив не занятых парковочных мест
     public Space[] getEmptySpaces() {
         Space[] arrayOfSpaces = new Space[this.capacity];
-        int k = 0;
+        int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
-                arrayOfSpaces[k++] = node.value;
+                arrayOfSpaces[number++] = node.value;
             }
         }
         return arrayOfSpaces;

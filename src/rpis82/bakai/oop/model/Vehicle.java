@@ -1,5 +1,8 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
+
+import java.util.Objects;
+
 public final class Vehicle {
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
@@ -39,15 +42,26 @@ public final class Vehicle {
         return type;
     }
 
+    //Lab4
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "registrationNumber='" + registrationNumber + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", model='" + model + '\'' +
-                ", vehicleType=" + type +
-                '}';
+        if (type == VehiclesTypes.NONE) {
+            return "NONE";
+        } else {
+            return String.format("<%s> <%s> (<%s>) regNumber: <%s>",
+                    this.manufacturer,
+                    this.model,
+                    this.type,
+                    this.registrationNumber);
+        }
     }
+
+    @Override ///*вычисляет хэш-код как произведение хэш-кодов всех атрибутов класса */
+    public int hashCode() {
+        return Objects.hash(manufacturer, model, registrationNumber, type);
+    }
+
+
 }
 
 
