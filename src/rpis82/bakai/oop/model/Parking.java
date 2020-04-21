@@ -27,19 +27,6 @@ public class Parking{
         this.capacity = this.floors.length;
     }
 
-    //или  Arrays.stream(floors).filter(Objects::nonNull).toArray();
-
-    /* или
-    this.floors = new Floor[floors.length];
-        int amount = 0;
-        for (Floor floor : floors) {
-            if (floor != null) {
-                this.floors[amount] = floor;
-                amount++;
-            }
-        }
-        this.capacity = amount;
-     */
 
     //добавляющий этаж в конец массива
     public boolean addLastFloor(Floor floor) {
@@ -54,7 +41,7 @@ public class Parking{
         return true;
     }
 
-    //тестануть
+
     private boolean isEnough()
     {
        return  (this.capacity < this.floors.length && this.floors[this.capacity] == null);
@@ -120,17 +107,6 @@ public class Parking{
     private void moveArray() { //тестануть
         Arrays.stream(floors).filter(Objects::nonNull).toArray();
     }
-    /* или
-    Floor[] movedFloors = new Floor[this.floors.length];
-            int index = 0;
-            for (Floor floor : this.floors) {
-                if (floor != null) {
-                    movedFloors[index++] = floor;
-                }
-            }
-            this.floors = movedFloors;
-            this.capacity = index;
-     */
 
     //возвращающий число этажей
     public int getCapacity() {

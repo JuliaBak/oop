@@ -37,7 +37,7 @@ public class OwnersFloor implements Floor {
         return true;
     }
 
-    private boolean isEnoughCapacity() //ensureCapacity()
+    private boolean isEnoughCapacity()
     {
         return this.capacity < this.spaces.length && this.spaces[this.capacity] == null;
     }
@@ -156,13 +156,6 @@ public class OwnersFloor implements Floor {
     public Space[] getSpaces() {
        return copyFrom(spaces);
     }
-
-     /*   Space[] resultSpaces = new Space[spaces.length];
-        System.arraycopy(spaces, 0, resultSpaces, 0, spaces.length);
-        return resultSpaces;
-        */
-
-
 
     private   boolean isEmptySpaces(Space space)
     {
