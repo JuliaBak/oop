@@ -1,5 +1,10 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
+
+//import java.util.Objects;
+import java.lang.Cloneable;
+import java.lang.Object;
+
 public final class Vehicle {
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
@@ -39,15 +44,47 @@ public final class Vehicle {
         return type;
     }
 
-    @Override
+    //Lab4
+    @Override //переопределение класса toString, по формату, lab4
     public String toString() {
-        return "Vehicle{" +
-                "registrationNumber='" + registrationNumber + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", model='" + model + '\'' +
-                ", vehicleType=" + type +
-                '}';
+        if (type == VehiclesTypes.NONE)
+        {return "NONE";}
+        else
+        {
+            return String.format("<%s> <%s> (<%s>) regNumber: <%s>", this.manufacturer,
+                    this.model,
+                    this.type,
+                    this.registrationNumber);
+        }
     }
+
+    @Override
+    public int hashCode() /*вычисляет хэш-код как произведение хэш-кодов всех атрибутов
+    класса */
+    {
+        return model.hashCode()*manufacturer.hashCode()*registrationNumber.hashCode()*type.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) /*Проверяет соответствие типов объектов (являются экземплярами одного класса), эквивалентность (equals) значений всех атрибутов*/ {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vehicle vehicleObj = (Vehicle) obj;
+        return //проверяем эквивалентность всех атрибутов
+                this.type.equals(vehicleObj.type) &&
+                        this.registrationNumber.equals(vehicleObj.registrationNumber) &&
+                        this.manufacturer.equals(vehicleObj.manufacturer) &&
+                        this.model.equals(vehicleObj.model);
+    }
+
+       @Override
+        public Object clone() throws CloneNotSupportedException
+       //Возвращает «клон» объекта
+        {
+            return super.clone();
+        }
+
+
 }
 
 

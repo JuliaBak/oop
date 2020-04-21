@@ -8,8 +8,14 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        lab2tests();
+        lab4tests();
+       // lab2tests();
        // lab3test();
+    }
+
+    public static void lab4tests()
+    {
+
     }
 
     public static void lab3test() {
