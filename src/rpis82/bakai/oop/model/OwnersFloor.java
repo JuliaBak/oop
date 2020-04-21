@@ -250,4 +250,36 @@ public class OwnersFloor implements Floor {
     public OwnersFloor clone() throws CloneNotSupportedException{
         return (OwnersFloor) super.clone();
     }
+
+    @Override
+    public boolean isSpaceRemoved(Space space) {
+        for (int i = 0; i < this.spaces.length; i++){
+            if (this.spaces[i].equals(space)){
+                removeByIndex(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int indexOfSpace(Space space) {
+        for (int index = 0; index< this.spaces.length; index++){
+            if (this.spaces[index].equals(space)){
+                return index;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public int spacesNumberByPerson(Person person) {
+        int number = 0;
+        for (int index = 0; index< this.spaces.length; index++) {
+            if (spaces[index].getPerson().equals(person)) {
+                number++;
+            }
+        }
+        return number;
+    }
 }

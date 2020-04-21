@@ -186,12 +186,12 @@ public class RentedSpacesFloor implements Floor {
     @Override
     public Vehicle[] getVehicles() {
         Space[] spaces = getSpaces();
-        Vehicle[] array = new Vehicle[spaces.length];
+        Vehicle[] resultVehicles = new Vehicle[spaces.length];
         int number = 0;
         for (Space space : spaces) {
-            array[number++] = space.getVehicle();
+            resultVehicles[number++] = space.getVehicle();
         }
-        return array;
+        return resultVehicles;
     }
 
     @Override
@@ -202,26 +202,26 @@ public class RentedSpacesFloor implements Floor {
     //Lab 3
     @Override //возвращающий массив парковочных мест с ТС заданного типа
     public Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes) {
-        Space[] array = new Space[this.capacity];
+        Space[] resultSpaces = new Space[this.capacity];
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                array[number++] = node.value;
+                resultSpaces[number++] = node.value;
             }
         }
-        return array;
+        return resultSpaces;
     }
 
     @Override // возвращающий массив не занятых парковочных мест
     public Space[] getEmptySpaces() {
-        Space[] arrayOfSpaces = new Space[this.capacity];
+        Space[] emptySpaces = new Space[this.capacity];
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
-                arrayOfSpaces[number++] = node.value;
+                emptySpaces[number++] = node.value;
             }
         }
-        return arrayOfSpaces;
+        return emptySpaces;
     }
 
     @Override
@@ -265,6 +265,42 @@ public class RentedSpacesFloor implements Floor {
         return (RentedSpacesFloor) super.clone();
     }
 
+
+    @Override
+    public boolean isSpaceRemoved(Space space) {
+        int index = 0;
+        for (Node node = this.head.next; node != this.head; node = node.next){
+            if (node.value.equals(space)){
+                removeByIndex(index);
+                return true;
+            }
+            index++;
+        }
+        return false;
+    }
+
+    @Override
+    public int indexOfSpace(Space space) {
+        int index = 0;
+        for (Node node = this.head.next; node != this.head; node = node.next){
+            if (node.value.equals(space)){
+                return index;
+            }
+            index++;
+        }
+        return 0;
+    }
+
+    @Override
+    public int spacesNumberByPerson(Person person) {
+        int number = 0;
+        for (Node node = this.head.next; node != this.head; node = node.next){
+            if (node.value.getPerson().equals(person)){
+                number++;
+            }
+        }
+        return number;
+    }
 }
 
 

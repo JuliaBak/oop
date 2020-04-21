@@ -1,4 +1,5 @@
 package rpis82.bakai.oop.model.interfaces;
+import rpis82.bakai.oop.model.Person;
 import  rpis82.bakai.oop.model.Vehicle;
 import rpis82.bakai.oop.model.VehiclesTypes;
 
@@ -37,6 +38,20 @@ public interface Floor {
 
     Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
 
+    //Lab 4
+    String toString();
 
+    int hashCode();
+
+    boolean equals(Object o);
+
+    //удаляющий парковочное место из списка
+    boolean isSpaceRemoved(Space space);
+
+    //возвращающий индекс первого вхождения объекта Space
+    int indexOfSpace(Space space);
+
+   // возвращающий число парковочных мест, связанных с заданным человеком
+   int spacesNumberByPerson(Person person);
 }
 

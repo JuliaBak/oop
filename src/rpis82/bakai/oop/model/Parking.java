@@ -239,12 +239,14 @@ public class Parking{
         return amount;
     }
 
-
     @Override
     public String toString() {
-        return "Parking{" +
-                "floors=" + Arrays.toString(floors) +
-                ", capacity=" + capacity +
-                '}';
+        StringBuilder builtString = new StringBuilder("Floors (");
+        builtString.append(this.capacity).append(" total):\n");
+        for (int i = 0; i < this.floors.length; i++ )
+        {
+            builtString.append(floors[i].toString()).append("\n");
+        }
+        return builtString.toString();
     }
 }
