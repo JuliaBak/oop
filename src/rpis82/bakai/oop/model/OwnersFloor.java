@@ -3,6 +3,7 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
 import java.util.Arrays;
+import java.lang.Object;
 import java.util.Objects;
 
 public class OwnersFloor implements Floor {
@@ -215,11 +216,38 @@ public class OwnersFloor implements Floor {
         return spaces;
     }
 
+    //Lab 4
     @Override
     public String toString() {
-        return "OwnersFloor{" +
-                "spaces=" + Arrays.toString(spaces) +
-                ", capacity=" + capacity +
-                "}\n ";
+        StringBuilder builtString = new StringBuilder("Spaces:\n");
+       for(int i = 0; i < this.capacity; i++)
+       {
+           builtString.append(this.spaces[i].toString()).append("\n");
+       }
+        return builtString.toString();
+    }
+
+    @Override
+    public int hashCode() { //исправить с Object
+
+        int resultedHash = 0;
+        for (int i = 0; i < this.capacity; i++)
+        {
+            resultedHash ^= spaces[i].hashCode();
+        }
+        return 71* resultedHash * Objects.hashCode(capacity);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        OwnersFloor ownersFloor = (OwnersFloor) obj;
+        return capacity == ownersFloor.capacity &&
+                Arrays.equals(spaces, ownersFloor.spaces);
+    }
+
+    public OwnersFloor clone() throws CloneNotSupportedException{
+        return (OwnersFloor) super.clone();
     }
 }

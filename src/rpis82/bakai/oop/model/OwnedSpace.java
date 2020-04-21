@@ -14,4 +14,18 @@ public class OwnedSpace extends AbstractSpace implements Space{
     public OwnedSpace(){
         super();
     }
+
+    @Override
+    public String toString() {
+        return String.format("Owner: <%s> TC: <%s>",getPerson().toString(),getVehicle().toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return 71*super.hashCode();
+    }
+
+    public OwnedSpace clone() throws CloneNotSupportedException{
+        return (OwnedSpace) super.clone();
+    }
 }

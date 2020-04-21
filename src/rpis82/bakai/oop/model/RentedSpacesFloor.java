@@ -3,6 +3,9 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 
 public class RentedSpacesFloor implements Floor {
     private Node head; //ссылка на голову списка
@@ -224,7 +227,43 @@ public class RentedSpacesFloor implements Floor {
     @Override
     public void shift() { }
 
+    @Override
+    public String toString() {
+        StringBuilder builtString = new StringBuilder("Rented spaces:\n");
+        for (int index = 0; index < this.capacity; index++)
+        {
+            Node node = getNodeByIndex(index);
+            if (node != null){
+                builtString.append(node.value.toString()).append("\n");
+            }
+        }
+        return builtString.toString();
+    }
 
+    @Override
+    public int hashCode() {
+        int resultedHash = 0;
+        for (int i = 0; i < this.capacity; i++)
+        {
+            Node node = getNodeByIndex(i);
+            if (node != null){
+                resultedHash ^= node.value.hashCode();
+            }
+        }
+        return 53*this.capacity*resultedHash;
+    }
+
+    @Override //уточнить что для всех объектов
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        RentedSpacesFloor rentedFloor = (RentedSpacesFloor) obj;
+        return capacity == rentedFloor.capacity && this.head.equals(rentedFloor.head) ;
+    }
+
+    public RentedSpacesFloor clone() throws CloneNotSupportedException{
+        return (RentedSpacesFloor) super.clone();
+    }
 
 }
 
