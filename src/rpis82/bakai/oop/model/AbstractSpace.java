@@ -50,4 +50,33 @@ public abstract class AbstractSpace implements Space { //реализует ин
         return (this.vehicle == Vehicle.EMPTY_VEHICLE) || (this.vehicle.getType() == VehiclesTypes.NONE);
     }
 
+    //Lab4
+    @Override
+    public String toString()
+    {
+            return String.format("<%s> TC: <%s>", this.person.toString(), this.vehicle.toString());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return person.hashCode()*vehicle.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        AbstractSpace abstractObj = (AbstractSpace) obj;
+        return
+                this.person.equals(abstractObj.person) &&
+                        this.vehicle.equals(abstractObj.vehicle);
+    }
+
+    @Override
+    public AbstractSpace clone() throws CloneNotSupportedException
+    {
+        return (AbstractSpace) super.clone();
+    }
+
 }

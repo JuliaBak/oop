@@ -11,4 +11,11 @@ public interface Space {
     void setVehicle(Vehicle vehicle);//устанавливающий новую ссылку на ТС
 
     boolean isEmpty();//определяющий является ли это место пустым
+
+    String toString();
+
+    int hashCode();
+
+    boolean equals(Object obj);
+
 }
