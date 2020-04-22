@@ -254,7 +254,8 @@ public class Parking{
         List<Floor> listFloor = new ArrayList<>();
        for (int index = 0; index < floors.length; index++)
        {
-            for (int i = 0; i < floors[index].getCapacity(); i++){
+            for (int i = 0; i < floors[index].getCapacity(); i++)
+            {
                 if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
                     listFloor.add(floors[index]);
                     break;
