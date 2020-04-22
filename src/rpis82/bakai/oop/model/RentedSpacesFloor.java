@@ -22,8 +22,8 @@ public class RentedSpacesFloor implements Floor {
 
     private boolean addAllSpaces(Space[] spaces) {
         if (spaces != null) {
-            for (Space space : spaces) {
-                addSpace(space);
+            for (int i = 0; i < spaces.length; i++ ) {
+                addSpace(spaces[i]);
             }
         }
         return true;
@@ -141,8 +141,6 @@ public class RentedSpacesFloor implements Floor {
     }
 
     @Override
-    //определяющий, есть ли на этаже парковочное место, связанное с транспортным средством
-    //с определенным гос. номером
     public boolean hasSpaceByRegNumber(String registrationNumber) {
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (equalsTo(node, registrationNumber)) {
@@ -183,12 +181,12 @@ public class RentedSpacesFloor implements Floor {
     @Override
     public Vehicle[] getVehicles() {
         Space[] spaces = getSpaces();
-        Vehicle[] array = new Vehicle[spaces.length];
+        Vehicle[] vehicles = new Vehicle[spaces.length];
         int number = 0;
-        for (Space space : spaces) {
-            array[number++] = space.getVehicle();
+        for (int index = 0; index < spaces.length; index++) {
+            vehicles[number++] = spaces[index].getVehicle();
         }
-        return array;
+        return vehicles;
     }
 
     @Override
@@ -199,26 +197,26 @@ public class RentedSpacesFloor implements Floor {
     //Lab 3
     @Override //возвращающий массив парковочных мест с ТС заданного типа
     public Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes) {
-        Space[] array = new Space[this.capacity];
+        Space[] newSpaces = new Space[this.capacity];
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                array[number++] = node.value;
+                newSpaces[number++] = node.value;
             }
         }
-        return array;
+        return newSpaces;
     }
 
     @Override // возвращающий массив не занятых парковочных мест
     public Space[] getEmptySpaces() {
-        Space[] arrayOfSpaces = new Space[this.capacity];
+        Space[] spaces = new Space[this.capacity];
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
-                arrayOfSpaces[number++] = node.value;
+                spaces[number++] = node.value;
             }
         }
-        return arrayOfSpaces;
+        return spaces;
     }
 
     @Override

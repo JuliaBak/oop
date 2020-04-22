@@ -42,25 +42,16 @@ public final class Vehicle {
         return type;
     }
 
-    //Lab4
+
     @Override
     public String toString() {
-        if (type == VehiclesTypes.NONE) {
-            return "NONE";
-        } else {
-            return String.format("<%s> <%s> (<%s>) regNumber: <%s>",
-                    this.manufacturer,
-                    this.model,
-                    this.type,
-                    this.registrationNumber);
-        }
+        return "Vehicle{" +
+                "registrationNumber='" + registrationNumber + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                ", vehicleType=" + type +
+                '}';
     }
-
-    @Override ///*вычисляет хэш-код как произведение хэш-кодов всех атрибутов класса */
-    public int hashCode() {
-        return Objects.hash(manufacturer, model, registrationNumber, type);
-    }
-
 
 }
 

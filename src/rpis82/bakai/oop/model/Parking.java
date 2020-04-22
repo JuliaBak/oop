@@ -11,20 +11,17 @@ public class Parking{
     private Floor[] floors;
     private int capacity;
 
-    //принимающий один параметр – число этажей, инициализирующий массив
-    //соответствующим числом элементов
     public Parking(int floorsNumber) {
         this.floors = new Floor[floorsNumber];
     }
 
-    //В этом конструкторе происходит копирование элементов в новый массив, и ссылка на него записывается в атрибут
+
     public Parking(Floor[] floors) {
         this.floors = new Floor[floors.length];
         System.arraycopy(floors, 0, this.floors, 0 , floors.length);
         this.capacity = this.floors.length;
     }
 
-    //добавляющий этаж в конец массива
     public boolean addLastFloor(Floor floor) {
         if (isEnough()) {
             this.floors[this.capacity] = floor;
@@ -42,7 +39,6 @@ public class Parking{
        return  (this.capacity < this.floors.length && this.floors[this.capacity] == null);
     }
 
-    //добавляющий этаж в заданное место
     public boolean addFloorByIndex(int index, Floor floor) {
         if (this.floors.length > index && index > 0) {
             shiftArray(index);
@@ -68,9 +64,9 @@ public class Parking{
     private void increaseArraySize() {
         Floor[] doubleFloors = new Floor[this.floors.length * 2];
         int amount = 0;
-        for (Floor floor : floors) {
-            if (floor != null) {
-                doubleFloors[amount++] = floor;
+        for (int index = 0; index < floors.length; index++) {
+            if (floors[index] != null) {
+                doubleFloors[amount++] = floors[index];
 
             }
         }
@@ -113,8 +109,7 @@ public class Parking{
         return floors;
     }
 
-    //возвращающий массив этажей, отсортированный по возрастанию числа парковочных мест
-    //на этаже
+
     public Floor[] getSortedByFloorsSize() {
         Floor[] sortedFloors = this.floors;
         for (int i = 0; i < sortedFloors.length - 1; i++) {
@@ -133,11 +128,12 @@ public class Parking{
     //возвращающий массив всех, связанных с парковочными местами, транспортных средств
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-        int index = 0;
-        for (Floor floor : this.floors) {
-            for (Space space : floor.getSpaces()) {
-                if (isEmptySpace(space)) {
-                    vehicles[index++] = space.getVehicle();
+        int number = 0;
+        for (int index = 0; index < floors.length; index++) {
+            Space[] spaces = floors[index].getSpaces();
+            for (int i = 0; i < spaces.length; i++) {
+                if (isEmptySpace(spaces[i])) {
+                    vehicles[number++] = spaces[i].getVehicle();
                 }
             }
         }
@@ -146,8 +142,8 @@ public class Parking{
 
     public int getVehicleAmount() {
         int amount = 0;
-        for (Floor ownersFloor : this.floors) {
-            amount += ownersFloor.getVehiclesNumber();
+        for (int i = 0; i < floors.length - 1; i++) {
+            amount += floors[i].getVehiclesNumber();
         }
         return amount;
     }
@@ -162,11 +158,13 @@ public class Parking{
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
     //средство с определенным гос. номером. В качестве параметра принимает строку – гос. номер.
     public Space getSpaceByRegNumber(String registrationNumber) {
-        for (Floor floor : floors) {
-            for (Space space : floor.getSpaces()) {
-                if (equalsTo(space, registrationNumber)) {
-                    return space;
-                }
+        for (int index = 0; index < floors.length; index++) {
+            Space[] spaces = floors[index].getSpaces();
+                  for (int i = 0; i < spaces.length; i++) {
+                     if (equalsTo(spaces[i], registrationNumber))
+                     {
+                         return spaces[i];
+                     }
             }
         }
         return null;
@@ -180,13 +178,13 @@ public class Parking{
     //удаляющий парковочное место, с которым связанно транспортное средство с
     //определенным гос. номером.
     public Space removeSpaceByRegNumber(String registrationNumber) {
-        for (Floor ownersFloor : floors) {
-            Space[] spaces = ownersFloor.getSpaces();
+        for (int index = 0; index < floors.length - 1; index++) {
+            Space[] spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
                     Space removedSpace = spaces[i];
-                    ownersFloor.setSpaceByIndex(i, null);
-                    ownersFloor.shift();
+                    floors[index].setSpaceByIndex(i, null);
+                    floors[index].shift();
                     return removedSpace;
                 }
             }
@@ -200,12 +198,12 @@ public class Parking{
     public Space setSpaceByRegNumber(Space space, String registrationNumber) {
         Space removedSpace;
         Space[] spaces;
-        for (Floor ownersFloor : this.floors) {
-            spaces = ownersFloor.getSpaces();
+        for (int index = 0; index < floors.length - 1; index++) {
+            spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
                     removedSpace = spaces[i];
-                    ownersFloor.setSpaceByIndex(i, space);
+                    floors[index].setSpaceByIndex(i, space);
                     return removedSpace;
                 }
             }
@@ -218,8 +216,8 @@ public class Parking{
     //возвращающий общее число не занятых парковочных мест
     public int getEmptySpacesAmount(){
         int amount = 0;
-        for (Floor floor:this.floors){
-            amount += floor.getEmptySpaces().length;
+        for (int index = 0; index < floors.length - 1; index++){
+            amount += floors[index].getEmptySpaces().length;
         }
         return amount;
     }
@@ -227,8 +225,9 @@ public class Parking{
     //возвращающий общее число ТС заданного типа
     public int getVehiclesAmountByType(VehiclesTypes type){
         int amount = 0;
-        for (Floor floor:this.floors){
-            amount += floor.getSpacesByVehicleType(type).length;
+        for (int index = 0; index < floors.length - 1; index++)
+        {
+            amount += floors[index].getSpacesByVehicleType(type).length;
         }
         return amount;
     }

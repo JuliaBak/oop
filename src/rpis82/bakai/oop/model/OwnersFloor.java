@@ -77,9 +77,9 @@ public class OwnersFloor implements Floor {
 
     @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
     public Space getSpaceByRegNumber(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if (equalsToRegNumber(space, registrationNumber)) {
-                return space;
+        for (int i = 0; i < this.spaces.length; i++ ) {
+            if (equalsToRegNumber(spaces[i], registrationNumber)) {
+                return spaces[i];
             }
         }
         return null;
@@ -93,8 +93,8 @@ public class OwnersFloor implements Floor {
 
     @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
     public boolean hasSpaceByRegNumber(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if ((space != null) && equalsToRegNumber(space, registrationNumber)) {
+        for (int i = 0; i < this.spaces.length; i++ ) {
+            if ((spaces[i] != null) && equalsToRegNumber(spaces[i], registrationNumber)) {
                 return true;
             }
         }
@@ -167,9 +167,9 @@ public class OwnersFloor implements Floor {
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
         int number = 0;
-        for (Space space : this.spaces) {
-            if ((space != null) && (space.isEmpty())){
-                vehicles[number] = space.getVehicle();
+        for (int i = 0; i < this.spaces.length; i++ ) {
+            if ((spaces[i] != null) && (spaces[i].isEmpty())){
+                vehicles[number] = spaces[i].getVehicle();
                 number++;
             }
         }
@@ -178,8 +178,8 @@ public class OwnersFloor implements Floor {
 
     public int getVehiclesNumber(){
         int number = 0;
-        for (Space space: this.spaces){
-            if (isEmptySpaces(space)){
+        for (int i = 0; i < this.spaces.length; i++ ){
+            if (isEmptySpaces(spaces[i])){
                 number++;
             }
         }
@@ -191,9 +191,9 @@ public class OwnersFloor implements Floor {
     public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) {
         Space[] spaces = new Space[this.capacity];
         int number = 0;
-        for (Space space: this.spaces){
-            if (equalsToType(space, vehicleType)){
-                spaces[number++] = space;
+        for (int i = 0; i < this.spaces.length; i++ ){
+            if (equalsToType(spaces[i], vehicleType)){
+                spaces[number++] = spaces[i];
             }
         }
         return spaces;
@@ -208,9 +208,9 @@ public class OwnersFloor implements Floor {
     public Space[] getEmptySpaces() {
         Space[] spaces = new Space[this.capacity];
         int number = 0;
-        for (Space space: this.spaces){
-            if (space.isEmpty()){
-                spaces[number++] = space;
+        for (int i = 0; i < this.spaces.length; i++ ){
+            if (spaces[i].isEmpty()){
+                spaces[number++] = spaces[i];
             }
         }
         return spaces;
