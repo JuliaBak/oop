@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 
-public class RentedSpacesFloor implements Floor {
+public class RentedSpacesFloor implements Floor, Cloneable {
     private Node head; //ссылка на голову списка
     private int capacity; //число элеметов в списке
 
@@ -262,7 +262,10 @@ public class RentedSpacesFloor implements Floor {
     }
 
     public RentedSpacesFloor clone() throws CloneNotSupportedException{
-        return (RentedSpacesFloor) super.clone();
+        RentedSpacesFloor clone = (RentedSpacesFloor) super.clone();
+        Space[] clonedSpaces = this.getSpaces().clone();
+        clone.addAllSpaces(clonedSpaces);
+        return clone;
     }
 
 

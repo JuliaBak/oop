@@ -1,10 +1,9 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
 
-import java.lang.Cloneable;
 import java.lang.Object;
 
-public final class Vehicle {
+public final class Vehicle implements Cloneable{
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
 
@@ -78,7 +77,6 @@ public final class Vehicle {
 
        @Override
         public Vehicle clone() throws CloneNotSupportedException
-       //Возвращает «клон» объекта
         {
             return (Vehicle) super.clone();
         }

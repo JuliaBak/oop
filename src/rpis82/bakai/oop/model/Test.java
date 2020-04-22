@@ -5,16 +5,57 @@ import rpis82.bakai.oop.model.interfaces.Space;
 
 import java.util.Arrays;
 
-public class Test {
 
-    public static void main(String[] args) {
+public class Test implements Cloneable {
+
+    public static void main(String[] args) throws CloneNotSupportedException {
         lab4tests();
        // lab2tests();
        // lab3test();
     }
 
-    public static void lab4tests()
-    {
+    public static void lab4tests() throws CloneNotSupportedException {
+        Person person1 = new Person("Ivan", "Ivanov");
+        Person person2 = new Person("Petr", "Petrov");
+        Person clonedPerson;
+
+        Vehicle vehicle1 = new Vehicle("876", "Toyota", "Camry",VehiclesTypes.NONE);
+        Vehicle vehicle2 = new Vehicle("264", "BMW", "X6",VehiclesTypes.OTHER);
+
+        Vehicle vlonedVehicle = vehicle2.clone();
+        clonedPerson = person1.clone();
+
+        System.out.println(person1.toString());
+        System.out.println(person1.equals(person2));
+        System.out.println(person1.hashCode());
+
+        System.out.println(clonedPerson.toString());
+        System.out.println(clonedPerson.getSurname());
+        System.out.println(vlonedVehicle.toString());
+
+        OwnedSpace ownedSpace1 = new OwnedSpace(clonedPerson, vlonedVehicle);
+        System.out.println(ownedSpace1.toString());
+
+        OwnedSpace ownedSpace2 = ownedSpace1.clone();
+        System.out.println(ownedSpace2.toString());
+        ownedSpace2.setVehicle(vehicle1);
+        System.out.println(ownedSpace2.toString());
+
+        RentedSpace rentedSpace1 = new RentedSpace(person2, vehicle1);
+        RentedSpace rentedSpaceClone = rentedSpace1.clone();
+        System.out.println(rentedSpaceClone.toString());
+        System.out.println(rentedSpaceClone.hashCode());
+
+        Space spaceOne = new RentedSpace(person1, vehicle1);
+        Space spaceTwo = new RentedSpace(person2, vehicle2);
+
+        Space[] spaces = new Space[2];
+        spaces[0] = spaceOne;
+        spaces[1] = spaceTwo;
+
+        OwnersFloor ownersFloor1 = new OwnersFloor(spaces);
+        OwnersFloor ownersFloorClone = ownersFloor1.clone();
+        System.out.println(ownersFloorClone.toString());
 
     }
 

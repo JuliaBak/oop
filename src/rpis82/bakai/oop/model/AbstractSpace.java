@@ -1,7 +1,7 @@
 package rpis82.bakai.oop.model;
 import  rpis82.bakai.oop.model.interfaces.Space;
 
-public abstract class AbstractSpace implements Space { //реализует интерфейс Space
+public abstract class AbstractSpace implements Space, Cloneable { //реализует интерфейс Space
     private Person person;
     private Vehicle vehicle;
 
@@ -74,9 +74,13 @@ public abstract class AbstractSpace implements Space { //реализует ин
     }
 
     @Override
-    public AbstractSpace clone() throws CloneNotSupportedException
-    {
-        return (AbstractSpace) super.clone();
+    public AbstractSpace clone() throws CloneNotSupportedException {
+        AbstractSpace clone = (AbstractSpace) super.clone();
+        Person clonedPerson = this.getPerson().clone();
+        Vehicle clonedVehicle = this.getVehicle().clone();
+        clone.setPerson(clonedPerson);
+        clone.setVehicle(clonedVehicle);
+        return clone;
     }
 
 }

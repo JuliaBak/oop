@@ -1,6 +1,6 @@
 package rpis82.bakai.oop.model;
 
-public final class Person {
+public final class Person implements Cloneable {
    public final String surname, name;
     public static Person EMPTY_PERSON = new Person(" ", " ");
 
@@ -47,7 +47,7 @@ public final class Person {
     public Person clone() throws CloneNotSupportedException
     //Возвращает «клон» объекта
     {
-        return (Person) super.clone();
+            return (Person) super.clone();
     }
 
 }

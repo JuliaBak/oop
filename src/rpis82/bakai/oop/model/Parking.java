@@ -3,7 +3,9 @@ package rpis82.bakai.oop.model;
  import rpis82.bakai.oop.model.interfaces.Floor;
 
 
+ import java.util.ArrayList;
  import java.util.Arrays;
+ import java.util.List;
  import java.util.Objects;
 
  import static java.util.Arrays.sort;
@@ -17,7 +19,6 @@ public class Parking{
     //соответствующим числом элементов
     public Parking(int floorsNumber) {
         this.floors = new Floor[floorsNumber];
-      //  this.capacity = floorsNumber;
     }
 
     //В этом конструкторе происходит копирование элементов в новый массив, и ссылка на него записывается в атрибут
@@ -73,9 +74,9 @@ public class Parking{
     private void increaseArraySize() {
         Floor[] doubleFloors = new Floor[this.floors.length * 2];
         int amount = 0;
-        for (Floor floor : floors) {
-            if (floor != null) {
-                doubleFloors[amount++] = floor;
+        for (int i = 0; i < this.floors.length; i++ ) {
+            if (floors[i] != null) {
+                doubleFloors[amount++] = floors[i];
                 //amount++;
             }
         }
@@ -143,7 +144,6 @@ public class Parking{
             for (Space space : floor.getSpaces()) {
                 if (isEmptySpace(space)) {
                     vehicles[index++] = space.getVehicle();
-                    //index++;
                 }
             }
         }
@@ -186,13 +186,13 @@ public class Parking{
     //удаляющий парковочное место, с которым связанно транспортное средство с
     //определенным гос. номером.
     public Space removeSpaceByRegNumber(String registrationNumber) {
-        for (Floor ownersFloor : floors) {
-            Space[] spaces = ownersFloor.getSpaces();
+        for (int index = 0; index < this.floors.length; index++ ) {
+            Space[] spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
                     Space removedSpace = spaces[i];
-                    ownersFloor.setSpaceByIndex(i, null);
-                    ownersFloor.shift();
+                    floors[index].setSpaceByIndex(i, null);
+                    floors[index].shift();
                     return removedSpace;
                 }
             }
@@ -206,12 +206,12 @@ public class Parking{
     public Space setSpaceByRegNumber(Space space, String registrationNumber) {
         Space removedSpace;
         Space[] spaces;
-        for (Floor ownersFloor : this.floors) {
-            spaces = ownersFloor.getSpaces();
+        for (int index = 0; index < this.floors.length; index++ ) {
+            spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
                     removedSpace = spaces[i];
-                    ownersFloor.setSpaceByIndex(i, space);
+                    floors[index].setSpaceByIndex(i, space);
                     return removedSpace;
                 }
             }
@@ -224,8 +224,8 @@ public class Parking{
     //возвращающий общее число не занятых парковочных мест
     public int getEmptySpacesAmount(){
         int amount = 0;
-        for (Floor floor:this.floors){
-            amount += floor.getEmptySpaces().length;
+        for (int i = 0; i < this.floors.length; i++ ){
+            amount += floors[i].getEmptySpaces().length;
         }
         return amount;
     }
@@ -233,8 +233,8 @@ public class Parking{
     //возвращающий общее число ТС заданного типа
     public int getVehiclesAmountByType(VehiclesTypes type){
         int amount = 0;
-        for (Floor floor:this.floors){
-            amount += floor.getSpacesByVehicleType(type).length;
+        for (int i = 0; i < this.floors.length; i++ ){
+            amount += floors[i].getSpacesByVehicleType(type).length;
         }
         return amount;
     }
@@ -248,5 +248,19 @@ public class Parking{
             builtString.append(floors[i].toString()).append("\n");
         }
         return builtString.toString();
+    }
+
+    public Floor[] getFloorsWithPerson(Person person){ // посмотреть
+        List<Floor> listFloor = new ArrayList<>();
+       for (int index = 0; index < floors.length; index++)
+       {
+            for (int i = 0; i < floors[index].getCapacity(); i++){
+                if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
+                    listFloor.add(floors[index]);
+                    break;
+                }
+            }
+        }
+        return (Floor[])listFloor.toArray();
     }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.lang.Object;
 import java.util.Objects;
 
-public class OwnersFloor implements Floor {
+public class OwnersFloor implements Floor, Cloneable {
 
     private Space[] spaces;
     private int capacity = 0;
@@ -248,7 +248,9 @@ public class OwnersFloor implements Floor {
     }
 
     public OwnersFloor clone() throws CloneNotSupportedException{
-        return (OwnersFloor) super.clone();
+        OwnersFloor clone = (OwnersFloor) super.clone();
+        clone.spaces = this.getSpaces().clone();
+        return clone;
     }
 
     @Override
