@@ -25,8 +25,8 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     private boolean addAllSpaces(Space[] spaces) {
         if (spaces != null) {
-            for (Space space : spaces) {
-                addSpace(space);
+            for (int i = 0; i < spaces.length; i++ ) {
+                addSpace(spaces[i]);
             }
         }
         return true;
@@ -186,12 +186,12 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public Vehicle[] getVehicles() {
         Space[] spaces = getSpaces();
-        Vehicle[] resultVehicles = new Vehicle[spaces.length];
+        Vehicle[] vehicles = new Vehicle[spaces.length];
         int number = 0;
-        for (Space space : spaces) {
-            resultVehicles[number++] = space.getVehicle();
+        for (int index = 0; index < spaces.length; index++) {
+            vehicles[number++] = spaces[index].getVehicle();
         }
-        return resultVehicles;
+        return vehicles;
     }
 
     @Override

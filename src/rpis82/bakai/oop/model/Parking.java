@@ -136,14 +136,14 @@ public class Parking{
     }
 
 
-    //возвращающий массив всех, связанных с парковочными местами, транспортных средств
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-        int index = 0;
-        for (Floor floor : this.floors) {
-            for (Space space : floor.getSpaces()) {
-                if (isEmptySpace(space)) {
-                    vehicles[index++] = space.getVehicle();
+        int number = 0;
+        for (int index = 0; index < floors.length; index++) {
+            Space[] spaces = floors[index].getSpaces();
+            for (int i = 0; i < spaces.length; i++) {
+                if (isEmptySpace(spaces[i])) {
+                    vehicles[number++] = spaces[i].getVehicle();
                 }
             }
         }
@@ -152,8 +152,8 @@ public class Parking{
 
     public int getVehicleAmount() {
         int amount = 0;
-        for (Floor ownersFloor : this.floors) {
-            amount += ownersFloor.getVehiclesNumber();
+        for (int index = 0; index < this.floors.length; index++){
+            amount += floors[index].getVehiclesNumber();
         }
         return amount;
     }
@@ -168,10 +168,12 @@ public class Parking{
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
     //средство с определенным гос. номером. В качестве параметра принимает строку – гос. номер.
     public Space getSpaceByRegNumber(String registrationNumber) {
-        for (Floor floor : floors) {
-            for (Space space : floor.getSpaces()) {
-                if (equalsTo(space, registrationNumber)) {
-                    return space;
+        for (int index = 0; index < floors.length; index++) {
+            Space[] spaces = floors[index].getSpaces();
+            for (int i = 0; i < spaces.length; i++) {
+                if (equalsTo(spaces[i], registrationNumber))
+                {
+                    return spaces[i];
                 }
             }
         }

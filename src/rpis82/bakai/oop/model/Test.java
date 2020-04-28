@@ -53,6 +53,8 @@ public class Test implements Cloneable {
         spaces[0] = spaceOne;
         spaces[1] = spaceTwo;
 
+        System.out.println("WAIT");
+
         OwnersFloor ownersFloor1 = new OwnersFloor(spaces);
         OwnersFloor ownersFloorClone = ownersFloor1.clone();
         System.out.println(ownersFloorClone.toString());
@@ -86,7 +88,9 @@ public class Test implements Cloneable {
         parkingSpace.addLastFloor(floor1);
         parkingSpace.addLastFloor(floor2);
 
+
         System.out.println(parkingSpace.get(1));
+
 
         System.out.println(Arrays.toString(parkingSpace.getFloors()));
         parkingSpace.addFloorByIndex(1, floor2);

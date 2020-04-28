@@ -64,11 +64,12 @@ public final class Vehicle implements Cloneable{
     }
 
     @Override
-    public boolean equals(Object obj) /*Проверяет соответствие типов объектов (являются экземплярами одного класса), эквивалентность (equals) значений всех атрибутов*/ {
+    public boolean equals(Object obj)
+    {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Vehicle vehicleObj = (Vehicle) obj;
-        return //проверяем эквивалентность всех атрибутов
+        return
                 this.type.equals(vehicleObj.type) &&
                         this.registrationNumber.equals(vehicleObj.registrationNumber) &&
                         this.manufacturer.equals(vehicleObj.manufacturer) &&

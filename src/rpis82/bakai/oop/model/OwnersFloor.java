@@ -78,9 +78,9 @@ public class OwnersFloor implements Floor, Cloneable {
 
     @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
     public Space getSpaceByRegNumber(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if (equalsToRegNumber(space, registrationNumber)) {
-                return space;
+        for (int index = 0; index < spaces.length; index++) {
+            if (equalsToRegNumber(spaces[index], registrationNumber)) {
+                return spaces[index];
             }
         }
         return null;
@@ -94,8 +94,8 @@ public class OwnersFloor implements Floor, Cloneable {
 
     @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
     public boolean hasSpaceByRegNumber(String registrationNumber) {
-        for (Space space : this.spaces) {
-            if ((space != null) && equalsToRegNumber(space, registrationNumber)) {
+        for (int index = 0; index < spaces.length; index++) {
+            if ((spaces[index] != null) && equalsToRegNumber(spaces[index], registrationNumber)) {
                 return true;
             }
         }
@@ -167,9 +167,9 @@ public class OwnersFloor implements Floor, Cloneable {
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
         int number = 0;
-        for (Space space : this.spaces) {
-            if ((space != null) && (space.isEmpty())){
-                vehicles[number] = space.getVehicle();
+        for (int index = 0; index < spaces.length; index++) {
+            if ((spaces[index] != null) && (spaces[index].isEmpty())){
+                vehicles[number] = spaces[index].getVehicle();
                 number++;
             }
         }
@@ -178,8 +178,8 @@ public class OwnersFloor implements Floor, Cloneable {
 
     public int getVehiclesNumber(){
         int number = 0;
-        for (Space space: this.spaces){
-            if (isEmptySpaces(space)){
+        for (int index = 0; index < spaces.length; index++){
+            if (isEmptySpaces(spaces[index])){
                 number++;
             }
         }
@@ -191,9 +191,9 @@ public class OwnersFloor implements Floor, Cloneable {
     public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) {
         Space[] spaces = new Space[this.capacity];
         int number = 0;
-        for (Space space: this.spaces){
-            if (equalsToType(space, vehicleType)){
-                spaces[number++] = space;
+        for (int index = 0; index < spaces.length; index++){
+            if (equalsToType(spaces[index], vehicleType)){
+                spaces[number++] = spaces[index];
             }
         }
         return spaces;
@@ -208,9 +208,9 @@ public class OwnersFloor implements Floor, Cloneable {
     public Space[] getEmptySpaces() {
         Space[] spaces = new Space[this.capacity];
         int number = 0;
-        for (Space space: this.spaces){
-            if (space.isEmpty()){
-                spaces[number++] = space;
+        for (int index = 0; index < spaces.length; index++){
+            if (spaces[index].isEmpty()){
+                spaces[number++] = spaces[index];
             }
         }
         return spaces;
