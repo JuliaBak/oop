@@ -228,7 +228,7 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override
-    public int hashCode() { //исправить с Object
+    public int hashCode() {
 
         int resultedHash = 0;
         for (int i = 0; i < this.capacity; i++)

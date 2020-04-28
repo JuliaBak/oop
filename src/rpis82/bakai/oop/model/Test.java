@@ -49,14 +49,30 @@ public class Test implements Cloneable {
         Space spaceOne = new RentedSpace(person1, vehicle1);
         Space spaceTwo = new RentedSpace(person2, vehicle2);
 
+        System.out.println() ;
+
         Space[] spaces = new Space[2];
         spaces[0] = spaceOne;
         spaces[1] = spaceTwo;
 
-        System.out.println("WAIT");
+
+        Floor floor1 = new OwnersFloor(4);
+        floor1.addSpaceByIndex(0, spaceOne);
+        floor1.addSpaceByIndex(1, spaceTwo);
+
+        Floor floor2 = new OwnersFloor(3);
+        floor2.addSpaceByIndex(1, spaceTwo);
+
+        Parking parkingOne = new Parking(4);
+        parkingOne.addFloorByIndex(0, floor1);
+        parkingOne.addFloorByIndex(1, floor2);
+
+        System.out.println(Arrays.toString(parkingOne.getFloorsWithPerson(person1)));
 
         OwnersFloor ownersFloor1 = new OwnersFloor(spaces);
         OwnersFloor ownersFloorClone = ownersFloor1.clone();
+
+        System.out.println(ownersFloor1.indexOfSpace(spaceOne));
         System.out.println(ownersFloorClone.toString());
 
     }

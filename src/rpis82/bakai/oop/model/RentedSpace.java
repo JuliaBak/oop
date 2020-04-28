@@ -13,6 +13,7 @@ public class RentedSpace extends AbstractSpace implements Space, Cloneable{
         super();
     }
 
+    //Lab4
     @Override //переопределение класса toString, по формату, lab4
     public String toString() {
         return String.format("Tenant: <%s> TC: <%s>", getPerson().toString(), getVehicle().toString());    }

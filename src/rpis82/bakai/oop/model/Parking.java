@@ -241,6 +241,7 @@ public class Parking{
         return amount;
     }
 
+    //Lab4
     @Override
     public String toString() {
         StringBuilder builtString = new StringBuilder("Floors (");
@@ -252,18 +253,18 @@ public class Parking{
         return builtString.toString();
     }
 
-    public Floor[] getFloorsWithPerson(Person person){ // посмотреть
-        List<Floor> listFloor = new ArrayList<>();
+    public Floor[] getFloorsWithPerson(Person person){
+        Floor[] PersonsFloors = new Floor[capacity];
        for (int index = 0; index < floors.length; index++)
        {
             for (int i = 0; i < floors[index].getCapacity(); i++)
             {
                 if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
-                    listFloor.add(floors[index]);
+                   PersonsFloors[index] = floors[index];
                     break;
                 }
             }
         }
-        return (Floor[])listFloor.toArray();
+        return PersonsFloors;
     }
 }

@@ -38,8 +38,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return true;
     }
 
-
-    private void addLastSpace(Space value) {//метод добавялющий узел в конце списка
+    private void addLastSpace(Space value) {
         if (value != null) {
             Node last = new Node(this.head, this.head.previous, value);
             this.head.previous = this.head.previous.next = last;
@@ -227,6 +226,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public void shift() { }
 
+    //Lab4
     @Override
     public String toString() {
         StringBuilder builtString = new StringBuilder("Rented spaces:\n");
@@ -253,7 +253,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return 53*this.capacity*resultedHash;
     }
 
-    @Override //уточнить что для всех объектов
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;

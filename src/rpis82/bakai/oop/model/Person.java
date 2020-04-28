@@ -45,7 +45,6 @@ public final class Person implements Cloneable {
 
     @Override
     public Person clone() throws CloneNotSupportedException
-    //Возвращает «клон» объекта
     {
             return (Person) super.clone();
     }
