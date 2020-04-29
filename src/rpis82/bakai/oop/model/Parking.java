@@ -255,12 +255,13 @@ public class Parking{
 
     public Floor[] getFloorsWithPerson(Person person){
         Floor[] PersonsFloors = new Floor[capacity];
+       int number = 0;
        for (int index = 0; index < floors.length; index++)
        {
             for (int i = 0; i < floors[index].getCapacity(); i++)
             {
                 if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
-                   PersonsFloors[index] = floors[index];
+                   PersonsFloors[number++] = floors[index];
                     break;
                 }
             }
