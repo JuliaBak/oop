@@ -2,7 +2,7 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 
 public class OwnedSpace extends AbstractSpace implements Space, Cloneable{
-//вызываются конструктора суперкласса
+
     public OwnedSpace(Person person, Vehicle vehicle) {
         super(person,vehicle);
     }
@@ -23,7 +23,7 @@ public class OwnedSpace extends AbstractSpace implements Space, Cloneable{
 
     @Override
     public int hashCode() {
-        return 71*super.hashCode();
+        return 71 & super.hashCode();
     }
 
     public OwnedSpace clone() throws CloneNotSupportedException{

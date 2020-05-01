@@ -20,7 +20,7 @@ public class RentedSpace extends AbstractSpace implements Space, Cloneable{
 
     @Override
     public int hashCode() {
-        return 53*super.hashCode();
+        return 53 & super.hashCode();
     }
 
     public RentedSpace clone() throws CloneNotSupportedException{

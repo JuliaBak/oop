@@ -17,12 +17,14 @@ public class Test implements Cloneable {
     public static void lab4tests() throws CloneNotSupportedException {
         Person person1 = new Person("Ivan", "Ivanov");
         Person person2 = new Person("Petr", "Petrov");
+        Person person3 = new Person("Willy", "Free");
         Person clonedPerson;
 
         Vehicle vehicle1 = new Vehicle("876", "Toyota", "Camry",VehiclesTypes.NONE);
         Vehicle vehicle2 = new Vehicle("264", "BMW", "X6",VehiclesTypes.OTHER);
+        Vehicle vehicle3 = new Vehicle("432", "Lada", "XRay", VehiclesTypes.CROSSOVER);
 
-        Vehicle vlonedVehicle = vehicle2.clone();
+        Vehicle clonedVehicle = vehicle2.clone();
         clonedPerson = person1.clone();
 
         System.out.println(person1.toString());
@@ -31,9 +33,9 @@ public class Test implements Cloneable {
 
         System.out.println(clonedPerson.toString());
         System.out.println(clonedPerson.getSurname());
-        System.out.println(vlonedVehicle.toString());
+        System.out.println(clonedVehicle.toString());
 
-        OwnedSpace ownedSpace1 = new OwnedSpace(clonedPerson, vlonedVehicle);
+        OwnedSpace ownedSpace1 = new OwnedSpace(clonedPerson, clonedVehicle);
         System.out.println(ownedSpace1.toString());
 
         OwnedSpace ownedSpace2 = ownedSpace1.clone();
@@ -43,8 +45,33 @@ public class Test implements Cloneable {
 
         RentedSpace rentedSpace1 = new RentedSpace(person2, vehicle1);
         RentedSpace rentedSpaceClone = rentedSpace1.clone();
+
         System.out.println(rentedSpaceClone.toString());
-        System.out.println(rentedSpaceClone.hashCode());
+
+        Space space1 = new RentedSpace(person1, vehicle1);
+        Space space2 = new RentedSpace(person2, vehicle2);
+
+        Space[] spaces1 = new Space[2];
+        spaces1[0] = space1;
+        spaces1[1] = space2;
+
+        RentedSpacesFloor rentedSpacesFloor1 = new RentedSpacesFloor(spaces1);
+
+        System.out.println("Hash:");
+
+        System.out.println("Person Hash = " + person1.hashCode()); //Person
+        System.out.println("Person2 Hash = " + person2.hashCode()); //Person
+        System.out.println("Person3 Hash = " + person3.hashCode()); //Person
+
+        System.out.println("Vehicle Hash = " +  vehicle3.hashCode()); //Vehicle
+        System.out.println("Vehicle1 Hash = " +  vehicle1.hashCode()); //Vehicle
+
+        System.out.println( "ownedSpace Hash = " + ownedSpace1.hashCode()); //ownedSpace
+
+        System.out.println("rentedSpace Hash = " + rentedSpaceClone.hashCode()); //rentedSpace
+
+        System.out.println("rentedSpacesFloor Hash = " + rentedSpacesFloor1.hashCode()); //rentedSpacesFloor
+
 
         Space spaceOne = new RentedSpace(person1, vehicle1);
         Space spaceTwo = new RentedSpace(person2, vehicle2);
@@ -55,6 +82,8 @@ public class Test implements Cloneable {
         spaces[0] = spaceOne;
         spaces[1] = spaceTwo;
 
+        OwnersFloor ownersFloor1 = new OwnersFloor(spaces);
+        OwnersFloor ownersFloorClone = ownersFloor1.clone();
 
         Floor floor1 = new OwnersFloor(4);
         floor1.addSpaceByIndex(0, spaceOne);
@@ -69,8 +98,6 @@ public class Test implements Cloneable {
 
         System.out.println(Arrays.toString(parkingOne.getFloorsWithPerson(person1)));
 
-        OwnersFloor ownersFloor1 = new OwnersFloor(spaces);
-        OwnersFloor ownersFloorClone = ownersFloor1.clone();
 
         System.out.println(ownersFloor1.indexOfSpace(spaceOne));
         System.out.println(ownersFloorClone.toString());

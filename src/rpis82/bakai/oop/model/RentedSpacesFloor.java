@@ -247,10 +247,11 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         {
             Node node = getNodeByIndex(i);
             if (node != null){
+
                 resultedHash ^= node.value.hashCode();
             }
         }
-        return 53*this.capacity*resultedHash;
+        return 53 & this.capacity & resultedHash;
     }
 
     @Override

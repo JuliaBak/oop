@@ -235,7 +235,7 @@ public class OwnersFloor implements Floor, Cloneable {
         {
             resultedHash ^= spaces[i].hashCode();
         }
-        return 71* resultedHash * Objects.hashCode(capacity);
+        return 71 & resultedHash & Objects.hashCode(capacity);
     }
 
     @Override

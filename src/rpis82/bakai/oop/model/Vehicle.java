@@ -2,6 +2,7 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.VehiclesTypes;
 
 import java.lang.Object;
+import java.util.Objects;
 
 public final class Vehicle implements Cloneable{
 
@@ -60,7 +61,7 @@ public final class Vehicle implements Cloneable{
     public int hashCode() /*вычисляет хэш-код как произведение хэш-кодов всех атрибутов
     класса */
     {
-        return model.hashCode()*manufacturer.hashCode()*registrationNumber.hashCode()*type.hashCode();
+        return model.hashCode() &  manufacturer.hashCode() &  registrationNumber.hashCode() &  type.hashCode();
     }
 
     @Override

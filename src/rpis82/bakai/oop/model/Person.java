@@ -1,5 +1,7 @@
 package rpis82.bakai.oop.model;
 
+import java.util.Objects;
+
 public final class Person implements Cloneable {
    public final String surname, name;
     public static Person EMPTY_PERSON = new Person(" ", " ");
@@ -27,10 +29,11 @@ public final class Person implements Cloneable {
 
     @Override
     public int hashCode() /*вычисляет хэш-код как произведение хэш-кодов всех атрибутов
-    класса */
+    класса*/
     {
-        return surname.hashCode()*name.hashCode();
+        return surname.hashCode() & name.hashCode();
     }
+
 
     @Override
     public boolean equals(Object obj)

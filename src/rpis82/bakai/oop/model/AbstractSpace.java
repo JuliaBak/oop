@@ -1,6 +1,8 @@
 package rpis82.bakai.oop.model;
 import  rpis82.bakai.oop.model.interfaces.Space;
 
+import java.util.Objects;
+
 public abstract class AbstractSpace implements Space, Cloneable { //реализует интерфейс Space
     private Person person;
     private Vehicle vehicle;
@@ -60,7 +62,9 @@ public abstract class AbstractSpace implements Space, Cloneable { //реализ
     @Override
     public int hashCode()
     {
-        return person.hashCode()*vehicle.hashCode();
+
+        return person.hashCode() & vehicle.hashCode() ;
+
     }
 
     @Override
