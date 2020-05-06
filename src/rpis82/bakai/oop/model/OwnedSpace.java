@@ -23,7 +23,7 @@ public class OwnedSpace extends AbstractSpace implements Space, Cloneable{
 
     @Override
     public int hashCode() {
-        return 71 & super.hashCode();
+        return 71 * super.hashCode();
     }
 
     public OwnedSpace clone() throws CloneNotSupportedException{
