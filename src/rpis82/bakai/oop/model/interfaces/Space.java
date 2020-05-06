@@ -27,7 +27,7 @@ public interface Space {
     LocalDate getRentalStartDate(); //rental start date
 
     //Изменяющий дату начала аренды или владения парковочным местом
-    void setRentalStartDate(LocalDate localDate);
+    void setRentalStartDate(LocalDate localDate) throws NullPointerException;
 
     //Возвращающий период аренды или владения парковочным местом (с даты начала аренды
     //или владения до текущей даты)

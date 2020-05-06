@@ -93,7 +93,7 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
-    public Space getSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException {
+    public Space getSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
 
         if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");
@@ -106,11 +106,11 @@ public class OwnersFloor implements Floor, Cloneable {
                 return spaces[index];
             }
         }
-        return null;
+        throw new NoSuchElementException("There's no such space");
     }
 
     public boolean isRegNumberFormatOK(String text){
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$");
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
         Matcher matcherReg = pattern.matcher(text);
         return matcherReg.matches();
     }
@@ -121,7 +121,7 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
-    public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
+    public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException {
 
         if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");
@@ -183,7 +183,7 @@ public class OwnersFloor implements Floor, Cloneable {
                 return removedSpace;
             }
         }
-        return null;
+        throw new NoSuchElementException("There's no such space");
     }
 
 
@@ -350,19 +350,17 @@ public class OwnersFloor implements Floor, Cloneable {
 
         LocalDate closestDate = null;
         for(int index = 0; index < this.spaces.length; index++) {
-            if (spaces[index] instanceof RentedSpace) {
                 closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
+        }
+        //проверка есть ли rented
+            if (closestDate == null){
+                throw new NoRentedSpaceException("Rental End Date is null, there's no Closest Rental Date");
             }
 
-        }
-        if (closestDate == null){
-            throw new NoRentedSpaceException("There're no rented spaces");
-        }
         for(int index = 0; index < this.spaces.length; index++){
-            if (spaces[index] instanceof RentedSpace){
+
                 if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDate)){
                     closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
-                }
             }
         }
         return closestDate;
@@ -372,19 +370,17 @@ public class OwnersFloor implements Floor, Cloneable {
     public Space getSpaceByClosestRentalEndDate() throws NoRentedSpaceException {
 
         RentedSpace closestDateSpace = null;
+
         for(int index = 0; index < this.spaces.length; index++){
-            if (spaces[index] instanceof RentedSpace){
                 closestDateSpace = (RentedSpace) spaces[index];
+        }
+            if (closestDateSpace == null){
+                throw new NoRentedSpaceException("Space is null, there's no Closest Rental Date Space");
             }
-        }
-        if (closestDateSpace == null){
-            throw new NoRentedSpaceException("There're no rented spaces");
-        }
+
         for(int index = 0; index < this.spaces.length; index++){
-            if (spaces[index] instanceof RentedSpace){
                 if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDateSpace.getRentalEndDate())){
                     closestDateSpace = (RentedSpace) spaces[index];
-                }
             }
         }
         return closestDateSpace;

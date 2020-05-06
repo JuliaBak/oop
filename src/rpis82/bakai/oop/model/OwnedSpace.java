@@ -20,7 +20,7 @@ public class OwnedSpace extends AbstractSpace implements Space, Cloneable{
     //Lab4
     @Override
     public String toString() {
-        return String.format("Owner: <%s> TC: <%s>",getPerson().toString(),getVehicle().toString());
+        return String.format("Owner: <%s> TC: <%s> Rental Start Date: <%s>",getPerson().toString(),getVehicle().toString(), LocalDate.now());
     }
 
     @Override

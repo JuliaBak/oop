@@ -17,7 +17,10 @@ public class RentedSpace extends AbstractSpace implements Space, Cloneable{
     }
 
     public RentedSpace(Person person, LocalDate rentalStartDate, LocalDate rentalEndDate ) {
-        this(person, Vehicle.EMPTY_VEHICLE, rentalStartDate, rentalEndDate );
+        this(    Objects.requireNonNull(person, "Person is null"),
+                Vehicle.EMPTY_VEHICLE,
+                Objects.requireNonNull(rentalStartDate, "Rental Start Date is null"),
+                Objects.requireNonNull(rentalEndDate, "Rental End Date is null"));
     }
 
     public RentedSpace(Person person, Vehicle vehicle,  LocalDate rentalStartDate, LocalDate rentalEndDate ) {
@@ -31,7 +34,7 @@ public class RentedSpace extends AbstractSpace implements Space, Cloneable{
     //Lab4
     @Override //переопределение класса toString, по формату, lab4
     public String toString() {
-        return String.format("Tenant: <%s> TC: <%s>", getPerson().toString(), getVehicle().toString());    }
+        return String.format("Tenant: <%s> TC: <%s> Rental Start Date: <%s> Rental End Date: <%s>" , getPerson().toString(), getVehicle().toString(), getRentalStartDate().toString(), getRentalEndDate().toString());    }
 
     @Override
     public int hashCode() {

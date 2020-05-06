@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
-public abstract class AbstractSpace implements Space, Cloneable { //реализует интерфейс Space
+public abstract class AbstractSpace implements Space, Cloneable {
     private Person person;
     private Vehicle vehicle;
     private LocalDate rentalStartDate;
@@ -16,14 +16,14 @@ public abstract class AbstractSpace implements Space, Cloneable { //реализ
     }
 
     protected AbstractSpace(Person person, LocalDate rentalStartDate){
-        this.person = person;
+        this.person = Objects.requireNonNull(person, "Person is null");;
         this.vehicle = Vehicle.EMPTY_VEHICLE;
         this.rentalStartDate = isDateAcceptable(rentalStartDate);
     }
 
-    protected AbstractSpace(Person person,Vehicle vehicle, LocalDate rentalStartDate){
-        this.person = person;
-        this.vehicle = vehicle;
+    protected AbstractSpace(Person person,Vehicle vehicle, LocalDate rentalStartDate) throws NullPointerException{
+        this.person = Objects.requireNonNull(person, "Person is null");
+        this.vehicle = Objects.requireNonNull(vehicle, "Vehicle is null");
         this.rentalStartDate = isDateAcceptable(rentalStartDate);
     }
     private LocalDate isDateAcceptable(LocalDate rentalStartDate) {
@@ -67,7 +67,7 @@ public abstract class AbstractSpace implements Space, Cloneable { //реализ
     @Override
     public String toString()
     {
-        return String.format("<%s> TC: <%s>, Date <%s>", this.person.toString(), this.vehicle.toString(), this.rentalStartDate);
+        return String.format("<%s> TC: <%s>, Rental Start Date: <%s>", this.person.toString(), this.vehicle.toString(), this.rentalStartDate);
     }
 
     @Override

@@ -3,12 +3,13 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 
 public class Test implements Cloneable {
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args)  {
         lab5tests();
         // lab4tests();
         // lab2tests();
@@ -19,15 +20,61 @@ public class Test implements Cloneable {
     public static void  lab5tests()
     {
         Person person1 = new Person("Ivan", "Ivanov");
-        //  Person person2 = new Person(null, "Petrov");
+        Person person2 = new Person("Eva", "Gtt");
 
         Vehicle vehicle1 = new Vehicle("A654BM64", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+        Vehicle vehicle2 = new Vehicle("M354AF23", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+
 
         System.out.println(person1.toString());
         // System.out.println(person2.toString());
 
-        // System.out.println(vehicle1.toString());
+        System.out.println(vehicle1.toString());
 
+        OwnedSpace ownedSpace1 = new OwnedSpace(person1, vehicle1);
+        System.out.println(ownedSpace1.toString());
+
+        RentedSpace rentedSpace1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2021, 10, 21));
+        System.out.println(rentedSpace1.toString());
+
+        Space space1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2022, 2,13));
+        Space space2 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.of(2024, 7,1));
+
+        System.out.println(rentedSpace1.getPeriodBeforeEnd());
+        System.out.println(rentedSpace1.getRentalPeriod());
+
+        rentedSpace1.setRentEndDate(LocalDate.of(2031, 4,10));
+        System.out.println(rentedSpace1.getRentalEndDate());
+
+        System.out.println(space1.toString());
+
+        Space[] spaces1 = new Space[2];
+        spaces1[0] = space1;
+        spaces1[1] = space2;
+
+        RentedSpacesFloor rentedSpacesFloor1 = new RentedSpacesFloor(spaces1);
+
+        System.out.println(rentedSpacesFloor1.toString());
+
+        try {
+            System.out.println( rentedSpacesFloor1.getClosestRentalEndDate());
+        } catch (NoRentedSpaceException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println( rentedSpacesFloor1.getSpaceByClosestRentalEndDate());
+        } catch (NoRentedSpaceException e) {
+            e.printStackTrace();
+        }
+
+        OwnersFloor ownersFloor1 = new OwnersFloor(spaces1);
+
+        try {
+            System.out.println(ownersFloor1.getClosestRentalEndDate());
+        } catch (NoRentedSpaceException e) {
+            e.printStackTrace();
+        }
     }
 
 

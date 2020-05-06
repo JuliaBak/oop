@@ -28,8 +28,7 @@ public final class Person implements Cloneable {
     }
 
     @Override
-    public int hashCode() /*вычисляет хэш-код как произведение хэш-кодов всех атрибутов
-    класса*/
+    public int hashCode()
     {
         return surname.hashCode() & name.hashCode();
     }
@@ -41,7 +40,7 @@ public final class Person implements Cloneable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Person person = (Person) obj;
-        return //проверяем эквивалентность всех атрибутов
+        return
                 this.name.equals(person.name) &&
                         this.surname.equals(person.surname) ;
     }

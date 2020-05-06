@@ -20,7 +20,8 @@ public final class Vehicle implements Cloneable{
         this.type = EMPTY_VEHICLE.type;
     }
 
-    public Vehicle (String registrationNumber, String manufacturer, String model, VehiclesTypes vehicleType) throws RegistrationNumberFormatException {
+    public Vehicle (String registrationNumber, String manufacturer, String model, VehiclesTypes vehicleType) throws RegistrationNumberFormatException, NullPointerException {
+
 
         this.manufacturer =   Objects.requireNonNull( manufacturer,"Manufacture is null");
         this.model =   Objects.requireNonNull( model,"Model  is null");
@@ -34,7 +35,7 @@ public final class Vehicle implements Cloneable{
     {
         Objects.requireNonNull(registrationNumber, "Reg Number is null");
 
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$"); // Корректный формат регистрационного номера:
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}"); // Корректный формат регистрационного номера:
         //<буква><цифра><цифра><цифра><буква><буква><2-3 цифры>
         Matcher matcherNumber = pattern.matcher(registrationNumber);
         if ( matcherNumber.matches() )
@@ -61,7 +62,7 @@ public final class Vehicle implements Cloneable{
     }
 
     //Lab4
-    @Override //переопределение класса toString, по формату, lab4
+    @Override
     public String toString() {
         if (type == VehiclesTypes.NONE)
         {return "NONE";}
@@ -75,8 +76,7 @@ public final class Vehicle implements Cloneable{
     }
 
     @Override
-    public int hashCode() /*вычисляет хэш-код как произведение хэш-кодов всех атрибутов
-    класса */
+    public int hashCode()
     {
         return model.hashCode() &  manufacturer.hashCode() &  registrationNumber.hashCode() &  type.hashCode();
     }

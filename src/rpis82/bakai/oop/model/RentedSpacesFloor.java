@@ -47,18 +47,19 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     private void addLastSpace(Space space) throws NullPointerException{
 
         Objects.requireNonNull(space, "Space is null");
-        if (space != null) {
             Node last = new Node(this.head, this.head.previous, space);
             this.head.previous = this.head.previous.next = last;
             this.capacity++;
-        }
+
     }
 
     @Override
     public boolean addSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException {
 
         Objects.requireNonNull(space, "Space is null");
-        Objects.checkIndex(index, this.capacity);
+
+        if(index > this.capacity |  index < 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
 
         addByIndex(index, space);
         return true;
@@ -68,7 +69,9 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     private void addByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException { //добавляющий узел в заданную позицию в списке
 
         Objects.requireNonNull(space, "Space is null");
-        Objects.checkIndex(index, this.capacity);
+
+        if(index > this.capacity |  index < 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
 
         if (index == 0) {
             addFirstSpace(space);
@@ -86,6 +89,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     }
 
     public void addFirstSpace(Space value) throws NullPointerException {////метод добавялющий узел в начало списка
+
         Objects.requireNonNull(value, "Space is null");
 
         Node first = new Node(this.head.next, this.head, value);
@@ -96,7 +100,9 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     private Node getNodeByIndex(int index) throws IndexOutOfBoundsException{ //возвращающий ссылку на узел по его номеру в списке
 
-        Objects.checkIndex(index, this.capacity);
+        if(index > this.capacity |  index < 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
+
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (number == index) {
@@ -110,18 +116,20 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public Space getSpaceByIndex(int index) throws  IndexOutOfBoundsException{
 
-        Objects.checkIndex(index, this.capacity);
+        if(index > this.capacity |  index <= 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
 
         Node node = getNodeByIndex(index);
         if (node != null) {
             return node.value;
-        } else return null;
+        } else   return null;
     }
 
     @Override
     public Space removeByIndex(int index)  throws IndexOutOfBoundsException{ //удаляющий узел по его номеру в списке
 
-        Objects.checkIndex(index, this.capacity);
+        if(index > this.capacity |  index <= 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
 
         Space space = null;
         Node removedNode = getNodeByIndex(index);
@@ -137,16 +145,18 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override //− изменяющий узел с заданным номером
     public Space setSpaceByIndex(int index, Space value) throws IndexOutOfBoundsException, NullPointerException{
 
-        Objects.checkIndex(index, this.capacity);
+        if(index > this.capacity |  index < 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
+
+        Objects.requireNonNull(value, "Space is null");
 
         Space space = null;
-        if (value != null) {
-            Node node = getNodeByIndex(index);
+        Node node = getNodeByIndex(index);
             if (node != null) {
                 space = node.value;
                 node.value = value;
             }
-        }
+
         return space;
     }
 
@@ -156,7 +166,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     public Space getSpaceByRegNumber(String registrationNumber) throws NullPointerException, NoSuchElementException,  RegistrationNumberFormatException{
 
 
-        if (!isRegNumberFormatOK(registrationNumber)){
+        if (!isRegNumberFormatAcceptable(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
@@ -165,13 +175,13 @@ public class RentedSpacesFloor implements Floor, Cloneable {
                 return node.value;
             }
         }
-        return null;
+        throw  new NoSuchElementException("THere's no space with such RegNumber");
 
     }
 
-    public boolean isRegNumberFormatOK(String registrationNumber){
+    public boolean isRegNumberFormatAcceptable(String registrationNumber){
 
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$");
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
         Matcher matcherReg = pattern.matcher(registrationNumber);
         return matcherReg.matches();
     }
@@ -186,7 +196,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     //с определенным гос. номером
     public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException , NullPointerException, NoSuchElementException {
 
-        if (!isRegNumberFormatOK(registrationNumber)){
+        if (!isRegNumberFormatAcceptable(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
@@ -196,14 +206,14 @@ public class RentedSpacesFloor implements Floor, Cloneable {
                 return true;
             }
         }
-        return false;
+        throw  new NoSuchElementException("THere's no space with such RegNumber");
     }
 
 
     @Override
     public Space removeByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
 
-        if (!isRegNumberFormatOK(registrationNumber)){
+        if (!isRegNumberFormatAcceptable(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
@@ -215,7 +225,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
             }
             index++;
         }
-        return null;
+        throw  new NoSuchElementException("THere's no space with such RegNumber");
     }
 
     @Override
@@ -374,42 +384,38 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     @Override
     public LocalDate getClosestRentalEndDate() throws NoRentedSpaceException {
+
         LocalDate closestDate = null;
         for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value instanceof RentedSpace) {
                 closestDate = ((RentedSpace) node.value).getRentalEndDate();
-            }
+
         }
         if (closestDate == null) {
-            throw new NoRentedSpaceException("There're no rented spaces");
+            throw new NoRentedSpaceException("Rental End Date is null, there's no Closest Rental Date");
         }
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value instanceof RentedSpace) {
+          for (Node node = this.head.next; node != this.head; node = node.next) {
                 if (((RentedSpace) node.value).getRentalEndDate().isBefore(closestDate)) {
                     closestDate = ((RentedSpace) node.value).getRentalEndDate();
-                }
+
             }
-        }
+         }
         return closestDate;
     }
 
     @Override
     public Space getSpaceByClosestRentalEndDate() throws NoRentedSpaceException {
+
         RentedSpace closestRentalEndDateSpace = null;
         for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value instanceof RentedSpace) {
                 closestRentalEndDateSpace = (RentedSpace) node.value;
+        }
+            if (closestRentalEndDateSpace == null) {
+                throw new NoRentedSpaceException("Space is null, there's no Closest Rental Date Space");
             }
-        }
-        if (closestRentalEndDateSpace == null) {
-            throw new NoRentedSpaceException("There're no rented spaces");
-        }
         for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value instanceof RentedSpace) {
                 if (((RentedSpace) node.value).getRentalEndDate().isBefore(closestRentalEndDateSpace.getRentalEndDate())) {
                     closestRentalEndDateSpace = (RentedSpace) node.value;
                 }
-            }
         }
         return closestRentalEndDateSpace;
     }

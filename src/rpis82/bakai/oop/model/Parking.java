@@ -29,7 +29,10 @@ public class Parking{
 
 
     //добавляющий этаж в конец массива
-    public boolean addLastFloor(Floor floor) {
+    public boolean addLastFloor(Floor floor) throws NullPointerException {
+
+        Objects.requireNonNull(floor, "Floor is null");
+
         if (isEnough()) {
             this.floors[this.capacity] = floor;
         } else {
@@ -48,9 +51,12 @@ public class Parking{
     }
 
     //добавляющий этаж в заданное место
-    public boolean addFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException {
+    public boolean addFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException, NullPointerException {
 
-        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if(index > this.capacity |  index < 0 )
+            throw  new IndexOutOfBoundsException("THere's no such index");
+
+        Objects.requireNonNull(floor, "Floor is null");
 
         if (this.floors.length > index && index > 0) {
             shiftArray(index);
@@ -97,9 +103,11 @@ public class Parking{
 
     //изменяющий ссылку на экземпляр класса  по его номеру в массиве.
     //Принимает в качестве параметров номер и ссылку на экземпляр класса OwnersFloor
-    public Floor setFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException{
+    public Floor setFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException, NullPointerException{
 
         if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
+        Objects.requireNonNull(floor, "Floor is null");
 
         Floor changedFloor = this.floors[index];
         this.floors[index] = floor;
@@ -179,7 +187,7 @@ public class Parking{
 
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
     //средство с определенным гос. номером. В качестве параметра принимает строку – гос. номер.
-    public Space getSpaceByRegNumber(String registrationNumber) throws NullPointerException, RegistrationNumberFormatException {
+    public Space getSpaceByRegNumber(String registrationNumber) throws NullPointerException, RegistrationNumberFormatException, NoSuchElementException {
 
         if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("RegNumber has wrong format");
@@ -196,12 +204,12 @@ public class Parking{
                 }
             }
         }
-        return null;
+        throw new NoSuchElementException("There's no such space");
     }
 
     public boolean isRegNumberFormatOK(String registrationNumber){
 
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$");
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
         Matcher matcherReg = pattern.matcher(registrationNumber);
         return matcherReg.matches();
     }
@@ -214,6 +222,7 @@ public class Parking{
     //удаляющий парковочное место, с которым связанно транспортное средство с
     //определенным гос. номером.
     public Space removeSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException,  NullPointerException, NoSuchElementException {
+
         if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("RegNumber has wrong format");
         }
@@ -231,7 +240,7 @@ public class Parking{
                 }
             }
         }
-        return null;
+        throw new NoSuchElementException("There's no such space");
     }
 
 
@@ -244,7 +253,6 @@ public class Parking{
         }
         Objects.requireNonNull(registrationNumber,"Reg Number is null");
 
-
         Objects.requireNonNull(space, "Space is null");
 
         Space removedSpace;
@@ -253,13 +261,14 @@ public class Parking{
             spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
+
                     removedSpace = spaces[i];
                     floors[index].setSpaceByIndex(i, space);
                     return removedSpace;
                 }
             }
         }
-        return null;
+        throw new NoSuchElementException("There's no such place");
     }
 
 
