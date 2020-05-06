@@ -1,14 +1,13 @@
 package rpis82.bakai.oop.model;
- import rpis82.bakai.oop.model.interfaces.Space;
- import rpis82.bakai.oop.model.interfaces.Floor;
+import rpis82.bakai.oop.model.interfaces.Space;
+import rpis82.bakai.oop.model.interfaces.Floor;
 
 
- import java.util.ArrayList;
- import java.util.Arrays;
- import java.util.List;
- import java.util.Objects;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
- import static java.util.Arrays.sort;
+import static java.util.Arrays.sort;
 
 public class Parking{
 
@@ -45,11 +44,14 @@ public class Parking{
 
     private boolean isEnough()
     {
-       return  (this.capacity < this.floors.length && this.floors[this.capacity] == null);
+        return  (this.capacity < this.floors.length && this.floors[this.capacity] == null);
     }
 
     //добавляющий этаж в заданное место
-    public boolean addFloorByIndex(int index, Floor floor) {
+    public boolean addFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException {
+
+        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         if (this.floors.length > index && index > 0) {
             shiftArray(index);
             this.floors[index] = floor;
@@ -59,7 +61,8 @@ public class Parking{
         return false;
     }
 
-    private void shiftArray(int index) {
+    private void shiftArray(int index)
+    {
         if (this.capacity + 1 >= this.floors.length){
             increaseArraySize();
         }
@@ -85,20 +88,29 @@ public class Parking{
     }
 
     //возвращающий ссылку на экземпляр класса по его номеру в массиве
-    public Floor get(int index) {
+    public Floor get(int index) throws IndexOutOfBoundsException {
+
+        if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         return this.floors[index];
     }
 
     //изменяющий ссылку на экземпляр класса  по его номеру в массиве.
     //Принимает в качестве параметров номер и ссылку на экземпляр класса OwnersFloor
-    public Floor setFloorByIndex(int index, Floor floor) {
+    public Floor setFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException{
+
+        if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         Floor changedFloor = this.floors[index];
         this.floors[index] = floor;
         return changedFloor;
     }
 
     //удаляющий этаж из массива по его номеру
-    public Floor removeFloorByIndex(int index) {
+    public Floor removeFloorByIndex(int index) throws IndexOutOfBoundsException {
+
+        if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         Floor removedFloor = this.floors[index];
         this.floors[index] = null;
         moveArray();
@@ -167,7 +179,14 @@ public class Parking{
 
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
     //средство с определенным гос. номером. В качестве параметра принимает строку – гос. номер.
-    public Space getSpaceByRegNumber(String registrationNumber) {
+    public Space getSpaceByRegNumber(String registrationNumber) throws NullPointerException, RegistrationNumberFormatException {
+
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("RegNumber has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
+
         for (int index = 0; index < floors.length; index++) {
             Space[] spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
@@ -180,14 +199,27 @@ public class Parking{
         return null;
     }
 
+    public boolean isRegNumberFormatOK(String registrationNumber){
+
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$");
+        Matcher matcherReg = pattern.matcher(registrationNumber);
+        return matcherReg.matches();
+    }
+
     private boolean equalsTo(Space space,String registrationNumber)
     {
-      return   space.getVehicle().getRegistrationNumber().equals(registrationNumber);
+        return   space.getVehicle().getRegistrationNumber().equals(registrationNumber);
     }
 
     //удаляющий парковочное место, с которым связанно транспортное средство с
     //определенным гос. номером.
-    public Space removeSpaceByRegNumber(String registrationNumber) {
+    public Space removeSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException,  NullPointerException, NoSuchElementException {
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("RegNumber has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
+
         for (int index = 0; index < this.floors.length; index++ ) {
             Space[] spaces = floors[index].getSpaces();
             for (int i = 0; i < spaces.length; i++) {
@@ -205,7 +237,16 @@ public class Parking{
 
     //изменяющий ссылку на экземпляр класса Space с которым связанно транспортное средство
     //с определенным гос. номером.
-    public Space setSpaceByRegNumber(Space space, String registrationNumber) {
+    public Space setSpaceByRegNumber(Space space, String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException{
+
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("RegNumber has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
+
+        Objects.requireNonNull(space, "Space is null");
+
         Space removedSpace;
         Space[] spaces;
         for (int index = 0; index < this.floors.length; index++ ) {
@@ -233,7 +274,10 @@ public class Parking{
     }
 
     //возвращающий общее число ТС заданного типа
-    public int getVehiclesAmountByType(VehiclesTypes type){
+    public int getVehiclesAmountByType(VehiclesTypes type) throws NullPointerException{
+
+        Objects.requireNonNull(type, "Vehicle Type is null");
+
         int amount = 0;
         for (int i = 0; i < this.floors.length; i++ ){
             amount += floors[i].getSpacesByVehicleType(type).length;
@@ -253,15 +297,18 @@ public class Parking{
         return builtString.toString();
     }
 
-    public Floor[] getFloorsWithPerson(Person person){
+    public Floor[] getFloorsWithPerson(Person person) throws NullPointerException{
+
+        Objects.requireNonNull(person, "Person is null");
+
         Floor[] PersonsFloors = new Floor[capacity];
-       int number = 0;
-       for (int index = 0; index < floors.length; index++)
-       {
+        int number = 0;
+        for (int index = 0; index < floors.length; index++)
+        {
             for (int i = 0; i < floors[index].getCapacity(); i++)
             {
                 if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
-                   PersonsFloors[number++] = floors[index];
+                    PersonsFloors[number++] = floors[index];
                     break;
                 }
             }

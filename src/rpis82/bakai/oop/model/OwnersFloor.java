@@ -2,9 +2,13 @@ package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.lang.Object;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OwnersFloor implements Floor, Cloneable {
 
@@ -26,11 +30,14 @@ public class OwnersFloor implements Floor, Cloneable {
     public  Space[]  copyFrom(Space[] spaces)
     {
         Space[] newSpaces = new Space[spaces.length];
-       System.arraycopy(spaces, 0 , newSpaces, 0, spaces.length);
-       return newSpaces;
+        System.arraycopy(spaces, 0 , newSpaces, 0, spaces.length);
+        return newSpaces;
     }
 
-    public boolean addSpace(Space space) {
+    public boolean addSpace(Space space) throws NullPointerException{
+
+        Objects.requireNonNull(space, "Space is null");
+
         if (!isEnoughCapacity()) {
             grow();
         }
@@ -50,7 +57,12 @@ public class OwnersFloor implements Floor, Cloneable {
         this.capacity = newSpaces.length;
     }
 
-    public boolean addSpaceByIndex(int index, Space space) {
+    public boolean addSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
+
+        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
+        Objects.requireNonNull(space, "Space is null");
+
         if (this.spaces.length > index && index > 0) {
             shiftArrayByIndex(index);
             this.spaces[index] = space;
@@ -60,7 +72,8 @@ public class OwnersFloor implements Floor, Cloneable {
         return false;
     }
 
-    private void shiftArrayByIndex(int index){
+    private void shiftArrayByIndex(int index) {
+
         if (this.capacity + 1 >= this.spaces.length){
             grow();
         }
@@ -72,12 +85,22 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override //возвращающий ссылку на экземпляр класса Space по его номеру в массиве
-    public Space getSpaceByIndex(int index) {
+    public Space getSpaceByIndex(int index) throws IndexOutOfBoundsException {
+
+        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         return this.spaces[index];
     }
 
     @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
-    public Space getSpaceByRegNumber(String registrationNumber) {
+    public Space getSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException {
+
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("Reg Number has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
+
         for (int index = 0; index < spaces.length; index++) {
             if (equalsToRegNumber(spaces[index], registrationNumber)) {
                 return spaces[index];
@@ -86,14 +109,25 @@ public class OwnersFloor implements Floor, Cloneable {
         return null;
     }
 
+    public boolean isRegNumberFormatOK(String text){
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$");
+        Matcher matcherReg = pattern.matcher(text);
+        return matcherReg.matches();
+    }
 
-   public boolean equalsToRegNumber(Space space, String registrationNumber)
-   {
-       return space.getVehicle().getRegistrationNumber().equals(registrationNumber);
-   }
+    public boolean equalsToRegNumber(Space space, String registrationNumber)
+    {
+        return space.getVehicle().getRegistrationNumber().equals(registrationNumber);
+    }
 
     @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
-    public boolean hasSpaceByRegNumber(String registrationNumber) {
+    public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
+
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("Reg Number has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
         for (int index = 0; index < spaces.length; index++) {
             if ((spaces[index] != null) && equalsToRegNumber(spaces[index], registrationNumber)) {
                 return true;
@@ -106,7 +140,12 @@ public class OwnersFloor implements Floor, Cloneable {
     /*
     Принимает в качестве параметров номер и ссылку на экземпляр класса Space. Возвращает ссылку, которую заменили
      */
-    public Space setSpaceByIndex(int index, Space space) {
+    public Space setSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
+
+        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
+        Objects.requireNonNull(space, "Person is null");
+
         Space setSpace = this.spaces[index];
         this.spaces[index] = space;
         return setSpace;
@@ -117,7 +156,10 @@ public class OwnersFloor implements Floor, Cloneable {
     удаляющий парковочное место из массива по его номеру
      Возвращает удаленную из массива ссылку на экземпляр класса Space
      */
-    public Space removeByIndex(int index) {
+    public Space removeByIndex(int index) throws IndexOutOfBoundsException {
+
+        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+
         Space removedSpace = this.spaces[index];
         this.spaces[index] = null;
         shift();
@@ -125,7 +167,13 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override //удаляющий парковочное место из массива по гос. номеру автомобиля
-    public Space removeByRegNumber(String registrationNumber) {
+    public Space removeByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
+
+        if (!isRegNumberFormatOK(registrationNumber)){
+            throw new RegistrationNumberFormatException("Reg Number has wrong format");
+        }
+        Objects.requireNonNull(registrationNumber,"Reg Number is null");
+
         Space removedSpace;
         for (int index = 0; index < this.capacity; index++) {
             if (equalsToRegNumber(spaces[index], registrationNumber)) {
@@ -139,14 +187,14 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
 
-        public void shift() {
-            for (int i = 0; i < spaces.length; i++)  {
-                if (spaces[i] != null) {
-                    this.spaces[i++] = spaces[i];
-                }
+    public void shift() {
+        for (int i = 0; i < spaces.length; i++)  {
+            if (spaces[i] != null) {
+                this.spaces[i++] = spaces[i];
             }
-            this.capacity = this.spaces.length;
         }
+        this.capacity = this.spaces.length;
+    }
 
     @Override
     public int getCapacity() {
@@ -155,7 +203,7 @@ public class OwnersFloor implements Floor, Cloneable {
 
     @Override //возвращающий массив парковочных мест на этаже
     public Space[] getSpaces() {
-       return copyFrom(spaces);
+        return copyFrom(spaces);
     }
 
     private   boolean isEmptySpaces(Space space)
@@ -186,9 +234,12 @@ public class OwnersFloor implements Floor, Cloneable {
         return number;
     }
 
-      //Lab 3
+    //Lab 3
     @Override //возвращающий массив парковочных мест с ТС заданного типа
-    public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) {
+    public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) throws NullPointerException {
+
+        Objects.requireNonNull(vehicleType, "Vehicle Type is null");
+
         Space[] spaces = new Space[this.capacity];
         int number = 0;
         for (int index = 0; index < spaces.length; index++){
@@ -220,10 +271,10 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override
     public String toString() {
         StringBuilder builtString = new StringBuilder("Spaces:\n");
-       for(int i = 0; i < this.capacity; i++)
-       {
-           builtString.append(this.spaces[i].toString()).append("\n");
-       }
+        for(int i = 0; i < this.capacity; i++)
+        {
+            builtString.append(this.spaces[i].toString()).append("\n");
+        }
         return builtString.toString();
     }
 
@@ -235,7 +286,7 @@ public class OwnersFloor implements Floor, Cloneable {
         {
             resultedHash ^= spaces[i].hashCode();
         }
-        return 71 * ( resultedHash & Objects.hashCode(capacity));
+        return 71 * (resultedHash & Objects.hashCode(capacity));
     }
 
     @Override
@@ -254,7 +305,10 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override
-    public boolean isSpaceRemoved(Space space) {
+    public boolean isSpaceRemoved(Space space) throws NullPointerException{
+
+        Objects.requireNonNull(space, "Space is null");
+
         for (int i = 0; i < this.spaces.length; i++){
             if (this.spaces[i].equals(space)){
                 removeByIndex(i);
@@ -265,7 +319,10 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override
-    public int indexOfSpace(Space space) {
+    public int indexOfSpace(Space space) throws NullPointerException{
+
+        Objects.requireNonNull(space, "Space is null");
+
         for (int index = 0; index< this.spaces.length; index++){
             if (this.spaces[index].equals(space)){
                 return index;
@@ -275,7 +332,9 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override
-    public int spacesNumberByPerson(Person person) {
+    public int spacesNumberByPerson(Person person) throws NullPointerException{
+        Objects.requireNonNull(person, "Person is null");
+
         int number = 0;
         for (int index = 0; index< this.spaces.length; index++) {
             if (spaces[index].getPerson().equals(person)) {
@@ -283,5 +342,51 @@ public class OwnersFloor implements Floor, Cloneable {
             }
         }
         return number;
+    }
+
+    //Lab 5
+    @Override
+    public LocalDate getClosestRentalEndDate() throws NoRentedSpaceException {
+
+        LocalDate closestDate = null;
+        for(int index = 0; index < this.spaces.length; index++) {
+            if (spaces[index] instanceof RentedSpace) {
+                closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
+            }
+
+        }
+        if (closestDate == null){
+            throw new NoRentedSpaceException("There're no rented spaces");
+        }
+        for(int index = 0; index < this.spaces.length; index++){
+            if (spaces[index] instanceof RentedSpace){
+                if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDate)){
+                    closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
+                }
+            }
+        }
+        return closestDate;
+    }
+
+    @Override
+    public Space getSpaceByClosestRentalEndDate() throws NoRentedSpaceException {
+
+        RentedSpace closestDateSpace = null;
+        for(int index = 0; index < this.spaces.length; index++){
+            if (spaces[index] instanceof RentedSpace){
+                closestDateSpace = (RentedSpace) spaces[index];
+            }
+        }
+        if (closestDateSpace == null){
+            throw new NoRentedSpaceException("There're no rented spaces");
+        }
+        for(int index = 0; index < this.spaces.length; index++){
+            if (spaces[index] instanceof RentedSpace){
+                if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDateSpace.getRentalEndDate())){
+                    closestDateSpace = (RentedSpace) spaces[index];
+                }
+            }
+        }
+        return closestDateSpace;
     }
 }

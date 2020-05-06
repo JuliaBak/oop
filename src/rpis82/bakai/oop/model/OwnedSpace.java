@@ -1,14 +1,16 @@
 package rpis82.bakai.oop.model;
 import rpis82.bakai.oop.model.interfaces.Space;
 
+import java.time.LocalDate;
+
 public class OwnedSpace extends AbstractSpace implements Space, Cloneable{
 
     public OwnedSpace(Person person, Vehicle vehicle) {
-        super(person,vehicle);
+        super(person, vehicle, LocalDate.now());
     }
 
     public OwnedSpace(Person person){
-        super(person);
+        super(person, LocalDate.now());
     }
 
     public OwnedSpace(){

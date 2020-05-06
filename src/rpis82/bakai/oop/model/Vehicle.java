@@ -1,8 +1,9 @@
 package rpis82.bakai.oop.model;
-import rpis82.bakai.oop.model.VehiclesTypes;
 
 import java.lang.Object;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class Vehicle implements Cloneable{
 
@@ -12,20 +13,36 @@ public final class Vehicle implements Cloneable{
     private final VehiclesTypes type;
 
 
-    public Vehicle() {
+    public Vehicle() throws RegistrationNumberFormatException{
         this.manufacturer = EMPTY_VEHICLE.manufacturer;
         this.model = EMPTY_VEHICLE.model;
         this.registrationNumber = EMPTY_VEHICLE.registrationNumber;
-        this.type = EMPTY_VEHICLE.type;//added in Lab3
+        this.type = EMPTY_VEHICLE.type;
     }
 
-    public Vehicle(String registrationNumber, String manufacturer, String model, VehiclesTypes vehicleType) {
-        this.registrationNumber = registrationNumber;
-        this.manufacturer = manufacturer;
-        this.model = model;
-        this.type = vehicleType; //added in LAB3
+    public Vehicle (String registrationNumber, String manufacturer, String model, VehiclesTypes vehicleType) throws RegistrationNumberFormatException {
+
+        this.manufacturer =   Objects.requireNonNull( manufacturer,"Manufacture is null");
+        this.model =   Objects.requireNonNull( model,"Model  is null");
+        this.type =   Objects.requireNonNull( vehicleType,"Type is null");
+
+        this.registrationNumber = checkRegNumberFormat(registrationNumber);
+
     }
 
+    public String checkRegNumberFormat(String registrationNumber) throws RegistrationNumberFormatException
+    {
+        Objects.requireNonNull(registrationNumber, "Reg Number is null");
+
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}$"); // Корректный формат регистрационного номера:
+        //<буква><цифра><цифра><цифра><буква><буква><2-3 цифры>
+        Matcher matcherNumber = pattern.matcher(registrationNumber);
+        if ( matcherNumber.matches() )
+        {
+            return registrationNumber;
+        }
+        else { throw  new RegistrationNumberFormatException("RegNumber has wrong format");}
+    }
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -77,11 +94,11 @@ public final class Vehicle implements Cloneable{
                         this.model.equals(vehicleObj.model);
     }
 
-       @Override
-        public Vehicle clone() throws CloneNotSupportedException
-        {
-            return (Vehicle) super.clone();
-        }
+    @Override
+    public Vehicle clone() throws CloneNotSupportedException
+    {
+        return (Vehicle) super.clone();
+    }
 
 }
 

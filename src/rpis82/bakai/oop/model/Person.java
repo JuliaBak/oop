@@ -3,13 +3,13 @@ package rpis82.bakai.oop.model;
 import java.util.Objects;
 
 public final class Person implements Cloneable {
-   public final String surname, name;
+    public final String surname, name;
     public static Person EMPTY_PERSON = new Person(" ", " ");
 
-    public Person(String surname, String name)
+    public Person  (String surname, String name) throws NullPointerException
     {
-        this.name = name;
-        this.surname = surname;
+        this.name =  Objects.requireNonNull(name, " Name is null");
+        this.surname = Objects.requireNonNull(surname, " Surname is null");;
     }
 
     public String getName() {
@@ -23,7 +23,7 @@ public final class Person implements Cloneable {
     //Lab4
     @Override //переопределение класса toString, по формату, lab4
     public String toString() {
-            return String.format("<%s> <%s>", this.surname, this.name);
+        return String.format("<%s> <%s>", this.surname, this.name);
 
     }
 
@@ -49,7 +49,7 @@ public final class Person implements Cloneable {
     @Override
     public Person clone() throws CloneNotSupportedException
     {
-            return (Person) super.clone();
+        return (Person) super.clone();
     }
 
 }

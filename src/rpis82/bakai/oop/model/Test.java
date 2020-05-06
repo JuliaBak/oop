@@ -9,12 +9,29 @@ import java.util.Arrays;
 public class Test implements Cloneable {
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        lab4tests();
-       // lab2tests();
-       // lab3test();
+        lab5tests();
+        // lab4tests();
+        // lab2tests();
+        // lab3test();
     }
 
-    public static void lab4tests() throws CloneNotSupportedException {
+
+    public static void  lab5tests()
+    {
+        Person person1 = new Person("Ivan", "Ivanov");
+        //  Person person2 = new Person(null, "Petrov");
+
+        Vehicle vehicle1 = new Vehicle("A654BM64", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+
+        System.out.println(person1.toString());
+        // System.out.println(person2.toString());
+
+        // System.out.println(vehicle1.toString());
+
+    }
+
+
+  /*  public static void lab4tests() throws CloneNotSupportedException {
         Person person1 = new Person("Ivan", "Ivanov");
         Person person2 = new Person("Petr", "Petrov");
         Person person3 = new Person("Willy", "Free");
@@ -104,6 +121,8 @@ public class Test implements Cloneable {
 
     }
 
+
+
     public static void lab3test() {
         Person person1 = new Person("Duck", "Ducky");
         Person person2 = new Person("Ven", "Tori");
@@ -140,6 +159,8 @@ public class Test implements Cloneable {
         System.out.println(parkingSpace.get(1));
 
     }
+
+
 
     public static void lab2tests() {
         Person person1 = new Person("Frick", "Jason");
@@ -245,7 +266,7 @@ public class Test implements Cloneable {
         */
 
 
-    }
+}
 
 
 
