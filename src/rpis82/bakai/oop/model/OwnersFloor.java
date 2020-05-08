@@ -59,7 +59,7 @@ public class OwnersFloor implements Floor, Cloneable {
 
     public boolean addSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
 
-        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         Objects.requireNonNull(space, "Space is null");
 
@@ -87,7 +87,7 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override //возвращающий ссылку на экземпляр класса Space по его номеру в массиве
     public Space getSpaceByIndex(int index) throws IndexOutOfBoundsException {
 
-        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         return this.spaces[index];
     }
@@ -142,7 +142,7 @@ public class OwnersFloor implements Floor, Cloneable {
      */
     public Space setSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
 
-        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         Objects.requireNonNull(space, "Person is null");
 
@@ -158,7 +158,7 @@ public class OwnersFloor implements Floor, Cloneable {
      */
     public Space removeByIndex(int index) throws IndexOutOfBoundsException {
 
-        if ( index > this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         Space removedSpace = this.spaces[index];
         this.spaces[index] = null;

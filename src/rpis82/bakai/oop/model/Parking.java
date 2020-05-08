@@ -53,7 +53,7 @@ public class Parking{
     //добавляющий этаж в заданное место
     public boolean addFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException, NullPointerException {
 
-        if(index > this.capacity |  index < 0 )
+        if(index >=  this.capacity |  index < 0 )
             throw  new IndexOutOfBoundsException("THere's no such index");
 
         Objects.requireNonNull(floor, "Floor is null");
@@ -96,7 +96,7 @@ public class Parking{
     //возвращающий ссылку на экземпляр класса по его номеру в массиве
     public Floor get(int index) throws IndexOutOfBoundsException {
 
-        if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         return this.floors[index];
     }
@@ -105,7 +105,7 @@ public class Parking{
     //Принимает в качестве параметров номер и ссылку на экземпляр класса OwnersFloor
     public Floor setFloorByIndex(int index, Floor floor) throws IndexOutOfBoundsException, NullPointerException{
 
-        if ( index > this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
+        if ( index >=  this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
         Objects.requireNonNull(floor, "Floor is null");
 

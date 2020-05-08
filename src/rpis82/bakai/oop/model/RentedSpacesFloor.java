@@ -100,7 +100,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     private Node getNodeByIndex(int index) throws IndexOutOfBoundsException{ //возвращающий ссылку на узел по его номеру в списке
 
-        if(index > this.capacity |  index < 0 )
+        if(index >=  this.capacity |  index < 0 )
             throw  new IndexOutOfBoundsException("THere's no such index");
 
         int number = 0;
@@ -116,7 +116,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public Space getSpaceByIndex(int index) throws  IndexOutOfBoundsException{
 
-        if(index > this.capacity |  index <= 0 )
+        if(index >=  this.capacity |  index <= 0 )
             throw  new IndexOutOfBoundsException("THere's no such index");
 
         Node node = getNodeByIndex(index);
@@ -128,7 +128,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public Space removeByIndex(int index)  throws IndexOutOfBoundsException{ //удаляющий узел по его номеру в списке
 
-        if(index > this.capacity |  index <= 0 )
+        if(index >=  this.capacity |  index <= 0 )
             throw  new IndexOutOfBoundsException("THere's no such index");
 
         Space space = null;
@@ -145,7 +145,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override //− изменяющий узел с заданным номером
     public Space setSpaceByIndex(int index, Space value) throws IndexOutOfBoundsException, NullPointerException{
 
-        if(index > this.capacity |  index < 0 )
+        if(index >=  this.capacity |  index < 0 )
             throw  new IndexOutOfBoundsException("THere's no such index");
 
         Objects.requireNonNull(value, "Space is null");
