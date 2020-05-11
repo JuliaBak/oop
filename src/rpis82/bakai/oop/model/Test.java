@@ -10,12 +10,18 @@ import java.util.Arrays;
 public class Test implements Cloneable {
 
     public static void main(String[] args)  {
-        lab5tests();
+        lab6tests();
+      //  lab5tests();
         // lab4tests();
         // lab2tests();
         // lab3test();
     }
 
+
+    public static void  lab6tests()
+    {
+
+    }
 
     public static void  lab5tests()
     {

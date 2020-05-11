@@ -6,10 +6,9 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Arrays;
 
-import static java.util.Arrays.sort;
-
-public class Parking{
+public class Parking implements Iterable<Floor> {
 
     private Floor[] floors;
     private int capacity;
@@ -139,19 +138,11 @@ public class Parking{
         return floors;
     }
 
-    //возвращающий массив этажей, отсортированный по возрастанию числа парковочных мест
-    //на этаже
+
+    //Changed to Lab6
     public Floor[] getSortedByFloorsSize() {
         Floor[] sortedFloors = this.floors;
-        for (int i = 0; i < sortedFloors.length - 1; i++) {
-            for (int j = 0; j < i; j++) {
-                if (sortedFloors[j].getCapacity() > sortedFloors[j + 1].getCapacity()) {
-                    Floor ownersFloor = sortedFloors[j];
-                    sortedFloors[j] = sortedFloors[j + 1];
-                    sortedFloors[j + 1] = ownersFloor;
-                }
-            }
-        }
+        Arrays.sort(sortedFloors);
         return sortedFloors;
     }
 
@@ -323,5 +314,31 @@ public class Parking{
             }
         }
         return PersonsFloors;
+    }
+
+    //Lab6
+
+    private class SpaceIterator implements Iterator<Floor>{
+
+        int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < capacity;
+        }
+
+        @Override
+        public Floor next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("There isn't any space left");
+            } else {
+                return floors[index++];
+            }
+        }
+    }
+
+    @Override
+    public Iterator<Floor> iterator() {
+        return new SpaceIterator();
     }
 }

@@ -5,6 +5,7 @@ import rpis82.bakai.oop.model.interfaces.Space;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.lang.Object;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -384,5 +385,41 @@ public class OwnersFloor implements Floor, Cloneable {
             }
         }
         return closestDateSpace;
+    }
+
+    //Lab6
+
+    @Override
+    public int compareTo(Floor floor)
+    {
+        return this.capacity - floor.getCapacity();
+    }
+
+
+    //внутренний приватный класс SpaceIterator
+    private class SpaceIterator implements Iterator<Space> {
+
+        int index = 0;
+
+        //метод next() итератора должен выбрасывать NoSuchElementException
+        @Override
+        public Space next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("There isn't any space left");
+            } else {
+                return spaces[index++];
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < capacity;
+        }
+    }
+
+    //реализовать метод Iterator<Space> iterator(), который возвращает экземпляр созданного в предыдущем пункте класса
+    @Override
+    public Iterator<Space> iterator() {
+        return new SpaceIterator();
     }
 }

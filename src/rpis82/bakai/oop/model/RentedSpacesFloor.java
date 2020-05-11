@@ -4,6 +4,7 @@ import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -418,6 +419,39 @@ public class RentedSpacesFloor implements Floor, Cloneable {
                 }
         }
         return closestRentalEndDateSpace;
+    }
+
+    //Lab6
+
+    @Override
+    public int compareTo(Floor floor) {
+        return this.capacity - floor.getCapacity();
+    }
+
+    private class SpaceIterator implements Iterator<Space> {
+
+        private Node nextItem = head.next;
+
+        @Override
+        public boolean hasNext() {
+            return nextItem != head;
+        }
+
+        @Override
+        public Space next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("There isn't any space left");
+            } else {
+                Space value = nextItem.value;
+                nextItem = nextItem.next;
+                return value;
+            }
+        }
+    }
+
+    public Iterator<Space> iterator()
+    {
+        return new SpaceIterator();
     }
 
 }

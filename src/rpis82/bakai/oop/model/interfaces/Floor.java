@@ -6,7 +6,7 @@ import rpis82.bakai.oop.model.VehiclesTypes;
 
 import java.time.LocalDate;
 
-public interface Floor {
+public interface Floor  extends Comparable<Floor>, Iterable<Space> {
 
     boolean addSpace(Space space); //метод добавляющий парковочное место
 
