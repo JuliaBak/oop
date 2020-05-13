@@ -3,11 +3,8 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.*;
 import java.lang.Object;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,6 +90,7 @@ public class OwnersFloor implements Floor, Cloneable {
         return this.spaces[index];
     }
 
+
     @Override //возвращающий ссылку на экземпляр класса Space, с которым связанно тс с определенным гос. номером.
     public Space getSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
 
@@ -102,19 +100,24 @@ public class OwnersFloor implements Floor, Cloneable {
         Objects.requireNonNull(registrationNumber,"Reg Number is null");
 
 
-        for (int index = 0; index < spaces.length; index++) {
-            if (equalsToRegNumber(spaces[index], registrationNumber)) {
-                return spaces[index];
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if (equalsToRegNumber(space, registrationNumber)) {
+                return space;
             }
         }
-        throw new NoSuchElementException("There's no such space");
+        throw  new NoSuchElementException("THere's no space with such RegNumber");
+
     }
 
-    public boolean isRegNumberFormatOK(String text){
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
-        Matcher matcherReg = pattern.matcher(text);
-        return matcherReg.matches();
+    public boolean isRegNumberFormatOK(String registrationNumber)
+    {
+      return  Floor.super.isRegNumberFormatOK(registrationNumber);
     }
+
 
     public boolean equalsToRegNumber(Space space, String registrationNumber)
     {
@@ -124,23 +127,25 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override  //определяющий, есть ли на этаже парковочное место, связанное с тс с определенным гос. номером.
     public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException {
 
+
         if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");
         }
         Objects.requireNonNull(registrationNumber,"Reg Number is null");
 
-        for (int index = 0; index < spaces.length; index++) {
-            if ((spaces[index] != null) && equalsToRegNumber(spaces[index], registrationNumber)) {
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if ((space != null) &&  equalsToRegNumber(space, registrationNumber)) {
                 return true;
             }
         }
         return false;
     }
 
-    //изменяющий ссылку на экземпляр класса Space по его номеру в массиве
-    /*
-    Принимает в качестве параметров номер и ссылку на экземпляр класса Space. Возвращает ссылку, которую заменили
-     */
+
     public Space setSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
 
         if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
@@ -153,10 +158,6 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override
-    /*
-    удаляющий парковочное место из массива по его номеру
-     Возвращает удаленную из массива ссылку на экземпляр класса Space
-     */
     public Space removeByIndex(int index) throws IndexOutOfBoundsException {
 
         if ( index >=  this.capacity | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
@@ -175,16 +176,18 @@ public class OwnersFloor implements Floor, Cloneable {
         }
         Objects.requireNonNull(registrationNumber,"Reg Number is null");
 
-        Space removedSpace;
-        for (int index = 0; index < this.capacity; index++) {
-            if (equalsToRegNumber(spaces[index], registrationNumber)) {
-                removedSpace = this.spaces[index];
-                this.spaces[index] = null;
-                shift();
-                return removedSpace;
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+        int index = 0;
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if (equalsToRegNumber(space, registrationNumber)) {
+                return removeByIndex(index);
             }
+            index++;
         }
-        throw new NoSuchElementException("There's no such space");
+        throw new NoSuchElementException("THere's no space with such RegNumber");
+
     }
 
 
@@ -216,9 +219,9 @@ public class OwnersFloor implements Floor, Cloneable {
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
         int number = 0;
-        for (int index = 0; index < spaces.length; index++) {
-            if ((spaces[index] != null) && (spaces[index].isEmpty())){
-                vehicles[number] = spaces[index].getVehicle();
+        for (Space space : spaces) {
+            if ((space != null) && (space.isEmpty())) {
+                vehicles[number] = space.getVehicle();
                 number++;
             }
         }
@@ -227,8 +230,8 @@ public class OwnersFloor implements Floor, Cloneable {
 
     public int getVehiclesNumber(){
         int number = 0;
-        for (int index = 0; index < spaces.length; index++){
-            if (isEmptySpaces(spaces[index])){
+        for (Space space : spaces) {
+            if (isEmptySpaces(space)) {
                 number++;
             }
         }
@@ -337,8 +340,8 @@ public class OwnersFloor implements Floor, Cloneable {
         Objects.requireNonNull(person, "Person is null");
 
         int number = 0;
-        for (int index = 0; index< this.spaces.length; index++) {
-            if (spaces[index].getPerson().equals(person)) {
+        for (Space space : this.spaces) {
+            if (space.getPerson().equals(person)) {
                 number++;
             }
         }
@@ -350,18 +353,18 @@ public class OwnersFloor implements Floor, Cloneable {
     public LocalDate getClosestRentalEndDate() throws NoRentedSpaceException {
 
         LocalDate closestDate = null;
-        for(int index = 0; index < this.spaces.length; index++) {
-                closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
+        for (Space space : this.spaces) {
+            closestDate = ((RentedSpace) space).getRentalEndDate();
         }
         //проверка есть ли rented
             if (closestDate == null){
                 throw new NoRentedSpaceException("Rental End Date is null, there's no Closest Rental Date");
             }
 
-        for(int index = 0; index < this.spaces.length; index++){
+        for (Space space : this.spaces) {
 
-                if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDate)){
-                    closestDate = ((RentedSpace) spaces[index]).getRentalEndDate();
+            if (((RentedSpace) space).getRentalEndDate().isBefore(closestDate)) {
+                closestDate = ((RentedSpace) space).getRentalEndDate();
             }
         }
         return closestDate;
@@ -372,16 +375,16 @@ public class OwnersFloor implements Floor, Cloneable {
 
         RentedSpace closestDateSpace = null;
 
-        for(int index = 0; index < this.spaces.length; index++){
-                closestDateSpace = (RentedSpace) spaces[index];
+        for (Space space : this.spaces) {
+            closestDateSpace = (RentedSpace) space;
         }
             if (closestDateSpace == null){
                 throw new NoRentedSpaceException("Space is null, there's no Closest Rental Date Space");
             }
 
-        for(int index = 0; index < this.spaces.length; index++){
-                if (((RentedSpace) spaces[index]).getRentalEndDate().isBefore(closestDateSpace.getRentalEndDate())){
-                    closestDateSpace = (RentedSpace) spaces[index];
+        for (Space space : this.spaces) {
+            if (((RentedSpace) space).getRentalEndDate().isBefore(closestDateSpace.getRentalEndDate())) {
+                closestDateSpace = (RentedSpace) space;
             }
         }
         return closestDateSpace;
@@ -403,7 +406,7 @@ public class OwnersFloor implements Floor, Cloneable {
 
         //метод next() итератора должен выбрасывать NoSuchElementException
         @Override
-        public Space next() {
+        public Space next() throws NoSuchElementException {
             if (!hasNext()) {
                 throw new NoSuchElementException("There isn't any space left");
             } else {

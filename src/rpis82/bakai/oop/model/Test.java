@@ -20,6 +20,27 @@ public class Test implements Cloneable {
 
     public static void  lab6tests()
     {
+        Person person1 = new Person("Ivan", "Ivanov");
+        Person person2 = new Person("Eva", "Gtt");
+
+        Vehicle vehicle1 = new Vehicle("A654BM64", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+        Vehicle vehicle2 = new Vehicle("M354AF23", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+
+        Space space1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2022, 2,13));
+        Space space2 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.of(2024, 7,1));
+
+        Space[] spaces1 = new Space[2];
+        spaces1[0] = space1;
+        spaces1[1] = space2;
+
+        OwnersFloor owner1 = new OwnersFloor(spaces1);
+
+        System.out.println(owner1.hasSpaceByRegNumber("A654BM64"));
+
+        RentedSpacesFloor rentedSpacesFloor1 = new RentedSpacesFloor(spaces1);
+
+       rentedSpacesFloor1.setSpaceByIndex(0, space2);
+
 
     }
 

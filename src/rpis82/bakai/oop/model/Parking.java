@@ -85,7 +85,7 @@ public class Parking implements Iterable<Floor> {
         for (int i = 0; i < this.floors.length; i++ ) {
             if (floors[i] != null) {
                 doubleFloors[amount++] = floors[i];
-                //amount++;
+
             }
         }
         this.floors = doubleFloors;
@@ -93,7 +93,7 @@ public class Parking implements Iterable<Floor> {
     }
 
     //возвращающий ссылку на экземпляр класса по его номеру в массиве
-    public Floor get(int index) throws IndexOutOfBoundsException {
+    public Floor getFloorByIndex(int index) throws IndexOutOfBoundsException {
 
         if ( index >=  this.floors.length | index < 0) throw new IndexOutOfBoundsException("Index isn't acceptable");
 
@@ -150,11 +150,11 @@ public class Parking implements Iterable<Floor> {
     public Vehicle[] getVehicles() {
         Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
         int number = 0;
-        for (int index = 0; index < floors.length; index++) {
-            Space[] spaces = floors[index].getSpaces();
-            for (int i = 0; i < spaces.length; i++) {
-                if (isEmptySpace(spaces[i])) {
-                    vehicles[number++] = spaces[i].getVehicle();
+        for (Floor floor : floors) {
+            Space[] spaces = floor.getSpaces();
+            for (Space space : spaces) {
+                if (isEmptySpace(space)) {
+                    vehicles[number++] = space.getVehicle();
                 }
             }
         }
@@ -163,8 +163,8 @@ public class Parking implements Iterable<Floor> {
 
     public int getVehicleAmount() {
         int amount = 0;
-        for (int index = 0; index < this.floors.length; index++){
-            amount += floors[index].getVehiclesNumber();
+        for (Floor floor : this.floors) {
+            amount += floor.getVehiclesNumber();
         }
         return amount;
     }
@@ -186,19 +186,18 @@ public class Parking implements Iterable<Floor> {
         Objects.requireNonNull(registrationNumber,"Reg Number is null");
 
 
-        for (int index = 0; index < floors.length; index++) {
-            Space[] spaces = floors[index].getSpaces();
-            for (int i = 0; i < spaces.length; i++) {
-                if (equalsTo(spaces[i], registrationNumber))
-                {
-                    return spaces[i];
+        for (Floor floor : floors) {
+            Space[] spaces = floor.getSpaces();
+            for (Space space : spaces) {
+                if (equalsTo(space, registrationNumber)) {
+                    return space;
                 }
             }
         }
         throw new NoSuchElementException("There's no such space");
     }
 
-    public boolean isRegNumberFormatOK(String registrationNumber){
+     private boolean isRegNumberFormatOK(String registrationNumber){
 
         Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
         Matcher matcherReg = pattern.matcher(registrationNumber);
@@ -267,8 +266,8 @@ public class Parking implements Iterable<Floor> {
     //возвращающий общее число не занятых парковочных мест
     public int getEmptySpacesAmount(){
         int amount = 0;
-        for (int i = 0; i < this.floors.length; i++ ){
-            amount += floors[i].getEmptySpaces().length;
+        for (Floor floor : this.floors) {
+            amount += floor.getEmptySpaces().length;
         }
         return amount;
     }
@@ -279,8 +278,8 @@ public class Parking implements Iterable<Floor> {
         Objects.requireNonNull(type, "Vehicle Type is null");
 
         int amount = 0;
-        for (int i = 0; i < this.floors.length; i++ ){
-            amount += floors[i].getSpacesByVehicleType(type).length;
+        for (Floor floor : this.floors) {
+            amount += floor.getSpacesByVehicleType(type).length;
         }
         return amount;
     }
@@ -290,9 +289,8 @@ public class Parking implements Iterable<Floor> {
     public String toString() {
         StringBuilder builtString = new StringBuilder("Floors (");
         builtString.append(this.capacity).append(" total):\n");
-        for (int i = 0; i < this.floors.length; i++ )
-        {
-            builtString.append(floors[i].toString()).append("\n");
+        for (Floor floor : this.floors) {
+            builtString.append(floor.toString()).append("\n");
         }
         return builtString.toString();
     }
@@ -303,12 +301,10 @@ public class Parking implements Iterable<Floor> {
 
         Floor[] PersonsFloors = new Floor[capacity];
         int number = 0;
-        for (int index = 0; index < floors.length; index++)
-        {
-            for (int i = 0; i < floors[index].getCapacity(); i++)
-            {
-                if (floors[index].getSpaceByIndex(i).getPerson().equals(person)){
-                    PersonsFloors[number++] = floors[index];
+        for (Floor floor : floors) {
+            for (int i = 0; i < floor.getCapacity(); i++) {
+                if (floor.getSpaceByIndex(i).getPerson().equals(person)) {
+                    PersonsFloors[number++] = floor;
                     break;
                 }
             }
@@ -328,7 +324,7 @@ public class Parking implements Iterable<Floor> {
         }
 
         @Override
-        public Floor next() {
+        public Floor next() throws  NoSuchElementException{
             if (!hasNext()) {
                 throw new NoSuchElementException("There isn't any space left");
             } else {

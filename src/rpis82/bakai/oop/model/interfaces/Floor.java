@@ -1,10 +1,11 @@
 package rpis82.bakai.oop.model.interfaces;
-import rpis82.bakai.oop.model.NoRentedSpaceException;
-import rpis82.bakai.oop.model.Person;
-import  rpis82.bakai.oop.model.Vehicle;
-import rpis82.bakai.oop.model.VehiclesTypes;
+import rpis82.bakai.oop.model.*;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public interface Floor  extends Comparable<Floor>, Iterable<Space> {
 
@@ -15,6 +16,8 @@ public interface Floor  extends Comparable<Floor>, Iterable<Space> {
     Space getSpaceByIndex(int index);//возвращающий ссылку на экземпляр класса Space по его номеру в массиве
 
     Space getSpaceByRegNumber(String registrationNumber);
+
+
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
 //средство с определенным гос. номером
     boolean hasSpaceByRegNumber(String registrationNumber);//определяющий, есть ли на этаже парковочное место, связанное с транспортным средством
@@ -63,6 +66,14 @@ public interface Floor  extends Comparable<Floor>, Iterable<Space> {
 
     //возвращающий ссылку на парковочное место с ближайшей датой конца аренды парковочного места
     Space getSpaceByClosestRentalEndDate() throws NoRentedSpaceException;
+
+    //lab6
+    default  boolean isRegNumberFormatOK(String registrationNumber){
+
+        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
+        Matcher matcherReg = pattern.matcher(registrationNumber);
+        return matcherReg.matches();
+    }
 
 }
 

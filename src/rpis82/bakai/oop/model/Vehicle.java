@@ -9,9 +9,10 @@ public final class Vehicle implements Cloneable{
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
 
+
+
     private final String registrationNumber, manufacturer, model;
     private final VehiclesTypes type;
-
 
     public Vehicle() throws RegistrationNumberFormatException{
         this.manufacturer = EMPTY_VEHICLE.manufacturer;

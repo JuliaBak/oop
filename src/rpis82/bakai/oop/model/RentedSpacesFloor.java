@@ -5,6 +5,7 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -164,46 +165,51 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     //возвращающий ссылку на экземпляр класса Space, с которым связанно транспортное
     // средство с определенным гос. номером
+    //Changed in lab6
     public Space getSpaceByRegNumber(String registrationNumber) throws NullPointerException, NoSuchElementException,  RegistrationNumberFormatException{
 
 
-        if (!isRegNumberFormatAcceptable(registrationNumber)){
+        if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (equalsTo(node, registrationNumber)) {
-                return node.value;
+
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if (equalsToRegNumber(space, registrationNumber)) {
+                return space;
             }
         }
         throw  new NoSuchElementException("THere's no space with such RegNumber");
 
+
     }
 
-    public boolean isRegNumberFormatAcceptable(String registrationNumber){
+    public boolean isRegNumberFormatOK(String registrationNumber){
+        return Floor.super.isRegNumberFormatOK(registrationNumber);
 
-        Pattern pattern = Pattern.compile("[ABEKMHOPCTYX][0-9]{3}[ABEKMHOPCTYX]{2}[0-9]{2,3}");
-        Matcher matcherReg = pattern.matcher(registrationNumber);
-        return matcherReg.matches();
     }
 
-    private boolean equalsTo(Node node, String registrationNumber)
-    {
-        return   node.value.getVehicle().getRegistrationNumber().equals(registrationNumber);
-    }
 
     @Override
     //определяющий, есть ли на этаже парковочное место, связанное с транспортным средством
     //с определенным гос. номером
     public boolean hasSpaceByRegNumber(String registrationNumber) throws RegistrationNumberFormatException , NullPointerException, NoSuchElementException {
 
-        if (!isRegNumberFormatAcceptable(registrationNumber)){
+        if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
 
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (equalsTo(node, registrationNumber)) {
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if (equalsToRegNumber(space, registrationNumber)) {
                 return true;
             }
         }
@@ -214,19 +220,30 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public Space removeByRegNumber(String registrationNumber) throws RegistrationNumberFormatException, NullPointerException, NoSuchElementException {
 
-        if (!isRegNumberFormatAcceptable(registrationNumber)){
+        if (!isRegNumberFormatOK(registrationNumber)){
             throw new RegistrationNumberFormatException("Reg Number has wrong format");}
 
         Objects.requireNonNull(registrationNumber, "RegNumber is null");
 
         int index = 0;
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (equalsTo(node, registrationNumber)) {
+
+        Iterator<Space> iteratorSpaces = new SpaceIterator();
+
+        while (iteratorSpaces.hasNext()) {
+            Space space = iteratorSpaces.next();
+
+            if (equalsToRegNumber(space, registrationNumber)) {
                 return removeByIndex(index);
             }
             index++;
         }
-        throw  new NoSuchElementException("THere's no space with such RegNumber");
+        throw new NoSuchElementException("THere's no space with such RegNumber");
+    }
+
+
+    private boolean equalsToRegNumber(Space space, String registrationNumber)
+    {
+        return   space.getVehicle().getRegistrationNumber().equals(registrationNumber);
     }
 
     @Override
@@ -236,7 +253,8 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     @Override
     public Space[] getSpaces() {
-        Space[] spaces = new Space[this.capacity];
+
+          Space[] spaces = new Space[this.capacity];
         int index = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             spaces[index++] = node.value;
@@ -249,8 +267,8 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         Space[] spaces = getSpaces();
         Vehicle[] vehicles = new Vehicle[spaces.length];
         int number = 0;
-        for (int index = 0; index < spaces.length; index++) {
-            vehicles[number++] = spaces[index].getVehicle();
+        for (Space space : spaces) {
+            vehicles[number++] = space.getVehicle();
         }
         return vehicles;
     }
@@ -294,6 +312,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     //Lab4
     @Override
     public String toString() {
+
         StringBuilder builtString = new StringBuilder("Rented spaces:\n");
         for (int index = 0; index < this.capacity; index++)
         {
