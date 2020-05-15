@@ -4,10 +4,7 @@ import rpis82.bakai.oop.model.interfaces.Space;
 import rpis82.bakai.oop.model.interfaces.Floor;
 
 import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -262,13 +259,24 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return spaces;
     }
 
-    @Override
-    public Vehicle[] getVehicles() {
+    @Override //Changed to Lab7
+    public Collection<Vehicle> getVehicles() {
+        /*
         Space[] spaces = getSpaces();
         Vehicle[] vehicles = new Vehicle[spaces.length];
         int number = 0;
         for (Space space : spaces) {
             vehicles[number++] = space.getVehicle();
+        }
+        return vehicles;
+
+         */
+
+        List<Space> spaces = new ArrayList<>(Arrays.asList(getSpaces()));
+        Collection<Vehicle> vehicles = new ArrayList<>();
+
+        for (Space space : spaces) {
+            vehicles.add(space.getVehicle());
         }
         return vehicles;
     }
@@ -278,10 +286,11 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return getSpaces().length;
     }
 
-    //Lab 3
+    //Lab 3, Chaged to Lab7
     @Override //возвращающий массив парковочных мест с ТС заданного типа
-    public Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes) throws NullPointerException{
+    public  List<Space>  getSpacesByVehicleType(VehiclesTypes vehicleTypes) throws NullPointerException{
 
+        /*
         Objects.requireNonNull(vehicleTypes, "Vehicle Type is null");
 
         Space[] resultSpaces = new Space[this.capacity];
@@ -292,15 +301,39 @@ public class RentedSpacesFloor implements Floor, Cloneable {
             }
         }
         return resultSpaces;
+
+         */
+
+        Objects.requireNonNull(vehicleTypes, "VehicleType is null");
+
+        List<Space> spaces = new ArrayList<>();
+
+        for (Node node = this.head.next; node != this.head; node = node.next) {
+            if (node.value.getVehicle().getType().equals(vehicleTypes)) {
+                spaces.add(node.value);
+            }
+        }
+        return spaces;
     }
 
     @Override // возвращающий массив не занятых парковочных мест
-    public Space[] getEmptySpaces() {
+    public Deque<Space> getEmptySpaces() {
+        /*
         Space[] emptySpaces = new Space[this.capacity];
         int number = 0;
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
                 emptySpaces[number++] = node.value;
+            }
+        }
+        return emptySpaces;
+
+         */
+
+        Deque<Space> emptySpaces = new LinkedList<>();
+        for (Node node = this.head.next; node != this.head; node = node.next) {
+            if (node.value.isEmpty()) {
+                emptySpaces.add(node.value);
             }
         }
         return emptySpaces;
@@ -471,6 +504,139 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     public Iterator<Space> iterator()
     {
         return new SpaceIterator();
+    }
+
+    //Lab7
+    @Override
+    public int size() {
+        return this.capacity;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.capacity > 0;
+    }
+
+    @Override
+    public boolean contains(Object object) {
+
+        Objects.requireNonNull(object, "Space is null");
+
+        if (object instanceof Space) {
+            Iterator<Space> iterator = new SpaceIterator();
+
+            while (iterator.hasNext()) {
+                Space space = iterator.next();
+                if (object.equals(space)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public Object[] toArray() {
+
+        Space[] spaces = new Space[this.capacity];
+        int index = 0;
+
+        for (Node node = this.head.next; node != this.head; node = node.next) {
+            spaces[index++] = node.value;
+        }
+        return spaces;
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
+    @Override
+    public boolean add(Space space) {
+
+        Objects.requireNonNull(space, "Space is null");
+        addLastSpace(space);
+        return true;
+    }
+
+    @Override
+    public boolean remove(Object object) {
+        Objects.requireNonNull(object, "Space is null");
+
+        if (!(object instanceof Space)) {
+            return false;
+        }
+        while (iterator().hasNext()) {
+            Space space = iterator().next();
+
+            if (space.equals(object)) {
+                remove(space);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+
+        for (Object object : collection) {
+            if (object instanceof Space)
+            {
+                if (!contains(object)){
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Space> collection) {
+
+        for (Space space : collection) {
+            add(space);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+
+        int number = this.capacity;
+        for (Object object: collection){
+            if (object instanceof Space){
+                remove(object);
+            }
+        }
+        return number > this.capacity;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+
+        int number = this.capacity;
+        Iterator<Space> spaceIterator = new SpaceIterator();
+
+        while (spaceIterator.hasNext()){
+            Space space = spaceIterator.next();
+
+            if (space != null){
+                if (!collection.contains(space)){
+                    remove(space);
+                }
+            }
+        }
+        return number > this.capacity;
+    }
+
+    @Override
+    public void clear() {
+        this.head = new Node(null, null, null);
     }
 
 }

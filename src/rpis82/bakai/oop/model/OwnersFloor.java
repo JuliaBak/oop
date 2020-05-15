@@ -215,14 +215,14 @@ public class OwnersFloor implements Floor, Cloneable {
         return  (space != null) ;
     }
 
+    // Changed to Lab7
     @Override //возвращающий массив транспортных средств на этаже
-    public Vehicle[] getVehicles() {
-        Vehicle[] vehicles = new Vehicle[getVehiclesNumber()];
-        int number = 0;
-        for (Space space : spaces) {
-            if ((space != null) && (space.isEmpty())) {
-                vehicles[number] = space.getVehicle();
-                number++;
+    public List<Vehicle> getVehicles() {
+
+        List<Vehicle> vehicles = new ArrayList<>();
+        for (Space space : this.spaces) {
+            if ((space != null) && (!space.isEmpty())) {
+                vehicles.add(space.getVehicle());
             }
         }
         return vehicles;
@@ -238,11 +238,11 @@ public class OwnersFloor implements Floor, Cloneable {
         return number;
     }
 
-    //Lab 3
+    //Chaged to lab 7, Lab3
     @Override //возвращающий массив парковочных мест с ТС заданного типа
-    public Space[] getSpacesByVehicleType(VehiclesTypes vehicleType) throws NullPointerException {
+    public List<Space> getSpacesByVehicleType(VehiclesTypes vehicleType) throws NullPointerException {
 
-        Objects.requireNonNull(vehicleType, "Vehicle Type is null");
+       /* Objects.requireNonNull(vehicleType, "Vehicle Type is null");
 
         Space[] spaces = new Space[this.capacity];
         int number = 0;
@@ -252,6 +252,18 @@ public class OwnersFloor implements Floor, Cloneable {
             }
         }
         return spaces;
+        */
+
+        Objects.requireNonNull(vehicleType,"Type is null");
+
+        List<Space> spaces = new ArrayList<>();
+        for (Space space: this.spaces){
+            if (space.getVehicle().getType().equals(vehicleType)){
+                spaces.add(space);
+            }
+        }
+        return spaces;
+
     }
 
     private boolean equalsToType(Space space, VehiclesTypes vehicleType)
@@ -260,7 +272,8 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     @Override //возвращающий массив не занятых парковочных мест
-    public Space[] getEmptySpaces() {
+    public Deque<Space> getEmptySpaces() {
+        /*
         Space[] spaces = new Space[this.capacity];
         int number = 0;
         for (int index = 0; index < spaces.length; index++){
@@ -269,6 +282,16 @@ public class OwnersFloor implements Floor, Cloneable {
             }
         }
         return spaces;
+
+         */
+
+        Deque<Space> emptySpaces = new LinkedList<>();
+        for (Space space : this.spaces) {
+            if (space.isEmpty()) {
+                emptySpaces.add(space);
+            }
+        }
+        return emptySpaces;
     }
 
     //Lab 4
@@ -425,4 +448,140 @@ public class OwnersFloor implements Floor, Cloneable {
     public Iterator<Space> iterator() {
         return new SpaceIterator();
     }
+
+
+
+    //Lab7
+    @Override
+    public int size() {
+        return this.capacity;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.capacity == 0;
+    }
+
+    @Override
+    public boolean contains(Object spaceObject) {
+
+        Objects.requireNonNull(spaceObject, "Space is null");
+
+        if (spaceObject instanceof Space) {
+            for (Space space : this.spaces) {
+                if (spaceObject.equals(space)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean remove(Object spaceObject) {
+        Objects.requireNonNull(spaceObject, "Space is null");
+
+        if (!(spaceObject instanceof Space)) {
+            return false;
+        }
+        for (int i = 0; i < this.spaces.length; i++) {
+            if (this.spaces[i].equals(spaceObject)) {
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        for (Object element : collection) {
+
+            if (element instanceof Space) {
+                if (!contains(element)){
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean add(Space space) {
+        Objects.requireNonNull(space, "Space is null");
+
+        if (this.capacity < this.spaces.length && this.spaces[this.capacity] == null) {
+            this.spaces[this.capacity] = space;
+        } else {
+            int index = this.capacity;
+            grow();
+            this.spaces[index] = space;
+        }
+        this.capacity++;
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Space> collection) {
+        for (Space space : collection) {
+            add(space);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+
+        int number = this.capacity;
+        for (Object spaceObject:collection){
+            if (spaceObject instanceof Space){
+                remove(spaceObject);
+            }
+        }
+        return number > this.capacity;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+
+        int amount = this.capacity;
+
+        for (Space space: this.spaces){
+            if (space != null){
+                if (!collection.contains(space)){
+                    remove(space);
+                }
+            }
+        }
+        return amount > this.capacity;
+    }
+
+    @Override
+    public void clear()  {
+
+        this.spaces = new Space[spacesNumber];
+    }
+
+    @Override
+    public Object[] toArray() {
+
+        Space[] resultedSpaces = new RentedSpace[this.capacity];
+        int number = 0;
+        for (Space space : this.spaces) {
+            if (space != null) {
+                resultedSpaces[number++] = space;
+              //  number++;
+            }
+        }
+        return resultedSpaces;
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
+
 }

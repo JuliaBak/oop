@@ -139,15 +139,22 @@ public class Parking implements Iterable<Floor> {
     }
 
 
-    //Changed to Lab6
-    public Floor[] getSortedByFloorsSize() {
+    //Changed to Lab7
+    public List<Floor> getSortedByFloorsSize() {
+        /*
         Floor[] sortedFloors = this.floors;
         Arrays.sort(sortedFloors);
         return sortedFloors;
+
+         */
+        Floor[] resultedFloors = this.floors;
+        Arrays.sort(resultedFloors);
+        return new ArrayList<>(Arrays.asList(resultedFloors));
     }
 
-
-    public Vehicle[] getVehicles() {
+    //Changed to Lab7
+    public Collection<Vehicle> getVehicles() {
+        /*
         Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
         int number = 0;
         for (Floor floor : floors) {
@@ -159,6 +166,22 @@ public class Parking implements Iterable<Floor> {
             }
         }
         return vehicles;
+
+         */
+
+        Collection<Vehicle> vehicles = new ArrayList<>();
+
+        for (Floor floor : this.floors) {
+            Space[] spaces = (Space[]) floor.toArray();
+
+            for (Space space : spaces) {
+                if ((space != null) && (!space.isEmpty())) {
+                    vehicles.add(space.getVehicle());
+                }
+            }
+        }
+        return vehicles;
+
     }
 
     public int getVehicleAmount() {
@@ -267,7 +290,7 @@ public class Parking implements Iterable<Floor> {
     public int getEmptySpacesAmount(){
         int amount = 0;
         for (Floor floor : this.floors) {
-            amount += floor.getEmptySpaces().length;
+            amount += floor.getEmptySpaces().size();
         }
         return amount;
     }
@@ -279,7 +302,7 @@ public class Parking implements Iterable<Floor> {
 
         int amount = 0;
         for (Floor floor : this.floors) {
-            amount += floor.getSpacesByVehicleType(type).length;
+            amount += floor.getSpacesByVehicleType(type).size();
         }
         return amount;
     }
@@ -295,8 +318,10 @@ public class Parking implements Iterable<Floor> {
         return builtString.toString();
     }
 
-    public Floor[] getFloorsWithPerson(Person person) throws NullPointerException{
+    //Changed to Lab7
+    public Set<Floor>  getFloorsWithPerson(Person person) throws NullPointerException{
 
+        /*
         Objects.requireNonNull(person, "Person is null");
 
         Floor[] PersonsFloors = new Floor[capacity];
@@ -310,6 +335,22 @@ public class Parking implements Iterable<Floor> {
             }
         }
         return PersonsFloors;
+
+         */
+
+        Objects.requireNonNull(person, "Person is null");
+
+        Set<Floor> floorsWithPer = new HashSet<>();
+
+        for (Floor floor:this.floors){
+            for (int index = 0; index < floor.size(); index++){
+                if (floor.getSpaceByIndex(index).getPerson().equals(person)){
+                    floorsWithPer.add(floor);
+                    break;
+                }
+            }
+        }
+        return floorsWithPer;
     }
 
     //Lab6

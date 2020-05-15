@@ -2,12 +2,11 @@ package rpis82.bakai.oop.model.interfaces;
 import rpis82.bakai.oop.model.*;
 
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface Floor  extends Comparable<Floor>, Iterable<Space> {
+public interface Floor  extends Comparable<Floor>, Iterable<Space>, Collection<Space> {
 
     boolean addSpace(Space space); //метод добавляющий парковочное место
 
@@ -33,16 +32,18 @@ public interface Floor  extends Comparable<Floor>, Iterable<Space> {
 
     Space[] getSpaces();//возвращающий массив парковочных мест на этаже
 
-    Vehicle[] getVehicles();// возвращающий массив транспортных средств на этаже
+    //Changed to Lab7
+    Collection<Vehicle> getVehicles();// возвращающий массив транспортных средств на этаже
 
     int getVehiclesNumber(); //возвращающий кол-во транспортных средств на этаже
 
     void shift();
 
-    //Lab 3
-    Space[] getEmptySpaces(); //возвращающий массив не занятых парковочных мест
+    //Lab 3, Changed to Lab7
+    Deque<Space> getEmptySpaces(); //возвращающий массив не занятых парковочных мест
 
-    Space[] getSpacesByVehicleType(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
+    //Changed to Lab7
+    List<Space>  getSpacesByVehicleType(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
 
     //Lab 4
     String toString();
