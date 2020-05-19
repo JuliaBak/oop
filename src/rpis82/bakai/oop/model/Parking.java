@@ -139,33 +139,6 @@ public class Parking implements Iterable<Floor> {
     }
 
 
-    //Changed to Lab7
-    public List<Floor> getSortedByFloorsSize() {
-
-        Floor[] sortedFloors = this.floors;
-        Arrays.sort(sortedFloors);
-        return new ArrayList<>(Arrays.asList(sortedFloors));
-
-    }
-
-    //Changed to Lab7
-    public Collection<Vehicle> getVehicles() {
-
-        Collection<Vehicle> vehicles = new ArrayList<>();
-
-        for (Floor floor : this.floors) {
-            Space[] spaces = (Space[]) floor.toArray();
-
-            for (Space space : spaces) {
-                if (isEmptySpace(space)) {
-                    vehicles.add(space.getVehicle());
-                }
-            }
-        }
-        return vehicles;
-
-    }
-
     public int getVehicleAmount() {
         int amount = 0;
         for (Floor floor : this.floors) {
@@ -299,23 +272,6 @@ public class Parking implements Iterable<Floor> {
         return builtString.toString();
     }
 
-    //Changed to Lab7
-    public Set<Floor>  getFloorsWithPerson(Person person) throws NullPointerException{
-
-        Objects.requireNonNull(person, "Person is null");
-
-        Set<Floor> floorsWithPer = new HashSet<>();
-
-        for (Floor floor:this.floors){
-            for (int index = 0; index < floor.size(); index++){
-                if (floor.getSpaceByIndex(index).getPerson().equals(person)){
-                    floorsWithPer.add(floor);
-                    break;
-                }
-            }
-        }
-        return floorsWithPer;
-    }
 
     //Lab6
 
@@ -344,4 +300,52 @@ public class Parking implements Iterable<Floor> {
     }
 
 
+    //Lab7
+
+
+    //Changed to Lab7
+    public List<Floor> getSortedByFloorsSize() {
+
+        Floor[] sortedFloors = this.floors;
+        Arrays.sort(sortedFloors);
+        return new ArrayList<>(Arrays.asList(sortedFloors));
+
+    }
+
+    //Changed to Lab7
+    public Collection<Vehicle> getVehicles() {
+
+        Collection<Vehicle> vehicles = new ArrayList<>();
+
+        for (Floor floor : this.floors) {
+            Space[] spaces = (Space[]) floor.toArray();
+
+            for (Space space : spaces) {
+                if (isEmptySpace(space)) {
+                    vehicles.add(space.getVehicle());
+                }
+            }
+        }
+        return vehicles;
+
+    }
+
+
+    //Changed to Lab7
+    public Set<Floor>  getFloorsWithPerson(Person person) throws NullPointerException{
+
+        Objects.requireNonNull(person, "Person is null");
+
+        Set<Floor> floorsWithPer = new HashSet<>();
+
+        for (Floor floor:this.floors){
+            for (int index = 0; index < floor.size(); index++){
+                if (floor.getSpaceByIndex(index).getPerson().equals(person)){
+                    floorsWithPer.add(floor);
+                    break;
+                }
+            }
+        }
+        return floorsWithPer;
+    }
 }

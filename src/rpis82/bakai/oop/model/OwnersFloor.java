@@ -190,7 +190,6 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
 
-
     private   boolean isEmptySpace(Space space)
     {
         return  (space != null) ;
@@ -437,7 +436,7 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override
     public boolean retainAll(Collection<?> collection) {
 
-        int amount = this.capacity;
+        int number = this.capacity;
 
         for (Space space: this.spaces){
             if (space != null){
@@ -446,7 +445,7 @@ public class OwnersFloor implements Floor, Cloneable {
                 }
             }
         }
-        return amount > this.capacity;
+        return number > this.capacity;
     }
 
     //Lab7
@@ -520,7 +519,6 @@ public class OwnersFloor implements Floor, Cloneable {
         return spaces;
 
     }
-
 
     //Lab7
     @Override //возвращающий массив не занятых парковочных мест

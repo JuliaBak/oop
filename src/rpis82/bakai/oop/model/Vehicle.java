@@ -9,7 +9,6 @@ public final class Vehicle implements Cloneable{
 
     public static final Vehicle EMPTY_VEHICLE = new Vehicle(" ", " ", " ", VehiclesTypes.NONE);
 
-        public String number = "A654BM64";
 
     private final String registrationNumber, manufacturer, model;
     private final VehiclesTypes type;
@@ -28,7 +27,7 @@ public final class Vehicle implements Cloneable{
         this.model =   Objects.requireNonNull( model,"Model  is null");
         this.type =   Objects.requireNonNull( vehicleType,"Type is null");
 
-        this.registrationNumber = checkRegNumberFormat(number);//(registrationNumber);
+        this.registrationNumber = checkRegNumberFormat(registrationNumber);
 
     }
 

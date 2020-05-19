@@ -405,7 +405,6 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
         Objects.requireNonNull(object, "Space is null");
 
-        if (object instanceof Space) {
             Iterator<Space> iterator = new SpaceIterator();
 
             while (iterator.hasNext()) {
@@ -414,15 +413,11 @@ public class RentedSpacesFloor implements Floor, Cloneable {
                     return true;
                 }
             }
-        }
+
         return false;
     }
 
 
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
-    }
 
 
     @Override
@@ -496,7 +491,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     @Override
     public boolean isEmpty() {
-        return this.capacity > 0;
+        return this.capacity == 0;
     }
 
     //Lab7
@@ -531,6 +526,10 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return spaces;
     }
 
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
 
 
     @Override //Changed to Lab7
