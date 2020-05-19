@@ -141,33 +141,15 @@ public class Parking implements Iterable<Floor> {
 
     //Changed to Lab7
     public List<Floor> getSortedByFloorsSize() {
-        /*
+
         Floor[] sortedFloors = this.floors;
         Arrays.sort(sortedFloors);
-        return sortedFloors;
+        return new ArrayList<>(Arrays.asList(sortedFloors));
 
-         */
-        Floor[] resultedFloors = this.floors;
-        Arrays.sort(resultedFloors);
-        return new ArrayList<>(Arrays.asList(resultedFloors));
     }
 
     //Changed to Lab7
     public Collection<Vehicle> getVehicles() {
-        /*
-        Vehicle[] vehicles = new Vehicle[getVehicleAmount()];
-        int number = 0;
-        for (Floor floor : floors) {
-            Space[] spaces = floor.getSpaces();
-            for (Space space : spaces) {
-                if (isEmptySpace(space)) {
-                    vehicles[number++] = space.getVehicle();
-                }
-            }
-        }
-        return vehicles;
-
-         */
 
         Collection<Vehicle> vehicles = new ArrayList<>();
 
@@ -175,7 +157,7 @@ public class Parking implements Iterable<Floor> {
             Space[] spaces = (Space[]) floor.toArray();
 
             for (Space space : spaces) {
-                if ((space != null) && (!space.isEmpty())) {
+                if (isEmptySpace(space)) {
                     vehicles.add(space.getVehicle());
                 }
             }
@@ -191,7 +173,6 @@ public class Parking implements Iterable<Floor> {
         }
         return amount;
     }
-
 
 
     private boolean isEmptySpace(Space space)
@@ -320,23 +301,6 @@ public class Parking implements Iterable<Floor> {
 
     //Changed to Lab7
     public Set<Floor>  getFloorsWithPerson(Person person) throws NullPointerException{
-
-        /*
-        Objects.requireNonNull(person, "Person is null");
-
-        Floor[] PersonsFloors = new Floor[capacity];
-        int number = 0;
-        for (Floor floor : floors) {
-            for (int i = 0; i < floor.getCapacity(); i++) {
-                if (floor.getSpaceByIndex(i).getPerson().equals(person)) {
-                    PersonsFloors[number++] = floor;
-                    break;
-                }
-            }
-        }
-        return PersonsFloors;
-
-         */
 
         Objects.requireNonNull(person, "Person is null");
 

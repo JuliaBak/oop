@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 public interface Floor  extends Comparable<Floor>, Iterable<Space>, Collection<Space> {
 
-    boolean addSpace(Space space); //метод добавляющий парковочное место
 
     boolean addSpaceByIndex(int index, Space space); //добавляющий парковочное место в заданное место
 
@@ -28,22 +27,10 @@ public interface Floor  extends Comparable<Floor>, Iterable<Space>, Collection<S
 
     Space removeByRegNumber(String registrationNumber);//удаляющий парковочное место из массива по гос. номеру автомобиля
 
-    int getCapacity();//возвращающий общее число парковочных мест на этаже
-
-    Space[] getSpaces();//возвращающий массив парковочных мест на этаже
-
-    //Changed to Lab7
-    Collection<Vehicle> getVehicles();// возвращающий массив транспортных средств на этаже
 
     int getVehiclesNumber(); //возвращающий кол-во транспортных средств на этаже
 
     void shift();
-
-    //Lab 3, Changed to Lab7
-    Deque<Space> getEmptySpaces(); //возвращающий массив не занятых парковочных мест
-
-    //Changed to Lab7
-    List<Space>  getSpacesByVehicleType(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
 
     //Lab 4
     String toString();
@@ -75,6 +62,16 @@ public interface Floor  extends Comparable<Floor>, Iterable<Space>, Collection<S
         Matcher matcherReg = pattern.matcher(registrationNumber);
         return matcherReg.matches();
     }
+
+    //Changed to Lab7
+    Collection<Vehicle> getVehicles();// возвращающий массив транспортных средств на этаже
+
+    //Lab 3, Changed to Lab7
+    Deque<Space> getEmptySpaces(); //возвращающий массив не занятых парковочных мест
+
+    //Changed to Lab7
+    List<Space>  getSpacesByVehicleType(VehiclesTypes vehicleTypes); //возвращающий массив парковочных мест с ТС заданного типа
+
 
 }
 

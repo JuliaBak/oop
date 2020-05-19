@@ -5,8 +5,6 @@ import rpis82.bakai.oop.model.interfaces.Space;
 import java.time.LocalDate;
 import java.util.*;
 import java.lang.Object;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class OwnersFloor implements Floor, Cloneable {
 
@@ -32,7 +30,9 @@ public class OwnersFloor implements Floor, Cloneable {
         return newSpaces;
     }
 
-    public boolean addSpace(Space space) throws NullPointerException{
+    //changed to Lab7
+    @Override
+    public boolean add(Space space) throws NullPointerException {
 
         Objects.requireNonNull(space, "Space is null");
 
@@ -41,6 +41,23 @@ public class OwnersFloor implements Floor, Cloneable {
         }
         this.spaces[this.capacity++] = space;
         return true;
+    }
+
+    //Lab7
+    @Override
+    public int size() {
+        return this.capacity;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.capacity == 0;
+    }
+
+    //Lab7
+    @Override
+    public Object[] toArray() {
+        return copyFrom(spaces);
     }
 
     private boolean isEnoughCapacity()
@@ -54,6 +71,7 @@ public class OwnersFloor implements Floor, Cloneable {
         this.spaces = newSpaces;
         this.capacity = newSpaces.length;
     }
+
 
     public boolean addSpaceByIndex(int index, Space space) throws IndexOutOfBoundsException, NullPointerException{
 
@@ -200,17 +218,9 @@ public class OwnersFloor implements Floor, Cloneable {
         this.capacity = this.spaces.length;
     }
 
-    @Override
-    public int getCapacity() {
-        return this.capacity;
-    } //возвращающий общее число парковочных мест на этаже
 
-    @Override //возвращающий массив парковочных мест на этаже
-    public Space[] getSpaces() {
-        return copyFrom(spaces);
-    }
 
-    private   boolean isEmptySpaces(Space space)
+    private   boolean isEmptySpace(Space space)
     {
         return  (space != null) ;
     }
@@ -231,28 +241,16 @@ public class OwnersFloor implements Floor, Cloneable {
     public int getVehiclesNumber(){
         int number = 0;
         for (Space space : spaces) {
-            if (isEmptySpaces(space)) {
+            if (isEmptySpace(space)) {
                 number++;
             }
         }
         return number;
     }
 
-    //Chaged to lab 7, Lab3
+    //Changed to lab 7, Lab3
     @Override //возвращающий массив парковочных мест с ТС заданного типа
     public List<Space> getSpacesByVehicleType(VehiclesTypes vehicleType) throws NullPointerException {
-
-       /* Objects.requireNonNull(vehicleType, "Vehicle Type is null");
-
-        Space[] spaces = new Space[this.capacity];
-        int number = 0;
-        for (int index = 0; index < spaces.length; index++){
-            if (equalsToType(spaces[index], vehicleType)){
-                spaces[number++] = spaces[index];
-            }
-        }
-        return spaces;
-        */
 
         Objects.requireNonNull(vehicleType,"Type is null");
 
@@ -271,21 +269,12 @@ public class OwnersFloor implements Floor, Cloneable {
         return space.getVehicle().getType().equals(vehicleType);
     }
 
+    //Lab7
     @Override //возвращающий массив не занятых парковочных мест
     public Deque<Space> getEmptySpaces() {
-        /*
-        Space[] spaces = new Space[this.capacity];
-        int number = 0;
-        for (int index = 0; index < spaces.length; index++){
-            if (spaces[index].isEmpty()){
-                spaces[number++] = spaces[index];
-            }
-        }
-        return spaces;
-
-         */
 
         Deque<Space> emptySpaces = new LinkedList<>();
+
         for (Space space : this.spaces) {
             if (space.isEmpty()) {
                 emptySpaces.add(space);
@@ -327,7 +316,7 @@ public class OwnersFloor implements Floor, Cloneable {
 
     public OwnersFloor clone() throws CloneNotSupportedException{
         OwnersFloor clone = (OwnersFloor) super.clone();
-        clone.spaces = this.getSpaces().clone();
+        clone.spaces = (Space[]) this.toArray().clone();
         return clone;
     }
 
@@ -418,7 +407,7 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override
     public int compareTo(Floor floor)
     {
-        return this.capacity - floor.getCapacity();
+        return this.capacity - floor.size();
     }
 
 
@@ -450,40 +439,25 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
 
-
-    //Lab7
-    @Override
-    public int size() {
-        return this.capacity;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.capacity == 0;
-    }
-
     @Override
     public boolean contains(Object spaceObject) {
 
         Objects.requireNonNull(spaceObject, "Space is null");
 
-        if (spaceObject instanceof Space) {
             for (Space space : this.spaces) {
                 if (spaceObject.equals(space)) {
                     return true;
                 }
             }
-        }
+
         return false;
     }
 
+    //Lab7
     @Override
     public boolean remove(Object spaceObject) {
         Objects.requireNonNull(spaceObject, "Space is null");
 
-        if (!(spaceObject instanceof Space)) {
-            return false;
-        }
         for (int i = 0; i < this.spaces.length; i++) {
             if (this.spaces[i].equals(spaceObject)) {
                 remove(i);
@@ -493,36 +467,19 @@ public class OwnersFloor implements Floor, Cloneable {
         return false;
     }
 
+    //Lab7
     @Override
     public boolean containsAll(Collection<?> collection) {
         for (Object element : collection) {
 
-            if (element instanceof Space) {
                 if (!contains(element)){
                     return false;
                 }
-            } else {
-                return false;
-            }
         }
         return true;
     }
 
-    @Override
-    public boolean add(Space space) {
-        Objects.requireNonNull(space, "Space is null");
-
-        if (this.capacity < this.spaces.length && this.spaces[this.capacity] == null) {
-            this.spaces[this.capacity] = space;
-        } else {
-            int index = this.capacity;
-            grow();
-            this.spaces[index] = space;
-        }
-        this.capacity++;
-        return true;
-    }
-
+    //Lab7
     @Override
     public boolean addAll(Collection<? extends Space> collection) {
         for (Space space : collection) {
@@ -531,18 +488,20 @@ public class OwnersFloor implements Floor, Cloneable {
         return true;
     }
 
+
+    //Lab7
     @Override
     public boolean removeAll(Collection<?> collection) {
 
         int number = this.capacity;
         for (Object spaceObject:collection){
-            if (spaceObject instanceof Space){
                 remove(spaceObject);
-            }
+
         }
         return number > this.capacity;
     }
 
+    //Lab7
     @Override
     public boolean retainAll(Collection<?> collection) {
 
@@ -558,26 +517,14 @@ public class OwnersFloor implements Floor, Cloneable {
         return amount > this.capacity;
     }
 
+    //Lab7
     @Override
     public void clear()  {
 
-        this.spaces = new Space[spacesNumber];
+        this.spaces = null;
     }
 
-    @Override
-    public Object[] toArray() {
-
-        Space[] resultedSpaces = new RentedSpace[this.capacity];
-        int number = 0;
-        for (Space space : this.spaces) {
-            if (space != null) {
-                resultedSpaces[number++] = space;
-              //  number++;
-            }
-        }
-        return resultedSpaces;
-    }
-
+    //Lab7
     @Override
     public <T> T[] toArray(T[] a) {
         return null;

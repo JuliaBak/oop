@@ -22,26 +22,39 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     public RentedSpacesFloor(Space[] spaces) { //массив счетов по интерфейсной ссылке (Space[]). В конструкторе происходит создание
         //  списка и заполнение его элементов ссылками из массива
         this();
-        addAllSpaces(spaces);
+        addAll(Arrays.asList(spaces));
     }
 
-    private boolean addAllSpaces(Space[] spaces) {
+    //Lab7
+    @Override
+    public int size() {
+        return this.capacity;
+    }
 
-        if (spaces != null) {
-            for (int i = 0; i < spaces.length; i++ ) {
-                addSpace(spaces[i]);
-            }
+    @Override
+    public boolean isEmpty() {
+        return this.capacity > 0;
+    }
+
+    //Lab7
+    @Override
+    public boolean addAll(Collection<? extends Space> collection) {
+
+        for (Space space : collection) {
+            add(space);
         }
         return true;
     }
 
+    //Lab7
     @Override
-    public boolean addSpace(Space space) throws NullPointerException {
+    public boolean add(Space space) {
 
         Objects.requireNonNull(space, "Space is null");
         addLastSpace(space);
         return true;
     }
+
 
     private void addLastSpace(Space space) throws NullPointerException{
 
@@ -243,36 +256,25 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return   space.getVehicle().getRegistrationNumber().equals(registrationNumber);
     }
 
-    @Override
-    public int getCapacity() {
-        return this.capacity;
-    }
 
     @Override
-    public Space[] getSpaces() {
+    public Space[] toArray() {
 
-          Space[] spaces = new Space[this.capacity];
+        Space[] spaces = new Space[this.capacity];
         int index = 0;
+
         for (Node node = this.head.next; node != this.head; node = node.next) {
             spaces[index++] = node.value;
         }
         return spaces;
     }
 
+
+
     @Override //Changed to Lab7
     public Collection<Vehicle> getVehicles() {
-        /*
-        Space[] spaces = getSpaces();
-        Vehicle[] vehicles = new Vehicle[spaces.length];
-        int number = 0;
-        for (Space space : spaces) {
-            vehicles[number++] = space.getVehicle();
-        }
-        return vehicles;
 
-         */
-
-        List<Space> spaces = new ArrayList<>(Arrays.asList(getSpaces()));
+        List<Space> spaces = new ArrayList<>(Arrays.asList(toArray()));
         Collection<Vehicle> vehicles = new ArrayList<>();
 
         for (Space space : spaces) {
@@ -283,52 +285,27 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     @Override
     public int getVehiclesNumber() {
-        return getSpaces().length;
+        return toArray().length;
     }
 
     //Lab 3, Chaged to Lab7
     @Override //возвращающий массив парковочных мест с ТС заданного типа
     public  List<Space>  getSpacesByVehicleType(VehiclesTypes vehicleTypes) throws NullPointerException{
 
-        /*
-        Objects.requireNonNull(vehicleTypes, "Vehicle Type is null");
+        Objects.requireNonNull(vehicleTypes, "VehicleType is null");
 
-        Space[] resultSpaces = new Space[this.capacity];
-        int number = 0;
+        List<Space> resultSpaces = new ArrayList<>();
+
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                resultSpaces[number++] = node.value;
+                resultSpaces.add(node.value);
             }
         }
         return resultSpaces;
-
-         */
-
-        Objects.requireNonNull(vehicleTypes, "VehicleType is null");
-
-        List<Space> spaces = new ArrayList<>();
-
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                spaces.add(node.value);
-            }
-        }
-        return spaces;
     }
 
     @Override // возвращающий массив не занятых парковочных мест
     public Deque<Space> getEmptySpaces() {
-        /*
-        Space[] emptySpaces = new Space[this.capacity];
-        int number = 0;
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            if (node.value.isEmpty()) {
-                emptySpaces[number++] = node.value;
-            }
-        }
-        return emptySpaces;
-
-         */
 
         Deque<Space> emptySpaces = new LinkedList<>();
         for (Node node = this.head.next; node != this.head; node = node.next) {
@@ -381,8 +358,8 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     public RentedSpacesFloor clone() throws CloneNotSupportedException{
         RentedSpacesFloor clone = (RentedSpacesFloor) super.clone();
-        Space[] clonedSpaces = this.getSpaces().clone();
-        clone.addAllSpaces(clonedSpaces);
+        Space[] clonedSpaces = this.toArray().clone();
+        clone.addAll(Arrays.asList(clonedSpaces));
         return clone;
     }
 
@@ -477,7 +454,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
     @Override
     public int compareTo(Floor floor) {
-        return this.capacity - floor.getCapacity();
+        return this.capacity - floor.size();
     }
 
     private class SpaceIterator implements Iterator<Space> {
@@ -506,16 +483,6 @@ public class RentedSpacesFloor implements Floor, Cloneable {
         return new SpaceIterator();
     }
 
-    //Lab7
-    @Override
-    public int size() {
-        return this.capacity;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.capacity > 0;
-    }
 
     @Override
     public boolean contains(Object object) {
@@ -537,37 +504,16 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
 
     @Override
-    public Object[] toArray() {
-
-        Space[] spaces = new Space[this.capacity];
-        int index = 0;
-
-        for (Node node = this.head.next; node != this.head; node = node.next) {
-            spaces[index++] = node.value;
-        }
-        return spaces;
-    }
-
-    @Override
     public <T> T[] toArray(T[] a) {
         return null;
     }
 
-    @Override
-    public boolean add(Space space) {
 
-        Objects.requireNonNull(space, "Space is null");
-        addLastSpace(space);
-        return true;
-    }
 
     @Override
     public boolean remove(Object object) {
         Objects.requireNonNull(object, "Space is null");
 
-        if (!(object instanceof Space)) {
-            return false;
-        }
         while (iterator().hasNext()) {
             Space space = iterator().next();
 
@@ -583,35 +529,23 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     public boolean containsAll(Collection<?> collection) {
 
         for (Object object : collection) {
-            if (object instanceof Space)
-            {
                 if (!contains(object)){
                     return false;
                 }
-            } else {
-                return false;
-            }
+
         }
         return true;
     }
 
-    @Override
-    public boolean addAll(Collection<? extends Space> collection) {
-
-        for (Space space : collection) {
-            add(space);
-        }
-        return true;
-    }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
 
         int number = this.capacity;
         for (Object object: collection){
-            if (object instanceof Space){
+
                 remove(object);
-            }
+
         }
         return number > this.capacity;
     }

@@ -4,22 +4,83 @@ import rpis82.bakai.oop.model.interfaces.Floor;
 import rpis82.bakai.oop.model.interfaces.Space;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class Test implements Cloneable {
 
-    public static void main(String[] args)  {
-        lab7tests();
-       // lab6tests();
-      //  lab5tests();
+    public static void main(String[] args) {
+       // lab7tests();
+
+        lab8tests();
+        // lab6tests();
+        //  lab5tests();
         // lab4tests();
         // lab2tests();
         // lab3test();
     }
 
+    public static void   lab8tests()
+    {
+        Person person1 = new Person("Ivan", "Ivanov");
+        Person person2 = new Person("Eva", "Gtt");
+
+        Vehicle vehicle1 = new Vehicle("A654BM64", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+        Vehicle vehicle2 = new Vehicle("M354AF23", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+
+    RentedSpace rentedSpace1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.now().plusDays(1));
+    RentedSpace rentedSpace2 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.now().plusDays(1));
+    RentedSpace rentedSpace3 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.now().plusDays(2));
+    RentedSpace rentedSpace4 = new RentedSpace(person1, vehicle2, LocalDate.now(), LocalDate.now().plusDays(4));
+
+    List<Space> spaces = new ArrayList<>();
+        spaces.add(rentedSpace1);
+        spaces.add(rentedSpace2);
+        spaces.add(rentedSpace3);
+
+    OwnersFloor ownersFloor = new OwnersFloor();
+        ownersFloor.addAll(spaces);
+        ownersFloor.add(rentedSpace4);
+
+        System.out.println(ownersFloor.toString());
+
+       List<Space> spaces2 = new ArrayList<>();
+        spaces2.add(rentedSpace4);
+
+        ownersFloor.retainAll(spaces2);
+        System.out.println(ownersFloor.toString());
+}
+
     public static void   lab7tests()
     {
+
+        Person person1 = new Person("Ivan", "Ivanov");
+        Person person2 = new Person("Eva", "Gtt");
+
+        Vehicle vehicle1 = new Vehicle("A654BM64", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+        Vehicle vehicle2 = new Vehicle("M354AF23", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
+
+        Space space1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2022, 2,13));
+        Space space2 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.of(2024, 7,1));
+
+        Space[] spaces1 = new Space[2];
+        spaces1[0] = space1;
+        spaces1[1] = space2;
+
+        List<Space> listSecond = new ArrayList<>();
+
+        listSecond.add(space1);
+        listSecond.add(space2);
+
+        List<Space> listFirst = new ArrayList<>();
+
+        listFirst.add(space1);
+
+        OwnersFloor owner1 = new OwnersFloor(spaces1);
+
+        System.out.println(listFirst.retainAll(listSecond));
 
     }
 
