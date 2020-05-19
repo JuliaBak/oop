@@ -191,7 +191,7 @@ public class Parking implements Iterable<Floor> {
 
 
         for (Floor floor : floors) {
-            Space[] spaces = floor.getSpaces();
+            Space[] spaces = (Space[]) floor.toArray();
             for (Space space : spaces) {
                 if (equalsTo(space, registrationNumber)) {
                     return space;
@@ -224,7 +224,7 @@ public class Parking implements Iterable<Floor> {
 
 
         for (int index = 0; index < this.floors.length; index++ ) {
-            Space[] spaces = floors[index].getSpaces();
+            Space[] spaces = (Space[]) floors[index].toArray();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
                     Space removedSpace = spaces[i];
@@ -252,7 +252,7 @@ public class Parking implements Iterable<Floor> {
         Space removedSpace;
         Space[] spaces;
         for (int index = 0; index < this.floors.length; index++ ) {
-            spaces = floors[index].getSpaces();
+            spaces = (Space[]) floors[index].toArray();
             for (int i = 0; i < spaces.length; i++) {
                 if (equalsTo(spaces[i], registrationNumber)) {
 
@@ -342,4 +342,6 @@ public class Parking implements Iterable<Floor> {
     public Iterator<Floor> iterator() {
         return new SpaceIterator();
     }
+
+
 }
