@@ -527,8 +527,8 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public <T> T[] toArray(T[] array) {
+        return Arrays.copyOf(array, array.length);
     }
 
 

@@ -457,8 +457,11 @@ public class OwnersFloor implements Floor, Cloneable {
 
     //Lab7
     @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public <T> T[] toArray(T[] array ) {
+
+        return Arrays.copyOf(array, array.length);
+
+
     }
 
     //changed to Lab7

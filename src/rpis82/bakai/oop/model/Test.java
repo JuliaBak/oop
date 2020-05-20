@@ -43,7 +43,13 @@ public class Test implements Cloneable {
 
             System.out.println(ownersFloor.toString());
 
-           List<Space> spaces2 = new ArrayList<>();
+            System.out.println(Arrays.toString(ownersFloor.toArray()));
+
+        List<OwnersFloor> owners = new ArrayList<>();
+        System.out.println(Arrays.toString(owners.toArray(new OwnersFloor[]{ownersFloor})));
+
+
+        List<Space> spaces2 = new ArrayList<>();
             spaces2.add(rentedSpace3);
 
             ownersFloor.retainAll(spaces2);
