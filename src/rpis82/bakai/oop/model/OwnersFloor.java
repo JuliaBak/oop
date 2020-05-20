@@ -370,6 +370,7 @@ public class OwnersFloor implements Floor, Cloneable {
     }
 
     //Lab7
+
     @Override
     public boolean contains(Object spaceObject) {
 
@@ -389,9 +390,9 @@ public class OwnersFloor implements Floor, Cloneable {
     public boolean remove(Object spaceObject) {
         Objects.requireNonNull(spaceObject, "Space is null");
 
-        for (int i = 0; i < this.spaces.length; i++) {
-            if (this.spaces[i].equals(spaceObject)) {
-                remove(i);
+        for (int index = 0; index < this.spaces.length; index++) {
+            if (this.spaces[index].equals(spaceObject)) {
+                remove(index);
                 return true;
             }
         }
@@ -424,19 +425,19 @@ public class OwnersFloor implements Floor, Cloneable {
     @Override
     public boolean removeAll(Collection<?> collection) {
 
-        int number = this.capacity;
+        int previousNumber = this.capacity;
         for (Object spaceObject:collection){
                 remove(spaceObject);
 
         }
-        return number > this.capacity;
+        return previousNumber > this.capacity;
     }
 
     //Lab7
     @Override
     public boolean retainAll(Collection<?> collection) {
 
-        int number = this.capacity;
+        int previousNumber = this.capacity;
 
         for (Space space: this.spaces){
             if (space != null){
@@ -445,7 +446,7 @@ public class OwnersFloor implements Floor, Cloneable {
                 }
             }
         }
-        return number > this.capacity;
+        return previousNumber > this.capacity;
     }
 
     //Lab7
@@ -499,6 +500,7 @@ public class OwnersFloor implements Floor, Cloneable {
     public List<Vehicle> getVehicles() {
 
         List<Vehicle> vehicles = new ArrayList<>();
+
         for (Space space : this.spaces) {
             if ((space != null) && (!space.isEmpty())) {
                 vehicles.add(space.getVehicle());

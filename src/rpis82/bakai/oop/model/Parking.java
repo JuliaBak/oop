@@ -342,7 +342,6 @@ public class Parking implements Iterable<Floor> {
             for (int index = 0; index < floor.size(); index++){
                 if (floor.getSpaceByIndex(index).getPerson().equals(person)){
                     floorsWithPer.add(floor);
-                    break;
                 }
             }
         }

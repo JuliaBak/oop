@@ -451,19 +451,17 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     @Override
     public boolean removeAll(Collection<?> collection) {
 
-        int number = this.capacity;
+        int previousNumber = this.capacity;
         for (Object object: collection){
-
                 remove(object);
-
         }
-        return number > this.capacity;
+        return previousNumber > this.capacity;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
 
-        int number = this.capacity;
+        int previousNumber = this.capacity;
         Iterator<Space> spaceIterator = new SpaceIterator();
 
         while (spaceIterator.hasNext()){
@@ -475,7 +473,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
                 }
             }
         }
-        return number > this.capacity;
+        return previousNumber > this.capacity;
     }
 
     @Override
@@ -550,14 +548,14 @@ public class RentedSpacesFloor implements Floor, Cloneable {
 
         Objects.requireNonNull(vehicleTypes, "VehicleType is null");
 
-        List<Space> resultSpaces = new ArrayList<>();
+        List<Space> resultedSpaces = new ArrayList<>();
 
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.getVehicle().getType().equals(vehicleTypes)) {
-                resultSpaces.add(node.value);
+                resultedSpaces.add(node.value);
             }
         }
-        return resultSpaces;
+        return resultedSpaces;
     }
 
 
@@ -565,6 +563,7 @@ public class RentedSpacesFloor implements Floor, Cloneable {
     public Deque<Space> getEmptySpaces() {
 
         Deque<Space> emptySpaces = new LinkedList<>();
+
         for (Node node = this.head.next; node != this.head; node = node.next) {
             if (node.value.isEmpty()) {
                 emptySpaces.add(node.value);
