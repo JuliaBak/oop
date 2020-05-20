@@ -44,8 +44,8 @@ public class Test implements Cloneable {
             ownersFloor.addAll(spaces);
             ownersFloor.add(rentedSpace3);
 
-          ownersFloor.retainAll(spaces2);
-          System.out.println(ownersFloor.toString());
+            System.out.println( ownersFloor.retainAll(spaces2));
+            System.out.println(ownersFloor.toString());
             System.out.println(ownersFloor.toString());
 
             System.out.println(Arrays.toString(ownersFloor.toArray()));
