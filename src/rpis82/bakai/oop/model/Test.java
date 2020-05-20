@@ -30,8 +30,8 @@ public class Test implements Cloneable {
         Vehicle vehicle2 = new Vehicle("M354AF23", "Toyota", "Camry",VehiclesTypes.CROSSOVER);
 
         RentedSpace rentedSpace1 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2022, 2,13));
-        RentedSpace rentedSpace2 = new RentedSpace(person1, vehicle1, LocalDate.now(), LocalDate.of(2052, 12,23));
-        RentedSpace rentedSpace3 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.of(2024, 7,1));
+        RentedSpace rentedSpace2 = new RentedSpace(person2, vehicle2, LocalDate.now(), LocalDate.of(2052, 12,23));
+        RentedSpace rentedSpace3 = new RentedSpace(person1, vehicle2, LocalDate.now(), LocalDate.of(2024, 7,1));
 
         List<Space> spaces = new ArrayList<>();
             spaces.add(rentedSpace1);
